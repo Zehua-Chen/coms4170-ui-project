@@ -1,5 +1,5 @@
 window.App = {
-  welcome() {
+  welcome(root: string) {
     import("./welcome").then((welcome) => welcome.default());
   },
 };
