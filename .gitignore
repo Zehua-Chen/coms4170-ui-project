@@ -3,5 +3,8 @@ node_modules
 __pycache__
 *.egg-info/
 .vscode/
-static/
+
+static/**/*.js
+static/manifest.json
+
 tsconfig.tsbuildinfo

@@ -9,6 +9,15 @@
 - [Shangru Li, sl4986@columbia.edu](https://github.com/sl4986)
 - [Chenchen Deng, cd3301@columbia.edu](https://github.com/GraceD5)
 
+## Repo Content
+
+- [src](src/): JavaScript/TypeScript source code, (optional) style sheets, media
+  - [pages](src/pages/): JavaScript/TypeScript code for each page
+  - [components](src/components/): components (see
+    [`Component.ts`](src/components/Component.ts) for how to implement new
+    components)
+- `app.py`: server
+
 ## Get Started
 
 1. **Install Python dependencies**: `pip install -e .`

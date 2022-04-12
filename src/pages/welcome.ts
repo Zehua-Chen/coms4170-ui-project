@@ -1,4 +1,4 @@
-import otamatone from "./components/otamatone";
+import otamatone from "../components/otamatone";
 
 export default function welcome(id: string = "app") {
   const update = () => {
