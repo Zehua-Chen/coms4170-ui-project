@@ -1,0 +1,9 @@
+{
+  "name": "coms4170-ui-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@github.com:Zehua-Chen/coms4170-ui-project.git",
+  "author": "Zehua-Chen <zehua-chen@outlook.com>",
+  "license": "MIT"
+}
