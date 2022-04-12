@@ -1,7 +1,5 @@
-import welcome from "./welcome";
-
 window.App = {
-  index() {
+  welcome() {
     import("./welcome").then((welcome) => welcome.default());
   },
 };
