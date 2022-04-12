@@ -42,4 +42,7 @@ export class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
   }
 }
 
-export default createComponentFromClass(OtamatoneComponent);
+export default createComponentFromClass<
+  OtamatoneConfiguration,
+  OtamatoneComponent
+>(OtamatoneComponent);
