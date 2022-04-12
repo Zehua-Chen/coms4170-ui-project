@@ -1,7 +1,8 @@
-type PageFunction = (root: string) => void;
+type PageFunction = (...args: any[]) => void;
 
 interface AppNamespace {
   welcome: PageFunction;
+  learn: PageFunction;
 }
 
 interface Window {

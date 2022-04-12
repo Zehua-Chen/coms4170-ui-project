@@ -1,5 +1,5 @@
-export default function welcome(id: string = "app") {
+export default function welcome() {
   $("#start").on("click", () => {
-    window.location.href = "/ass";
+    window.location.href = "/learn/1";
   });
 }

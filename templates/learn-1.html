@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<script>
+  window.onload = () => App.learn();
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="app">
+  <button id="start">Learn</button>
+</div>
+{% endblock %}

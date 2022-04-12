@@ -16,3 +16,8 @@ def find_js_file(filename: str):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/learn/1")
+def learn():
+    return render_template("learn-1.html")
