@@ -21,7 +21,7 @@ export interface OtamatoneConfiguration {
   onPlay?: (position: number) => any;
 }
 
-class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
+export class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
   private counter: number = 0;
 
   public attach(
@@ -29,6 +29,7 @@ class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
     config: OtamatoneConfiguration
   ): void {
     console.log("attach");
+    config.labels ?? [];
   }
 
   public override update(
