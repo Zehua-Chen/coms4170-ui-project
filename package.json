@@ -7,7 +7,8 @@
   "author": "Zehua-Chen <zehua-chen@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently --kill-others 'vite' 'FLASK_ENV=development flask run -p 4000'"
+    "start": "concurrently --kill-others 'vite' 'FLASK_ENV=development flask run -p 4000'",
+    "build": "vite build"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",

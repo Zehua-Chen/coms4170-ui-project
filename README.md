@@ -27,3 +27,9 @@
 $ pip install autopep8
 $ pip install pylint
 ```
+
+### Building
+
+```
+$ yarn build
+```
