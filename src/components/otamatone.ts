@@ -1,5 +1,5 @@
 import $ from "jquery";
-import Component from "./Component";
+import { createComponentFromClass, ClassComponent } from "./component";
 
 type OtamatoneLabels = { [position in number]: string };
 type OtamatoneAudios = { [position in number]: string };
@@ -21,17 +21,17 @@ export interface OtamatoneConfiguration {
   onPlay?: (position: number) => any;
 }
 
-class OtamatoneComponent extends Component<OtamatoneConfiguration> {
+class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
   private counter: number = 0;
 
-  protected attach(
+  public attach(
     root: JQuery<HTMLElement>,
     config: OtamatoneConfiguration
   ): void {
     console.log("attach");
   }
 
-  protected override update(
+  public override update(
     root: JQuery<HTMLElement>,
     config: OtamatoneConfiguration
   ): void {
@@ -41,4 +41,4 @@ class OtamatoneComponent extends Component<OtamatoneConfiguration> {
   }
 }
 
-export default Component.createFunctionalAPI(OtamatoneComponent);
+export default createComponentFromClass(OtamatoneComponent);
