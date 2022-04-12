@@ -5,5 +5,8 @@
   "type": "module",
   "repository": "git@github.com:Zehua-Chen/coms4170-ui-project.git",
   "author": "Zehua-Chen <zehua-chen@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "flask run -p 3000"
+  }
 }

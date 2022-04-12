@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+
+  <title>TODO:</title>
+
+  <!-- jquery -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+
+  {% block styles %}
+  {% endblock %}
+</head>
+<body>
+  <script src="{{ url_for('static', filename='components.js') }}"></script>
+  <script src="{{ url_for('static', filename='layout.js') }}"></script>
+  {% block scripts %}
+  {% endblock %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  </nav>
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>

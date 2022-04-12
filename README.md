@@ -15,3 +15,14 @@
 2. **Install Node dependencies**: `yarn install`
    - Install yarn if you have not: `npm install -g yarn`
    - Install node, npm if you have not (preferrably using `nvm`)
+3. **Start the web app**: `yarn start`
+   - Port: 3000
+
+## Development
+
+### Python Tools
+
+```
+$ pip install autopep8
+$ pip install pylint
+```
