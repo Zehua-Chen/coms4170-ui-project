@@ -1,9 +1,11 @@
+import otamatone from "./components/otamatone";
+
 export default function welcome(id: string = "app") {
-  const rootElement = document.getElementById(id);
+  const update = () => {
+    otamatone($("#app"), {});
 
-  if (!rootElement) {
-    return;
-  }
+    setTimeout(update, 1000);
+  };
 
-  rootElement.innerText = "hello world";
+  setTimeout(update);
 }
