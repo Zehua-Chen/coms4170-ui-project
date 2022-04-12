@@ -6,6 +6,15 @@ type FunctionalAPI<TConfig> = (
 type ComponentType<TConfig> = { new (): Component<TConfig> };
 
 export default abstract class Component<TConfig = any> {
+  /**
+   * Create a function `f(root, config)` such that for every `root`
+   * - Calling `f(root, config)` for the first time will create an instance of
+   * `Component` and then call `.attach` of the newly created instance
+   * - Subsequent calls to `f(root, config)` will call the `.update` of the
+   * already created instance
+   * @param componentType
+   * @returns
+   */
   static createFunctionalAPI<TConfig>(
     componentType: ComponentType<TConfig>
   ): FunctionalAPI<TConfig> {

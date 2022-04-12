@@ -22,6 +22,8 @@ export interface OtamatoneConfiguration {
 }
 
 class OtamatoneComponent extends Component<OtamatoneConfiguration> {
+  private counter: number = 0;
+
   protected attach(
     root: JQuery<HTMLElement>,
     config: OtamatoneConfiguration
@@ -33,7 +35,9 @@ class OtamatoneComponent extends Component<OtamatoneConfiguration> {
     root: JQuery<HTMLElement>,
     config: OtamatoneConfiguration
   ): void {
-    console.log("update");
+    this.counter += 1;
+
+    console.log(`update ${this.counter}`);
   }
 }
 
