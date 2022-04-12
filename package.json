@@ -7,6 +7,9 @@
   "author": "Zehua-Chen <zehua-chen@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "flask run -p 3000"
+    "start": "FLASK_ENV=development flask run -p 3000"
+  },
+  "devDependencies": {
+    "vite": "^2.9.1"
   }
 }
