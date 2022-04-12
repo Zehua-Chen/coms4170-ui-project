@@ -2,13 +2,12 @@
 
 {% block scripts %}
 <script>
-  window.onload = () => {
-    window.App.welcome();
-  }
+  window.onload = () => App.welcome();
 </script>
 {% endblock %}
 
 {% block content %}
 <div id="app">
+  <button id="start">Start</button>
 </div>
 {% endblock %}

@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { createComponentFromClass, ClassComponent } from "./component";
 
 type OtamatoneLabels = { [position in number]: string };

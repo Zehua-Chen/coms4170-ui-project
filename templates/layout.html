@@ -24,14 +24,14 @@
   {% else %}
   <script type="module" src="{{ 'src/index.ts' | find_js_file }}"></script>
   {% endif %}
-
-  {% block scripts %}
-  {% endblock %}
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   </nav>
   <div class="container">
     {% block content %}
     {% endblock %}
   </div>
+
+  {% block scripts %}
+  {% endblock %}
 </body>
 </html>
