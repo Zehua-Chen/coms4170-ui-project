@@ -1,4 +1,5 @@
 export type Position = number;
+export type Labels = (position: number) => string;
 
 export interface OtamatoneConfiguration {
   /**
@@ -9,7 +10,7 @@ export interface OtamatoneConfiguration {
   /**
    * How to display labels of enabled positions
    */
-  labels: "string" | "number";
+  labels: Labels;
 
   /**
    * Called when a position is played
@@ -22,7 +23,7 @@ export function applyDefault(
 ): OtamatoneConfiguration {
   const {
     positions = [],
-    labels = "string",
+    labels = (position) => `${position}`,
     onPlay = () => {},
   } = configuration;
 

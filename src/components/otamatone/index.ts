@@ -59,7 +59,15 @@ export class OtamatoneComponent extends ClassComponent<
     });
 
     stick.add(stickRect);
-    stick.add(...buttons(STICK_WIDTH, STICK_HEIGHT, BUTTON_SIZE, audios));
+    stick.add(
+      ...buttons(
+        STICK_WIDTH,
+        STICK_HEIGHT,
+        BUTTON_SIZE,
+        solidConfig.labels,
+        audios
+      )
+    );
 
     // console.log(...stickPositions());
 
