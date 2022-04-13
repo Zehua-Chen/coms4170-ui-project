@@ -10,6 +10,7 @@ export { Position, OtamatoneConfiguration };
 
 const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
+const BUTTON_SIZE = 20;
 
 export class OtamatoneComponent extends ClassComponent<
   Partial<OtamatoneConfiguration>,
@@ -58,7 +59,7 @@ export class OtamatoneComponent extends ClassComponent<
     });
 
     stick.add(stickRect);
-    stick.add(...buttons(STICK_WIDTH, STICK_HEIGHT, audios));
+    stick.add(...buttons(STICK_WIDTH, STICK_HEIGHT, BUTTON_SIZE, audios));
 
     // console.log(...stickPositions());
 
