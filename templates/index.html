@@ -2,7 +2,9 @@
 
 {% block scripts %}
 <script>
-  window.onload = () => App.welcome();
+  $(() => {
+    App.welcome();
+  });
 </script>
 {% endblock %}
 

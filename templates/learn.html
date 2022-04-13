@@ -2,7 +2,13 @@
 
 {% block scripts %}
 <script>
-  window.onload = () => App.learn();
+  $(() => {
+    App.data = {
+      type: "learn",
+      id: {{ id | tojson }}
+    },
+    App.learn();
+  });
 </script>
 {% endblock %}
 

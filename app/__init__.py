@@ -24,6 +24,6 @@ def index():
     return render_template("index.html", bundle=get_app_bundle())
 
 
-@app.route("/learn/1")
-def learn():
-    return render_template("learn-1.html", bundle=get_app_bundle())
+@app.route("/learn/<int:id>")
+def learn(id: int):
+    return render_template("learn.html", bundle=get_app_bundle(), id=id)
