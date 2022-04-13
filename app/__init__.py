@@ -1,8 +1,10 @@
 from os import path
 from flask import Flask, render_template, json, url_for
 
-
-app = Flask(__name__, template_folder="templates")
+app = Flask(
+    __name__,
+    static_folder=path.join("..", "static"),
+    template_folder=path.join("..", "templates"))
 
 
 def get_app_bundle():

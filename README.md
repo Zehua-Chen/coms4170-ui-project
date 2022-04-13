@@ -11,12 +11,13 @@
 
 ## Repo Content
 
-- [src](src/): JavaScript/TypeScript source code, (optional) style sheets, media
+- [src](src/): frontend; JavaScript/TypeScript source code, (optional) style
+  sheets, media
   - [pages](src/pages/): JavaScript/TypeScript code for each page
   - [components](src/components/): components (see
     [`Component.ts`](src/components/Component.ts) for how to implement new
     components)
-- `app.py`: server
+- [app](app/): server
 
 ## Get Started
 
