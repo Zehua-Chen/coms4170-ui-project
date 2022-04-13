@@ -1,3 +1,5 @@
+import "./index.scss";
+
 window.App = {
   welcome() {
     import("./pages/welcome").then((welcome) => welcome.default());

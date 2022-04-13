@@ -13,6 +13,7 @@ def get_app_bundle():
 
     return {
         "js": url_for("static", filename=index["file"]),
+        "css": map(lambda f: url_for("static", filename=f), index["css"])
     }
 
 
