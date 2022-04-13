@@ -4,28 +4,25 @@ type Component<TConfig, TComponent> = (
 ) => TComponent;
 
 export abstract class ClassComponent<TConfig = any> {
-  public abstract attach(root: JQuery, config: TConfig): void;
+  constructor(root: JQuery, config: TConfig) {}
   public update(root: JQuery, config: TConfig): void {}
 }
 
 export function createComponentFromClass<
   TConfig,
   TComponent extends ClassComponent<TConfig>
->(componentType: { new (): TComponent }): Component<TConfig, TComponent> {
+>(componentType: {
+  new (root: JQuery, config: TConfig): TComponent;
+}): Component<TConfig, TComponent> {
   return (root, config): TComponent => {
     if (!root.prop("_component")) {
-      root.prop("_component", new componentType());
-    }
-
-    const component = root.prop("_component") as TComponent;
-
-    if (!root.prop("_created")) {
-      component.attach(root, config);
-      root.prop("_created", true);
+      const component = new componentType(root, config);
+      root.prop("_component", component);
 
       return component;
     }
 
+    const component = root.prop("_component") as TComponent;
     component.update(root, config);
 
     return component;

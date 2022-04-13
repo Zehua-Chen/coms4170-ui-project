@@ -23,12 +23,12 @@ export interface OtamatoneConfiguration {
 export class OtamatoneComponent extends ClassComponent<OtamatoneConfiguration> {
   private counter: number = 0;
 
-  public attach(
-    root: JQuery<HTMLElement>,
-    config: OtamatoneConfiguration
-  ): void {
-    console.log("attach");
-    config.labels ?? [];
+  constructor(root: JQuery, config: OtamatoneConfiguration) {
+    super(root, config);
+
+    root.empty();
+
+    root.text("placeholder for otamatone...");
   }
 
   public override update(
