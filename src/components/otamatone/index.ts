@@ -1,40 +1,15 @@
-import { createComponentFromClass, ClassComponent } from "./component";
 import Konva from "konva";
+import { createComponentFromClass, ClassComponent } from "../component";
+import type { Position } from "./buttons";
+import { buttons } from "./buttons";
+import type { OtamatoneConfiguration } from "./configuration";
+import { applyDefault } from "./configuration";
+import audios from "./audios";
 
-type Position = number;
+export { Position, OtamatoneConfiguration };
 
-export interface OtamatoneConfiguration {
-  /**
-   * The enabled positions
-   */
-  positions: Position[];
-
-  /**
-   * How to display labels of enabled positions
-   */
-  labels: "string" | "number";
-
-  /**
-   * Called when a position is played
-   */
-  onPlay: (position: Position) => any;
-}
-
-function applyDefaultConfiguration(
-  configuration: Partial<OtamatoneConfiguration>
-): OtamatoneConfiguration {
-  const {
-    positions = [],
-    labels = "string",
-    onPlay = () => {},
-  } = configuration;
-
-  return {
-    positions,
-    labels,
-    onPlay,
-  };
-}
+const STICK_WIDTH = 400;
+const STICK_HEIGHT = 20;
 
 export class OtamatoneComponent extends ClassComponent<
   Partial<OtamatoneConfiguration>,
@@ -43,6 +18,8 @@ export class OtamatoneComponent extends ClassComponent<
   private counter: number = 0;
   private observer: ResizeObserver;
   private stage: Konva.Stage;
+  private layer: Konva.Layer;
+  private otamatone: Konva.Group;
 
   constructor(
     root: JQuery<HTMLDivElement>,
@@ -50,7 +27,7 @@ export class OtamatoneComponent extends ClassComponent<
   ) {
     super(root, config);
 
-    const solidConfig = applyDefaultConfiguration(config);
+    const solidConfig = applyDefault(config);
 
     root.empty();
 
@@ -64,20 +41,35 @@ export class OtamatoneComponent extends ClassComponent<
       height: 200,
       width: rootElement.clientWidth,
     });
-    const layer = new Konva.Layer({});
-    this.stage.add(layer);
 
-    const rect1 = new Konva.Rect({
-      x: 20,
-      y: 20,
-      width: 400,
-      height: 20,
+    this.layer = new Konva.Layer({});
+    this.stage.add(this.layer);
+
+    const stick = new Konva.Group();
+
+    const stickRect = new Konva.Rect({
+      x: 0,
+      y: 0,
+      width: STICK_WIDTH,
+      height: STICK_HEIGHT,
       fill: "white",
       stroke: "black",
       strokeWidth: 2,
     });
+
+    stick.add(stickRect);
+    stick.add(...buttons(STICK_WIDTH, STICK_HEIGHT, audios));
+
+    // console.log(...stickPositions());
+
+    this.otamatone = new Konva.Group();
+    this.otamatone.add(stick);
+
+    this.otamatone.x(20);
+    this.otamatone.y(20);
+
     // add the shape to the layer
-    layer.add(rect1);
+    this.layer.add(this.otamatone);
   }
 
   public override update(
