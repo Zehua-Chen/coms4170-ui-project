@@ -4,7 +4,7 @@ type Component<TConfig, TComponent> = (
 ) => TComponent;
 
 export abstract class ClassComponent<TConfig = any> {
-  constructor(root: JQuery, config: TConfig) {}
+  constructor(public root: JQuery, config: TConfig) {}
   public update(root: JQuery, config: TConfig): void {}
 }
 
