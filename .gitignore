@@ -5,6 +5,7 @@ __pycache__
 .vscode/
 
 static/**/*.js
+static/**/*.css
 static/manifest.json
 
 tsconfig.tsbuildinfo

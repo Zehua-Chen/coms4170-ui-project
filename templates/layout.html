@@ -12,24 +12,22 @@
   <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-  <!-- Bootstrap CSS -->
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}"> -->
-
   {% block styles %}
   {% endblock %}
 </head>
 <body>
-  {% if config["DEBUG"] %}
-  <script type="module" src="http://localhost:3000/src/index.ts"></script>
-  {% else %}
-  <script type="module" src="{{ 'src/index.ts' | find_js_file }}"></script>
-  {% endif %}
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   </nav>
   <div class="container">
     {% block content %}
     {% endblock %}
   </div>
+
+  {% if config["DEBUG"] %}
+    <script type="module" src="http://localhost:3000/src/index.ts"></script>
+  {% else %}
+    <script type="module" src="{{ bundle['js'] }}"></script>
+  {% endif %}
 
   {% block scripts %}
   {% endblock %}
