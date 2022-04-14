@@ -1,5 +1,5 @@
 import Konva from "konva";
-import type { Labels } from "./configuration";
+import type { Labels, OnPlay } from "./configuration";
 import { allPositions } from "./configuration";
 
 export type Position = number;
@@ -20,7 +20,8 @@ export function buttons(
   stickHeight: number,
   buttonSize: number,
   labels: Labels,
-  audios: string[]
+  audios: string[],
+  onPlay: OnPlay
 ): Konva.Group[] {
   return xs(stickWidth, buttonSize).map(({ position, x }, index) => {
     const button = new Konva.Group();
@@ -37,6 +38,8 @@ export function buttons(
     circle.on("click", () => {
       // TODO: play audio
       alert(`play ${audios[index]}`);
+
+      onPlay(position);
     });
 
     button.add(circle);

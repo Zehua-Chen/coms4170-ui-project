@@ -1,5 +1,6 @@
 export type Position = number;
 export type Labels = (position: number) => string;
+export type OnPlay = (position: Position) => any;
 
 export interface OtamatoneConfiguration {
   /**
@@ -15,7 +16,7 @@ export interface OtamatoneConfiguration {
   /**
    * Called when a position is played
    */
-  onPlay: (position: Position) => any;
+  onPlay: OnPlay;
 }
 
 export const allPositions: readonly Position[] = [

@@ -12,13 +12,6 @@ const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
 const BUTTON_SIZE = 20;
 
-function centeredOtamatonePosition(
-  width: number,
-  height: number
-): Konva.Vector2d {
-  return { x: width / 2, y: height / 2 };
-}
-
 export class OtamatoneComponent extends ClassComponent<
   Partial<OtamatoneConfiguration>,
   HTMLDivElement
@@ -72,7 +65,8 @@ export class OtamatoneComponent extends ClassComponent<
         STICK_HEIGHT,
         BUTTON_SIZE,
         solidConfig.labels,
-        audios
+        audios,
+        solidConfig.onPlay
       ).filter((button) =>
         solidConfig.positions.includes(button.getAttr("stickPosition"))
       )
