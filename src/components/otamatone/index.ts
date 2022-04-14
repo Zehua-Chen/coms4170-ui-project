@@ -73,6 +73,8 @@ export class OtamatoneComponent extends ClassComponent<
         BUTTON_SIZE,
         solidConfig.labels,
         audios
+      ).filter((button) =>
+        solidConfig.positions.includes(button.getAttr("stickPosition"))
       )
     );
 

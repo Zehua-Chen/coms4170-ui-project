@@ -5,7 +5,7 @@ export interface OtamatoneConfiguration {
   /**
    * The enabled positions
    */
-  positions: Position[];
+  positions: readonly Position[];
 
   /**
    * How to display labels of enabled positions
@@ -18,11 +18,15 @@ export interface OtamatoneConfiguration {
   onPlay: (position: Position) => any;
 }
 
+export const allPositions: readonly Position[] = [
+  1, 2, 3, 4, 5, 6, 7,
+].reverse();
+
 export function applyDefault(
   configuration: Partial<OtamatoneConfiguration>
 ): OtamatoneConfiguration {
   const {
-    positions = [],
+    positions = allPositions,
     labels = (position) => `${position}`,
     onPlay = () => {},
   } = configuration;

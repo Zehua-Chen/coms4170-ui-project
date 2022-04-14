@@ -1,9 +1,8 @@
 import Konva from "konva";
 import type { Labels } from "./configuration";
+import { allPositions } from "./configuration";
 
 export type Position = number;
-
-export const allPositions: Position[] = [1, 2, 3, 4, 5, 6, 7].reverse();
 
 function xs(stickWidth: number, buttonSize: number) {
   const spaceCount = allPositions.length - 1;
@@ -16,14 +15,16 @@ function xs(stickWidth: number, buttonSize: number) {
   }));
 }
 
-function buttonShapes(
+export function buttons(
   stickWidth: number,
   stickHeight: number,
   buttonSize: number,
-  labels: Labels
+  labels: Labels,
+  audios: string[]
 ): Konva.Group[] {
-  return xs(stickWidth, buttonSize).map(({ position, x }) => {
+  return xs(stickWidth, buttonSize).map(({ position, x }, index) => {
     const button = new Konva.Group();
+    button.setAttr("stickPosition", position);
 
     const circle = new Konva.Circle({
       x,
@@ -32,7 +33,12 @@ function buttonShapes(
       height: buttonSize,
       fill: "blue",
     });
-    circle.setAttr("otamatonePosition", position);
+
+    circle.on("click", () => {
+      // TODO: play audio
+      alert(`play ${audios[index]}`);
+    });
+
     button.add(circle);
 
     const text = new Konva.Text({
@@ -48,22 +54,4 @@ function buttonShapes(
 
     return button;
   });
-}
-
-export function buttons(
-  stickWidth: number,
-  stickHeight: number,
-  buttonSize: number,
-  labels: Labels,
-  audios: string[]
-): Konva.Group[] {
-  return buttonShapes(stickWidth, stickHeight, buttonSize, labels).map(
-    (circle, index) => {
-      circle.on("click", () => {
-        console.log(`play ${audios[index]}`);
-      });
-
-      return circle;
-    }
-  );
 }
