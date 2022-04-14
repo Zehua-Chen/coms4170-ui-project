@@ -1,19 +1,20 @@
-type Component<TConfig, TComponent> = (
-  root: JQuery,
+type Component<TConfig, TElement, TComponent> = (
+  root: JQuery<TElement>,
   config: TConfig
 ) => TComponent;
 
-export abstract class ClassComponent<TConfig = any> {
-  constructor(public root: JQuery, config: TConfig) {}
-  public update(root: JQuery, config: TConfig): void {}
+export abstract class ClassComponent<TConfig = any, TElement = HTMLElement> {
+  constructor(public root: JQuery<TElement>, config: TConfig) {}
+  public update(root: JQuery<TElement>, config: TConfig): void {}
 }
 
 export function createComponentFromClass<
   TConfig,
-  TComponent extends ClassComponent<TConfig>
+  TElement,
+  TComponent extends ClassComponent<TConfig, TElement>
 >(componentType: {
-  new (root: JQuery, config: TConfig): TComponent;
-}): Component<TConfig, TComponent> {
+  new (root: JQuery<TElement>, config: TConfig): TComponent;
+}): Component<TConfig, TElement, TComponent> {
   return (root, config): TComponent => {
     if (!root.prop("_component")) {
       const component = new componentType(root, config);
