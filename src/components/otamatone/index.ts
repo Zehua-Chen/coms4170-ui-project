@@ -12,6 +12,13 @@ const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
 const BUTTON_SIZE = 20;
 
+function centeredOtamatonePosition(
+  width: number,
+  height: number
+): Konva.Vector2d {
+  return { x: width / 2, y: height / 2 };
+}
+
 export class OtamatoneComponent extends ClassComponent<
   Partial<OtamatoneConfiguration>,
   HTMLDivElement
@@ -69,13 +76,14 @@ export class OtamatoneComponent extends ClassComponent<
       )
     );
 
-    // console.log(...stickPositions());
-
     this.otamatone = new Konva.Group();
     this.otamatone.add(stick);
 
-    this.otamatone.x(20);
-    this.otamatone.y(20);
+    // center the otamatone in the horizontal and vertical center
+    this.otamatone.x(rootElement.clientWidth / 2);
+    this.otamatone.y(rootElement.clientHeight / 2);
+    this.otamatone.offsetX(this.otamatone.getClientRect().width / 2);
+    this.otamatone.offsetY(this.otamatone.getClientRect().height / 2);
 
     // add the shape to the layer
     this.layer.add(this.otamatone);
@@ -94,6 +102,12 @@ export class OtamatoneComponent extends ClassComponent<
     const entry = entries[0];
 
     this.stage.width(entry.contentRect.width);
+
+    // center the otamatone in the horizontal and vertical center
+    this.otamatone.x(entry.contentRect.width / 2);
+    this.otamatone.y(entry.contentRect.height / 2);
+    this.otamatone.offsetX(this.otamatone.getClientRect().width / 2);
+    this.otamatone.offsetY(this.otamatone.getClientRect().height / 2);
   }
 }
 
