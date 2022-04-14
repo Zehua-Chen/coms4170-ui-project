@@ -9,7 +9,8 @@ export interface OtamatoneConfiguration {
   positions: readonly Position[];
 
   /**
-   * How to display labels of enabled positions
+   * How to display labels of enabled positions. If the returned label is
+   * falsy, then nothing is rendered
    */
   labels: Labels;
 

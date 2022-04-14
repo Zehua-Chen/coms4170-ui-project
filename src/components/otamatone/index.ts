@@ -85,15 +85,6 @@ export class OtamatoneComponent extends ClassComponent<
     this.layer.add(this.otamatone);
   }
 
-  public override update(
-    root: JQuery<HTMLElement>,
-    config: Partial<OtamatoneConfiguration>
-  ): void {
-    this.counter += 1;
-
-    console.log(`update ${this.counter}`);
-  }
-
   private onResize(entries: ResizeObserverEntry[]) {
     const entry = entries[0];
 

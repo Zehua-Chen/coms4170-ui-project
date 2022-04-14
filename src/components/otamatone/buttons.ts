@@ -44,16 +44,20 @@ export function buttons(
 
     button.add(circle);
 
-    const text = new Konva.Text({
-      text: labels(position),
-      x,
-      y: -20,
-      align: "center",
-    });
+    const label = labels(position);
 
-    text.offsetX(text.getWidth() / 2);
+    if (label) {
+      const text = new Konva.Text({
+        text: label,
+        x,
+        y: -20,
+        align: "center",
+      });
 
-    button.add(text);
+      text.offsetX(text.getWidth() / 2);
+
+      button.add(text);
+    }
 
     return button;
   });
