@@ -4,10 +4,14 @@
 
 ## People
 
-- [Zehua Chen, zc2616@columbia.edu](https://github.com/Zehua-Chen)
-- [Yuxuan Jia, yj2680@columbia.edu](https://github.com/nuomicii)
-- [Shangru Li, sl4986@columbia.edu](https://github.com/sl4986)
-- [Chenchen Deng, cd3301@columbia.edu](https://github.com/GraceD5)
+- Zehua Chen, zc2616@columbia.edu
+  - Github: [Zehua-Chen](https://github.com/Zehua-Chen)
+- Yuxuan Jia, yj2680@columbia.edu
+  - Github: [nuomicii](https://github.com/nuomicii)
+- Shangru Li, sl4986@columbia.edu
+  - Github: [sl4986](https://github.com/sl4986)
+- Chenchen Deng, cd3301@columbia.edu
+  - Github: [GraceD5](https://github.com/GraceD5)
 
 ## Repo Content
 
