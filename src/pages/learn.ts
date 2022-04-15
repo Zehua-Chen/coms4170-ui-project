@@ -1,4 +1,4 @@
-import "./learn.css";
+import "./learn.scss";
 import navbar from "../components/navbar";
 
 export default function learn() {

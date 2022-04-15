@@ -1,33 +1,6 @@
 @use "sass:map";
 
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "../node_modules/bootstrap/scss/functions";
-
-// 2. Include any default variable overrides here
-
-// 3. Include remainder of required Bootstrap stylesheets
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins";
-@import "../node_modules/bootstrap/scss/utilities";
-
-// custom style
-
-$font-family-sans-serif: Roboto;
-$font-family-base: var(--#{$variable-prefix}font-sans-serif);
-
-$input-btn-font-family: $font-family-sans-serif;
-
-$headings-font-family: "Source Sans Pro";
-$headings-font-weight: 900;
-
-$app-theme-colors: (
-  "primary": #5D6473,
-  "secondary": #facd64,
-  "light": #FAFAFA,
-  "dark": #333a48
-);
-
-$theme-colors: map.merge($theme-colors, $app-theme-colors);
+@import "./theme";
 
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/reboot";

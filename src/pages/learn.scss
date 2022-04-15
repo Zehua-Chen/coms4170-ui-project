@@ -1,0 +1,6 @@
+@use "sass:map";
+@import "../theme";
+
+.learn {
+  background-color: map.get($theme-colors, "primary");
+}

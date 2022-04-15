@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="d-flex flex-row">
+  <div class="min-vh-100 border-end">
+    {% block two_col_sidebar %}
+    {% endblock %}
+  </div>
+  <div class="flex-fill">
+    {% block two_col_content %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
