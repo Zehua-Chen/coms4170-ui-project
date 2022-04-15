@@ -15,12 +15,15 @@
 $font-family-sans-serif: Roboto;
 $font-family-base: var(--#{$variable-prefix}font-sans-serif);
 
+$input-btn-font-family: $font-family-sans-serif;
+
 $headings-font-family: "Source Sans Pro";
 $headings-font-weight: 900;
 
 $app-theme-colors: (
   "primary": #5D6473,
   "secondary": #facd64,
+  "light": #FAFAFA,
   "dark": #333a48
 );
 
