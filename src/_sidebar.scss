@@ -1,0 +1,21 @@
+@use "sass:map";
+@use "sass:color";
+@import "./theme";
+
+.two-col-layout {
+  min-height: 100%;
+}
+
+.sidebar {
+  width: 200px;
+}
+
+.sidebar-item {
+  display: block;
+  color: map.get($theme-colors, "dark");
+  text-decoration: none;
+
+  &.active {
+    color: color.adjust(map.get($theme-colors, "secondary"), $lightness: -25%);
+  }
+}

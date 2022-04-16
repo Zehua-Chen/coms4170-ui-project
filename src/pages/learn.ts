@@ -1,5 +1,6 @@
 import "./learn.scss";
 import navbar from "../components/navbar";
+import sidebar from "../components/sidebar";
 
 export default function learn() {
   navbar({ active: "Music Scale" });
@@ -16,4 +17,6 @@ export default function learn() {
   $("#next").on("click", () => {
     alert(`Next page ${data.id + 1}`);
   });
+
+  sidebar({ elements: ["Do", "Re", "Mi"], active: "Do" });
 }

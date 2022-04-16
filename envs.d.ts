@@ -1,3 +1,7 @@
+module "*.module.scss" {
+  export default any;
+}
+
 type PageFunction = (...args: any[]) => void;
 
 interface LearnData {
