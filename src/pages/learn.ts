@@ -1,6 +1,6 @@
-import "./learn.scss";
 import navbar from "../components/navbar";
 import sidebar from "../components/sidebar";
+import otamatone from "../components/otamatone";
 
 export default function learn() {
   navbar({ active: "Music Scale" });
@@ -19,4 +19,5 @@ export default function learn() {
   });
 
   sidebar({ elements: ["Do", "Re", "Mi"], active: "Do" });
+  otamatone($("#otamatone"), {});
 }
