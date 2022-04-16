@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently --kill-others 'vite' 'tsc --watch' 'FLASK_ENV=development flask run -p 4000'",
-    "build": "vite build"
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
