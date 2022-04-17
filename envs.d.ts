@@ -1,5 +1,11 @@
 module "*.module.scss" {
-  export default any;
+  declare const classes: { [className in string]: string };
+  export default classes;
+}
+
+module "*.mp3" {
+  declare const url: string;
+  export default url;
 }
 
 type PageFunction = (...args: any[]) => void;
