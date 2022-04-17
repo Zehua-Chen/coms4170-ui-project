@@ -8,15 +8,21 @@ app = Flask(
 
 
 def get_app_bundle():
-    with open(path.join("static", "manifest.json")) as manifest_file:
-        manifest = json.load(manifest_file)
+    try:
+        with open(path.join("static", "manifest.json")) as manifest_file:
+            manifest = json.load(manifest_file)
 
-    index = manifest["src/index.ts"]
+        index = manifest["src/index.ts"]
 
-    return {
-        "js": url_for("static", filename=index["file"]),
-        "css": map(lambda f: url_for("static", filename=f), index["css"])
-    }
+        return {
+            "js": url_for("static", filename=index["file"]),
+            "css": map(lambda f: url_for("static", filename=f), index["css"])
+        }
+    except FileNotFoundError:
+        return {
+            "js": "",
+            "css": ""
+        }
 
 
 @app.route("/")
