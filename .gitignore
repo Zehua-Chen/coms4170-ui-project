@@ -4,8 +4,9 @@ __pycache__
 *.egg-info/
 .vscode/
 
-static/**/*.js
-static/**/*.css
+static/assets/*.js
+static/assets/*.css
+static/assets/*.mp3
 static/manifest.json
 
 tsconfig.tsbuildinfo

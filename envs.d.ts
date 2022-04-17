@@ -30,3 +30,9 @@ interface AppNamespace {
 interface Window {
   App: AppNamespace;
 }
+
+interface ImportMeta {
+  env: {
+    MODE: "development" | "production";
+  };
+}
