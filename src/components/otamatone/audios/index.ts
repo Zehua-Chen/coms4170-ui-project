@@ -1,18 +1,25 @@
+import doAudio from "do.mp3"
+import reAudio from "re.mp3"
+import miAudio from "mi.mp3"
+import faAudio from "fa.mp3"
+import soAudio from "so.mp3"
+import laAudio from "la.mp3"
+import tiAudio from "ti.mp3"
 const audios: string[] = [
   // 7
-  "audio 7",
+  tiAudio,
   // 6
-  "audio 6",
+  laAudio,
   // 5
-  "audio 5",
+  soAudio,
   // 4
-  "audio 4",
+  faAudio,
   // 3
-  "audio 3",
+  miAudio,
   // 2
-  "audio 2",
+  reAudio,
   // 1
-  "audio 1",
+  doAudio,
 ];
 
 export default audios;
