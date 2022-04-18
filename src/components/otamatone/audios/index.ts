@@ -6,7 +6,10 @@ import soAudio from "./so.mp3";
 import laAudio from "./la.mp3";
 import tiAudio from "./ti.mp3";
 
-type Audios = { [position in number]: string };
+/**
+ * Map position on the otamatone stick to audio files
+ */
+export type Audios = { [position in number]: string };
 
 const audios: Audios = {
   7: tiAudio,
