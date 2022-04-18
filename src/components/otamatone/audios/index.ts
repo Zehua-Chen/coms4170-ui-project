@@ -1,10 +1,11 @@
-import doAudio from "do.mp3"
-import reAudio from "re.mp3"
-import miAudio from "mi.mp3"
-import faAudio from "fa.mp3"
-import soAudio from "so.mp3"
-import laAudio from "la.mp3"
-import tiAudio from "ti.mp3"
+import doAudio from "./do.mp3";
+import reAudio from "./re.mp3";
+import miAudio from "./mi.mp3";
+import faAudio from "./fa.mp3";
+import soAudio from "./so.mp3";
+import laAudio from "./la.mp3";
+import tiAudio from "./ti.mp3";
+
 const audios: string[] = [
   // 7
   tiAudio,
