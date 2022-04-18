@@ -1,6 +1,7 @@
 import Konva from "konva";
 import type { Labels, OnPlay } from "./configuration";
 import { allPositions } from "./configuration";
+import audios from "./audios";
 
 export type Position = number;
 
@@ -38,7 +39,6 @@ export function buttons(
   stickHeight: number,
   buttonSize: number,
   labels: Labels,
-  audios: string[],
   onPlay: OnPlay
 ): Konva.Group[] {
   return xs(stickWidth, buttonSize).map(({ position, x }, index) => {

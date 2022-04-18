@@ -4,7 +4,6 @@ import type { Position } from "./buttons";
 import { buttons } from "./buttons";
 import type { OtamatoneConfiguration } from "./configuration";
 import { applyDefault } from "./configuration";
-import audios from "./audios";
 
 export { Position, OtamatoneConfiguration };
 
@@ -65,7 +64,6 @@ export class OtamatoneComponent extends ClassComponent<
         STICK_HEIGHT,
         BUTTON_SIZE,
         solidConfig.labels,
-        audios,
         solidConfig.onPlay
       ).filter((button) =>
         solidConfig.positions.includes(button.getAttr("stickPosition"))

@@ -6,21 +6,16 @@ import soAudio from "./so.mp3";
 import laAudio from "./la.mp3";
 import tiAudio from "./ti.mp3";
 
-const audios: string[] = [
-  // 7
-  tiAudio,
-  // 6
-  laAudio,
-  // 5
-  soAudio,
-  // 4
-  faAudio,
-  // 3
-  miAudio,
-  // 2
-  reAudio,
-  // 1
-  doAudio,
-];
+type Audios = { [position in number]: string };
+
+const audios: Audios = {
+  7: tiAudio,
+  6: laAudio,
+  5: soAudio,
+  4: faAudio,
+  3: miAudio,
+  2: reAudio,
+  1: doAudio,
+};
 
 export default audios;
