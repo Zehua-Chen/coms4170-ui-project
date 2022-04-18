@@ -15,7 +15,6 @@ export class OtamatoneComponent extends ClassComponent<
   Partial<OtamatoneConfiguration>,
   HTMLDivElement
 > {
-  private counter: number = 0;
   private observer: ResizeObserver;
   private stage: Konva.Stage;
   private layer: Konva.Layer;
