@@ -3,7 +3,7 @@ import { createComponentFromClass, ClassComponent } from "../component";
 import type { Position } from "./buttons";
 import { buttons } from "./buttons";
 import type { OtamatoneConfiguration } from "./configuration";
-import { applyDefault } from "./configuration";
+import { allPositions } from "./configuration";
 
 export { Position, OtamatoneConfiguration };
 
@@ -27,7 +27,11 @@ export class OtamatoneComponent extends ClassComponent<
   ) {
     super(root, config);
 
-    const solidConfig = applyDefault(config);
+    const {
+      positions = allPositions,
+      labels = (position) => `${position}`,
+      onPlay = () => {},
+    } = config;
 
     root.empty();
 
@@ -59,14 +63,8 @@ export class OtamatoneComponent extends ClassComponent<
 
     stick.add(stickRect);
     stick.add(
-      ...buttons(
-        STICK_WIDTH,
-        STICK_HEIGHT,
-        BUTTON_SIZE,
-        solidConfig.labels,
-        solidConfig.onPlay
-      ).filter((button) =>
-        solidConfig.positions.includes(button.getAttr("stickPosition"))
+      ...buttons(STICK_WIDTH, STICK_HEIGHT, BUTTON_SIZE, labels, onPlay).filter(
+        (button) => positions.includes(button.getAttr("stickPosition"))
       )
     );
 

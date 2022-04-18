@@ -23,19 +23,3 @@ export interface OtamatoneConfiguration {
 export const allPositions: readonly Position[] = [
   1, 2, 3, 4, 5, 6, 7,
 ].reverse();
-
-export function applyDefault(
-  configuration: Partial<OtamatoneConfiguration>
-): OtamatoneConfiguration {
-  const {
-    positions = allPositions,
-    labels = (position) => `${position}`,
-    onPlay = () => {},
-  } = configuration;
-
-  return {
-    positions,
-    labels,
-    onPlay,
-  };
-}
