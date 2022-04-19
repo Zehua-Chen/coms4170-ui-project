@@ -1,4 +1,4 @@
-from os import path, environ
+from os import path
 
 import requests
 from urllib.parse import urlparse
@@ -6,6 +6,7 @@ from flask import Flask, render_template, json, url_for, request
 from flask.wrappers import Response
 
 from .teach import lessons, lessons_overview
+from .practice import practices, practices_overview
 
 app = Flask(
     __name__,
@@ -51,7 +52,15 @@ def learn(id: int):
 def practice(id: int):
     return render_template(
         "practice.html",
-        bundle=get_app_bundle())
+        bundle=get_app_bundle(),
+        practices_overview=practices_overview,
+        practice=practices[id])
+
+
+@app.route("/practice/clip/<int:id>")
+def practice_clip(id: int):
+    clip_path = path.join("practices", f"{id}.mp3")
+    return app.send_static_file(clip_path)
 
 
 @app.route("/quiz/<int:id>")

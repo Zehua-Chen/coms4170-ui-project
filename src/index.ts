@@ -7,4 +7,7 @@ window.App = {
   learn() {
     import("./pages/learn").then((learn) => learn.default());
   },
+  practice() {
+    import("./pages/practice").then((learn) => learn.default());
+  },
 };
