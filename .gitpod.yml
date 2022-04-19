@@ -3,8 +3,10 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: yarn install && pip install -e .
+  - init: yarn install
     command: yarn start
+image:
+  file: .gitpod.Dockerfile
 ports:
   - port: 3000
     onOpen: ignore
