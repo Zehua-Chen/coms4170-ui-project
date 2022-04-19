@@ -1,6 +1,8 @@
 from os import path
 
 import requests
+
+from datetime import datetime
 from urllib.parse import urlparse
 from flask import Flask, render_template, json, url_for, request
 from flask.wrappers import Response
@@ -41,11 +43,16 @@ def index():
 
 @app.route("/learn/<int:id>")
 def learn(id: int):
+    lesson = lessons[id]
+    sent_lesson = lesson.copy()
+
+    lesson["last_visited"] = str(datetime.now())
+
     return render_template(
         "learn.html",
         bundle=get_app_bundle(),
         lessons_overview=lessons_overview,
-        lesson=lessons[id])
+        lesson=sent_lesson)
 
 
 @app.route("/practice/clip/<path:id>")

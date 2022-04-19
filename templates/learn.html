@@ -21,8 +21,13 @@ Sidebar
 {% block two_col_content %}
 <div class="row">
   <div class="col text-center">
-<!--    <h1 id="title">Title?</h1>-->
     <h1 id="title=">{{lesson.note}}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col text-center">
+    Last visited {{ lesson.last_visited }}
   </div>
 </div>
 
