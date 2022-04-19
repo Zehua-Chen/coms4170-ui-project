@@ -9,44 +9,45 @@ app = Flask(
     static_folder=path.join("..", "static"),
     template_folder=path.join("..", "templates"))
 
-current_id=7
-data={
-    1:{
-        "id":1,
-        "note":"Do",
-        "audio":"doAudio"
+current_id = 7
+data = {
+    1: {
+        "id": 1,
+        "note": "Do",
+        "audio": "doAudio"
     },
-    2:{
-            "id":2,
-            "note":"Re",
-            "audio":"reAudio"
-        },
-    3:{
-            "id":3,
-            "note":"Mi",
-            "audio":"miAudio"
-        },
-    4:{
-            "id":4,
-            "note":"Fa",
-            "audio":"faAudio"
-        },
-    5:{
-            "id":5,
-            "note":"So",
-            "audio":"soAudio"
-        },
-    6:{
-            "id":6,
-            "note":"La",
-            "audio":"laAudio"
-        },
-    7:{
-            "id":7,
-            "note":"Ti",
-            "audio":"tiAudio"
-        }
+    2: {
+        "id": 2,
+        "note": "Re",
+        "audio": "reAudio"
+    },
+    3: {
+        "id": 3,
+        "note": "Mi",
+        "audio": "miAudio"
+    },
+    4: {
+        "id": 4,
+        "note": "Fa",
+        "audio": "faAudio"
+    },
+    5: {
+        "id": 5,
+        "note": "So",
+        "audio": "soAudio"
+    },
+    6: {
+        "id": 6,
+        "note": "La",
+        "audio": "laAudio"
+    },
+    7: {
+        "id": 7,
+        "note": "Ti",
+        "audio": "tiAudio"
+    }
 }
+
 
 def get_app_bundle():
     try:
@@ -73,24 +74,26 @@ def index():
 
 @app.route("/learn/<int:id>")
 def learn(id: int):
-    return render_template("learn.html", bundle=get_app_bundle(), id=id,note=data[id])
+    return render_template("learn.html", bundle=get_app_bundle(), id=id, note=data[id])
 
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
 #     return render_template("practice.html", bundle=get_app_bundle(), id=id)
 
+
 @app.before_request
 def before_request():
     if "static" in request.url:
         parse_result = urlparse(request.url)
-        static_url = unquote_plus(f"http://localhost:3000{parse_result.path}")
-        app.logger.info(static_url)
+
+        static_url = f"http://localhost:3000{parse_result.path}?{parse_result.query}"
+        static_url = static_url.replace("%40", "@")
 
         static_response = requests.get(static_url)
 
-        mimetype = "text/javascript"
+        mimetype = "application/javascript"
 
-        if "mp3" in request.url:
+        if "mp3" in static_url and "mp3?import" not in static_url:
             mimetype = "audio/mpeg"
             app.logger.info("audio file")
 
@@ -109,5 +112,5 @@ def static_src_file(url_path):
 #     app.logger.info(url_path)
 #     response = requests.get(f"http://localhost:3000/static/@vite/{url_path}")
 
-      
+
 #     return Response(response.content, mimetype="text/javascript")
