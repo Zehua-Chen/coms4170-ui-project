@@ -26,12 +26,14 @@ function practice(): void {
   const nextID = id + 1;
   const positionsClicked: number[] = [];
 
-  $("#next").on("click", async () => {
+  $("#next").on("click", async (e) => {
+    e.preventDefault();
+
     await fetch(`/quiz/submit/${id}`, {
       method: "POST",
       body: JSON.stringify(positionsClicked),
       headers: {
-        contentType: "application/json",
+        "Content-Type": "application/json",
       },
     });
 
