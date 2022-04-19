@@ -2,6 +2,12 @@ import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
+function userInputs(inputs: number[]) {
+  $("#user-inputs")
+    .empty()
+    .append(inputs.map((input) => $("<span />").text(input)));
+}
+
 function practice(): void {
   navbar({ active: "Practice" });
   const { data } = window.App;
@@ -28,8 +34,6 @@ function practice(): void {
     }
   });
 
-  const audio = new Audio(`/practice/clip/${id}.mp3`);
-
   $("#clip")
     .empty()
     .append(
@@ -44,7 +48,7 @@ function practice(): void {
     onPlay(position) {
       positionsClicked.push(position);
 
-      console.log(positions_to_click);
+      userInputs(positionsClicked);
 
       if (
         JSON.stringify(positionsClicked) === JSON.stringify(positions_to_click)
