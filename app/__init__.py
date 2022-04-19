@@ -2,7 +2,8 @@ from os import path, environ
 
 import requests
 from urllib.parse import urlparse, unquote_plus
-from flask import Flask, Response, render_template, json, url_for, request
+from flask import Flask, render_template, json, url_for, request
+from flask.wrappers import Response
 
 app = Flask(
     __name__,
@@ -81,23 +82,24 @@ def learn(id: int):
 #     return render_template("practice.html", bundle=get_app_bundle(), id=id)
 
 
-@app.before_request
-def before_request():
-    if "static" in request.url:
-        parse_result = urlparse(request.url)
+if app.config["DEBUG"]:
+    @app.before_request
+    def before_request():
+        if "static" in request.url:
+            parse_result = urlparse(request.url)
 
-        static_url = f"http://localhost:3000{parse_result.path}?{parse_result.query}"
-        static_url = static_url.replace("%40", "@")
+            static_url = f"http://localhost:3000{parse_result.path}?{parse_result.query}"
+            static_url = static_url.replace("%40", "@")
 
-        static_response = requests.get(static_url)
+            static_response = requests.get(static_url)
 
-        mimetype = "application/javascript"
+            mimetype = "application/javascript"
 
-        if "mp3" in static_url and "mp3?import" not in static_url:
-            mimetype = "audio/mpeg"
-            app.logger.info("audio file")
+            if "mp3" in static_url and "mp3?import" not in static_url:
+                mimetype = "audio/mpeg"
+                app.logger.info("audio file")
 
-        return Response(static_response.content, mimetype=mimetype)
+            return Response(static_response.content, mimetype=mimetype)
 
 
 @app.route("/static/**/<url_path>")
