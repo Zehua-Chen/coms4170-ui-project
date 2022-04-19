@@ -45,7 +45,7 @@ quizzes = {
         "notes": [],
         "positions_to_click": []
     }
-    quizzes = {
+    solutions = {
         1: {
         "id": 1,
         "solution": []
