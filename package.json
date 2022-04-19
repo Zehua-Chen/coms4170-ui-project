@@ -7,12 +7,13 @@
   "author": "Zehua-Chen <zehua-chen@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently --kill-others 'vite' 'tsc --watch' 'FLASK_ENV=development python -m flask run -p 4000'",
+    "start": "concurrently --kill-others 'vite' 'tsc --watch' 'cross-env FLASK_ENV=development python -m flask run -p 4000'",
     "build": "tsc && vite build"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
     "concurrently": "^7.1.0",
+    "cross-env": "^7.0.3",
     "sass": "^1.50.0",
     "vite": "^2.9.1"
   },
