@@ -35,8 +35,14 @@ namespace app {
     practices_overview: string[];
   }
 
+  interface Quiz {
+    title: string;
+  }
+
   interface QuizData {
     type: "quiz";
+    quiz: Quiz;
+    quizzes_overview: string[];
   }
 
   type Data = LearnData | PracticeData | QuizData;

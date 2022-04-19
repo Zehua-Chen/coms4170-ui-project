@@ -9,6 +9,7 @@ from flask.wrappers import Response
 
 from .teach import lessons, lessons_overview
 from .practice import practices, practices_overview
+from .quiz import quizzes, quizzes_overview
 
 app = Flask(
     __name__,
@@ -79,7 +80,9 @@ def practice(id: int):
 def quiz(id: int):
     return render_template(
         "quiz.html",
-        bundle=get_app_bundle())
+        bundle=get_app_bundle(),
+        quiz=quizzes[id],
+        quizzes_overview=quizzes_overview)
 
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
