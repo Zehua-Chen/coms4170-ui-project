@@ -17,8 +17,14 @@ export default function learn() {
   const { lessons_overview, lesson } = data;
   const { position_to_click } = lesson;
 
+  const nextLesson = lesson.id + 1;
+
   $("#next").on("click", () => {
-    alert(`Next page ${lesson.id + 1}`);
+    if (nextLesson <= lessons_overview.length) {
+      window.location.href = `/learn/${nextLesson}`;
+    } else {
+      window.location.href = "/practice/1";
+    }
   });
 
   sidebar({ elements: lessons_overview, active: lesson.note });

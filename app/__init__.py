@@ -46,6 +46,20 @@ def learn(id: int):
         lessons_overview=lessons_overview,
         lesson=lessons[id])
 
+
+@app.route("/practice/<int:id>")
+def practice(id: int):
+    return render_template(
+        "practice.html",
+        bundle=get_app_bundle())
+
+
+@app.route("/quiz/<int:id>")
+def quiz(id: int):
+    return render_template(
+        "quiz.html",
+        bundle=get_app_bundle())
+
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
 #     return render_template("practice.html", bundle=get_app_bundle(), id=id)
