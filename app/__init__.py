@@ -1,5 +1,8 @@
-from os import path
-from flask import Flask, render_template, json, url_for
+from os import path, environ
+
+import requests
+from urllib.parse import urlparse, unquote_plus
+from flask import Flask, Response, render_template, json, url_for, request
 
 app = Flask(
     __name__,
@@ -44,6 +47,7 @@ data={
             "audio":"tiAudio"
         }
 }
+
 def get_app_bundle():
     try:
         with open(path.join("static", "manifest.json")) as manifest_file:
@@ -75,4 +79,35 @@ def learn(id: int):
 # def practice(id: int):
 #     return render_template("practice.html", bundle=get_app_bundle(), id=id)
 
+@app.before_request
+def before_request():
+    if "static" in request.url:
+        parse_result = urlparse(request.url)
+        static_url = unquote_plus(f"http://localhost:3000{parse_result.path}")
+        app.logger.info(static_url)
 
+        static_response = requests.get(static_url)
+
+        mimetype = "text/javascript"
+
+        if "mp3" in request.url:
+            mimetype = "audio/mpeg"
+            app.logger.info("audio file")
+
+        return Response(static_response.content, mimetype=mimetype)
+
+
+@app.route("/static/**/<url_path>")
+def static_src_file(url_path):
+    app.logger.info(url_path)
+    response = requests.get(f"http://localhost:3000/static/{url_path}")
+
+    return Response(response.content, mimetype="text/javascript")
+
+# @app.route("/static/@vite/<path:url_path>")
+# def static_file(url_path):
+#     app.logger.info(url_path)
+#     response = requests.get(f"http://localhost:3000/static/@vite/{url_path}")
+
+      
+#     return Response(response.content, mimetype="text/javascript")
