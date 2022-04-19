@@ -1,4 +1,4 @@
-{% extends "two-col-layout.html" %}
+{% extends "layout.html" %}
 
 {% block scripts %}
 <script>
@@ -16,13 +16,14 @@
 Sidebar
 {% endblock %}
 
-{% block two_col_content %}
-<div style=" height: 400px; width: 100%;">
-<div style="border-top: 200px ;">
-    <span style="font-weight:bold; font-size: 45px;">
-        Congratulations! you have accomplished this tutorial
-        </span>
-
-</div>
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Congratulations!</h1>
+      <p>You have accomplished this tutorial</p>
+      <p>Score: {{ score }}</p>
+    </div>
+  </div>
 </div>
 {% endblock %}

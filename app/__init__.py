@@ -93,6 +93,11 @@ def quiz_submit(id: int):
 
     return "", 200
 
+
+@app.route("/finish")
+def finish():
+    global quiz_score
+    return render_template("finish.html", score=quiz_score)
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
 #     return render_template("practice.html", bundle=get_app_bundle(), id=id)
