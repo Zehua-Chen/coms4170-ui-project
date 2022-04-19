@@ -5,8 +5,6 @@
 tasks:
   - init: yarn install
     command: yarn start
-image:
-  file: .gitpod.Dockerfile
 ports:
   - port: 3000
     onOpen: ignore
