@@ -9,7 +9,7 @@ from flask.wrappers import Response
 
 from .teach import lessons, lessons_overview
 from .practice import practices, practices_overview
-from .quiz import quizzes, quizzes_overview
+from .quiz import quizzes, quizzes_overview, quiz_score
 
 app = Flask(
     __name__,
@@ -59,7 +59,6 @@ def learn(id: int):
 @app.route("/practice/clip/<path:id>")
 def practice_clip(id: int):
     clip_path = path.join("practices", f"{id}")
-    app.logger.info(f"get clip {clip_path}")
     response = app.send_static_file(clip_path)
 
     response.mimetype = "audio/mp3"
@@ -83,6 +82,16 @@ def quiz(id: int):
         bundle=get_app_bundle(),
         quiz=quizzes[id],
         quizzes_overview=quizzes_overview)
+
+
+@app.route("/quiz/submit/<int:id>", methods=["POST"])
+def quiz_submit(id: int):
+    global quiz_score
+    _solution = request.json
+    app.logger.info(f"submit quiz {id}")
+    quiz_score += 1
+
+    return "", 200
 
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
@@ -108,13 +117,6 @@ if app.config["DEBUG"]:
 
             return Response(static_response.content, mimetype=mimetype)
 
-
-@app.route("/static/**/<url_path>")
-def static_src_file(url_path):
-    app.logger.info(url_path)
-    response = requests.get(f"http://localhost:3000/static/{url_path}")
-
-    return Response(response.content, mimetype="text/javascript")
 
 # @app.route("/static/@vite/<path:url_path>")
 # def static_file(url_path):

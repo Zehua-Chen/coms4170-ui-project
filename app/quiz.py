@@ -79,6 +79,8 @@ quiz_solutions = {
     }
 }  # type: Dict[int, QuizSolution]
 
+quiz_score = 0
+
 quizzes_overview = list(map(
     lambda pair: pair[1]["title"],
     # sort lessons by lesson id

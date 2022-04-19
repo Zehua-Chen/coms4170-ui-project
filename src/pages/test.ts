@@ -26,7 +26,15 @@ function practice(): void {
   const nextID = id + 1;
   const positionsClicked: number[] = [];
 
-  $("#next").on("click", () => {
+  $("#next").on("click", async () => {
+    await fetch(`/quiz/submit/${id}`, {
+      method: "POST",
+      body: JSON.stringify(positionsClicked),
+      headers: {
+        contentType: "application/json",
+      },
+    });
+
     if (nextID > quizzes_overview.length) {
       window.location.href = "/finish";
     } else {
@@ -49,6 +57,7 @@ function practice(): void {
       positionsClicked.push(position);
 
       userInputs(positionsClicked);
+      $("#next").removeAttr("disabled");
 
       // if (
       //   JSON.stringify(positionsClicked) === JSON.stringify(quiz)
