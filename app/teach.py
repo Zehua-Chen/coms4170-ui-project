@@ -4,44 +4,44 @@ from typing import Dict, TypedDict, List
 class Lesson(TypedDict):
     id: int
     note: str
-    audio: str
+    position_to_click: int
 
 
 lessons = {
     1: {
         "id": 1,
         "note": "Do",
-        "audio": "doAudio"
+        "position_to_click": 1
     },
     2: {
         "id": 2,
         "note": "Re",
-        "audio": "reAudio"
+        "position_to_click": 2
     },
     3: {
         "id": 3,
         "note": "Mi",
-        "audio": "miAudio"
+        "position_to_click": 3
     },
     4: {
         "id": 4,
         "note": "Fa",
-        "audio": "faAudio"
+        "position_to_click": 4
     },
     5: {
         "id": 5,
         "note": "So",
-        "audio": "soAudio"
+        "position_to_click": 5,
     },
     6: {
         "id": 6,
         "note": "La",
-        "audio": "laAudio"
+        "position_to_click": 6,
     },
     7: {
         "id": 7,
         "note": "Ti",
-        "audio": "tiAudio"
+        "position_to_click": 7,
     }
 }  # type: Dict[int, Lesson]
 

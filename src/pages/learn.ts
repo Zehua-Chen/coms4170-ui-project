@@ -14,12 +14,19 @@ export default function learn() {
     throw Error(`expect data type to be 'learn', got ${data.type}`);
   }
 
-  const { lessons_overview: lessons_summary, lesson } = data;
+  const { lessons_overview, lesson } = data;
+  const { position_to_click } = lesson;
 
   $("#next").on("click", () => {
     alert(`Next page ${lesson.id + 1}`);
   });
 
-  sidebar({ elements: lessons_summary, active: lesson.note });
-  otamatone($("#otamatone"), {});
+  sidebar({ elements: lessons_overview, active: lesson.note });
+  otamatone($("#otamatone"), {
+    onPlay: (position) => {
+      if (position === position_to_click) {
+        $("#next").removeAttr("disabled");
+      }
+    },
+  });
 }

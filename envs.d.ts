@@ -14,6 +14,7 @@ namespace app {
   interface Lesson {
     id: number;
     note: string;
+    position_to_click: number;
   }
 
   interface LearnData {
