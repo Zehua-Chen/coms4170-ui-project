@@ -8,6 +8,11 @@ class Quiz(TypedDict):
     positions_to_click: list
 
 
+class QuizSolution(TypedDict):
+    id: int
+    solution: list
+
+
 quizzes = {
     1: {
         "id": 1,
@@ -45,8 +50,10 @@ quizzes = {
         "notes": [],
         "positions_to_click": []
     }
-    solutions = {
-        1: {
+}  # type: Dict[int, Quiz]
+
+quiz_solutions = {
+    1: {
         "id": 1,
         "solution": []
     },
@@ -70,7 +77,7 @@ quizzes = {
         "id": 6,
         "solution": []
     }
-}  # type: Dict[int, Quiz]
+}  # type: Dict[int, QuizSolution]
 
 quizzes_overview = list(map(
     lambda pair: pair[1]["title"],
