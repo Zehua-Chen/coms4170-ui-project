@@ -13,3 +13,7 @@ ports:
 vscode:
   extensions:
     - ms-python.python
+github:
+  prebuilds:
+    # enable for the default branch (defaults to true)
+    master: false
