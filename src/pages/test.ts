@@ -16,18 +16,18 @@ function practice(): void {
     throw Error("window.App.data should not be undefined");
   }
 
-  if (data.type !== "practice") {
+  if (data.type !== "quiz") {
     throw Error(`expect data type to be 'learn', got ${data.type}`);
   }
 
-  const { practice, practices_overview } = data;
-  const { id, positions_to_click } = practice;
+  const { quiz, quizzes_overview } = data;
+  const { id } = quiz;
 
   const nextID = id + 1;
   const positionsClicked: number[] = [];
 
   $("#next").on("click", () => {
-    if (nextID > practices_overview.length) {
+    if (nextID > quizzes_overview.length) {
       window.location.href = "/finish";
     } else {
       window.location.href = `/quiz/${nextID}`;
@@ -50,15 +50,15 @@ function practice(): void {
 
       userInputs(positionsClicked);
 
-      if (
-        JSON.stringify(positionsClicked) === JSON.stringify(positions_to_click)
-      ) {
-        $("#next").removeAttr("disabled");
-      }
+      // if (
+      //   JSON.stringify(positionsClicked) === JSON.stringify(quiz)
+      // ) {
+      //   $("#next").removeAttr("disabled");
+      // }
     },
   });
 
-  sidebar({ elements: practices_overview, active: practice.title });
+  sidebar({ elements: quizzes_overview, active: quiz.title });
 }
 
 export default practice;

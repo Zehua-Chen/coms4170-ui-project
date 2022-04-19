@@ -36,6 +36,7 @@ namespace app {
   }
 
   interface Quiz {
+    id: number;
     title: string;
   }
 
@@ -53,6 +54,7 @@ interface AppNamespace {
   welcome: app.PageFunction;
   learn: app.PageFunction;
   practice: app.PageFunction;
+  quiz: app.PageFunction;
 }
 
 interface Window {

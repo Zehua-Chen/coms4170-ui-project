@@ -10,4 +10,7 @@ window.App = {
   practice() {
     import("./pages/practice").then((learn) => learn.default());
   },
+  quiz() {
+    import("./pages/test").then((learn) => learn.default());
+  },
 };
