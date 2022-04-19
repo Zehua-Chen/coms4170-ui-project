@@ -5,9 +5,10 @@
   $(() => {
     App.data = {
       type: "practice",
+      practice: {{ practice | tojson }}
     },
 
-    App.learn();
+    App.practice();
   });
 </script>
 {% endblock %}

@@ -23,6 +23,16 @@ namespace app {
     lessons_overview: string[];
   }
 
+  interface Practice {
+    id: number;
+    positions_to_click: number[];
+  }
+
+  interface PracticeData {
+    type: "practice";
+    practice: Practice;
+  }
+
   interface QuizData {
     type: "quiz";
   }
@@ -34,6 +44,7 @@ interface AppNamespace {
   data?: app.Data;
   welcome: app.PageFunction;
   learn: app.PageFunction;
+  practice: app.PageFunction;
 }
 
 interface Window {
