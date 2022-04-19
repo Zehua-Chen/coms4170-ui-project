@@ -116,9 +116,8 @@ if app.config["DEBUG"]:
 
             mimetype = "application/javascript"
 
-            if "mp3" in static_url and "mp3?import" not in static_url:
-                mimetype = "audio/mpeg"
-                app.logger.info("audio file")
+            if "Content-Type" in static_response.headers:
+                mimetype = static_response.headers["Content-Type"]
 
             return Response(static_response.content, mimetype=mimetype)
 
