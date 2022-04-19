@@ -25,19 +25,21 @@ namespace app {
 
   interface Practice {
     id: number;
+    title: string;
     positions_to_click: number[];
   }
 
   interface PracticeData {
     type: "practice";
     practice: Practice;
+    practices_overview: string[];
   }
 
   interface QuizData {
     type: "quiz";
   }
 
-  type Data = LearnData | QuizData;
+  type Data = LearnData | PracticeData | QuizData;
 }
 
 interface AppNamespace {

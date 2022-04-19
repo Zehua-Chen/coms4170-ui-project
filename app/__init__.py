@@ -48,6 +48,17 @@ def learn(id: int):
         lesson=lessons[id])
 
 
+@app.route("/practice/clip/<path:id>")
+def practice_clip(id: int):
+    clip_path = path.join("practices", f"{id}")
+    app.logger.info(f"get clip {clip_path}")
+    response = app.send_static_file(clip_path)
+
+    response.mimetype = "audio/mp3"
+
+    return response
+
+
 @app.route("/practice/<int:id>")
 def practice(id: int):
     return render_template(
@@ -55,12 +66,6 @@ def practice(id: int):
         bundle=get_app_bundle(),
         practices_overview=practices_overview,
         practice=practices[id])
-
-
-@app.route("/practice/clip/<int:id>")
-def practice_clip(id: int):
-    clip_path = path.join("practices", f"{id}.mp3")
-    return app.send_static_file(clip_path)
 
 
 @app.route("/quiz/<int:id>")

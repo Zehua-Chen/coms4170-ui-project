@@ -5,7 +5,8 @@
   $(() => {
     App.data = {
       type: "practice",
-      practice: {{ practice | tojson }}
+      practice: {{ practice | tojson }},
+      practices_overview: {{ practices_overview | tojson }}
     },
 
     App.practice();
@@ -20,7 +21,18 @@ Sidebar
 {% block two_col_content %}
 <div class="row">
   <div class="col text-center">
-    <h1 id="title=">TODO:</h1>
+    <h1 id="title=">{{ practice.title }}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col text-center">
+    <h2>Try replicate the following clip</h2>
+  </div>
+</div>
+
+<div class="row pt-4">
+  <div id="clip" class="col text-center">
   </div>
 </div>
 
