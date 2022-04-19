@@ -1,0 +1,28 @@
+{% extends "two-col-layout.html" %}
+
+{% block scripts %}
+<script>
+  $(() => {
+    App.data = {
+      type: "finish",
+    },
+
+    App.finish();
+  });
+</script>
+{% endblock %}
+
+{% block two_col_sidebar %}
+Sidebar
+{% endblock %}
+
+{% block two_col_content %}
+<div style=" height: 400px; width: 100%;">
+<div style="border-top: 200px ;">
+    <span style="font-weight:bold; font-size: 45px;">
+        Congratulations! you have accomplished this tutorial
+        </span>
+
+</div>
+</div>
+{% endblock %}
