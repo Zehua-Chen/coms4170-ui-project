@@ -8,23 +8,31 @@ module "*.mp3" {
   export default url;
 }
 
-type PageFunction = (...args: any[]) => void;
+namespace app {
+  type PageFunction = (...args: any[]) => void;
 
-interface LearnData {
-  type: "learn";
-  id: number;
+  interface Lesson {
+    id: number;
+    note: string;
+  }
+
+  interface LearnData {
+    type: "learn";
+    lesson: Lesson;
+    lessons_overview: string[];
+  }
+
+  interface QuizData {
+    type: "quiz";
+  }
+
+  type Data = LearnData | QuizData;
 }
-
-interface QuizData {
-  type: "quiz";
-}
-
-type Data = LearnData | QuizData;
 
 interface AppNamespace {
-  data?: Data;
-  welcome: PageFunction;
-  learn: PageFunction;
+  data?: app.Data;
+  welcome: app.PageFunction;
+  learn: app.PageFunction;
 }
 
 interface Window {

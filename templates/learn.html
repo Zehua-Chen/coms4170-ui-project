@@ -5,9 +5,10 @@
   $(() => {
     App.data = {
       type: "learn",
-      id: {{ id | tojson }},
-      note:{{ note | tojson }}
+      lesson: {{ lesson | tojson }},
+      lessons_overview: {{ lessons_overview | tojson }}
     },
+
     App.learn();
   });
 </script>
@@ -21,7 +22,7 @@ Sidebar
 <div class="row">
   <div class="col text-center">
 <!--    <h1 id="title">Title?</h1>-->
-    <h1 id="title=">{{note.note}}</h1>
+    <h1 id="title=">{{lesson.note}}</h1>
   </div>
 </div>
 

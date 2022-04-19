@@ -14,10 +14,12 @@ export default function learn() {
     throw Error(`expect data type to be 'learn', got ${data.type}`);
   }
 
+  const { lessons_overview: lessons_summary, lesson } = data;
+
   $("#next").on("click", () => {
-    alert(`Next page ${data.id + 1}`);
+    alert(`Next page ${lesson.id + 1}`);
   });
 
-  sidebar({ elements: ["Do", "Re", "Mi"], active: "Do" });
+  sidebar({ elements: lessons_summary, active: lesson.note });
   otamatone($("#otamatone"), {});
 }

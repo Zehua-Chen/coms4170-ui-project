@@ -1,9 +1,11 @@
 from os import path, environ
 
 import requests
-from urllib.parse import urlparse, unquote_plus
+from urllib.parse import urlparse
 from flask import Flask, render_template, json, url_for, request
 from flask.wrappers import Response
+
+from .teach import lessons, lessons_overview
 
 app = Flask(
     __name__,
@@ -11,43 +13,6 @@ app = Flask(
     template_folder=path.join("..", "templates"))
 
 current_id = 7
-data = {
-    1: {
-        "id": 1,
-        "note": "Do",
-        "audio": "doAudio"
-    },
-    2: {
-        "id": 2,
-        "note": "Re",
-        "audio": "reAudio"
-    },
-    3: {
-        "id": 3,
-        "note": "Mi",
-        "audio": "miAudio"
-    },
-    4: {
-        "id": 4,
-        "note": "Fa",
-        "audio": "faAudio"
-    },
-    5: {
-        "id": 5,
-        "note": "So",
-        "audio": "soAudio"
-    },
-    6: {
-        "id": 6,
-        "note": "La",
-        "audio": "laAudio"
-    },
-    7: {
-        "id": 7,
-        "note": "Ti",
-        "audio": "tiAudio"
-    }
-}
 
 
 def get_app_bundle():
@@ -75,7 +40,11 @@ def index():
 
 @app.route("/learn/<int:id>")
 def learn(id: int):
-    return render_template("learn.html", bundle=get_app_bundle(), id=id, note=data[id])
+    return render_template(
+        "learn.html",
+        bundle=get_app_bundle(),
+        lessons_overview=lessons_overview,
+        lesson=lessons[id])
 
 # @app.route("/practice/<int:id>")
 # def practice(id: int):
