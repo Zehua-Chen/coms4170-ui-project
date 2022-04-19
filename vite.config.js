@@ -7,6 +7,7 @@ export default defineConfig({
   build: {
     outDir: "static",
     manifest: true,
+    emptyOutDir: false,
     rollupOptions: {
       input: path.join("src", "index.ts"),
     },
