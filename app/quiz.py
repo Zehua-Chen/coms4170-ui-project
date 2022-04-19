@@ -45,6 +45,31 @@ quizzes = {
         "notes": [],
         "positions_to_click": []
     }
+    quizzes = {
+        1: {
+        "id": 1,
+        "solution": []
+    },
+    2: {
+        "id": 2,
+        "solution": []
+    },
+    3: {
+        "id": 3,
+        "solution": []
+    },
+    4: {
+        "id": 4,
+        "solution": []
+    },
+    5: {
+        "id": 5,
+        "solution": []
+    },
+    6: {
+        "id": 6,
+        "solution": []
+    }
 }  # type: Dict[int, Quiz]
 
 quizzes_overview = list(map(
