@@ -4,7 +4,7 @@
 
 tasks:
   - init: yarn install && pip install -e .
-    command: yarn run start
+    command: yarn start
 ports:
   - port: 3000
     onOpen: ignore
