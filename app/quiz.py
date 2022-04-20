@@ -1,5 +1,8 @@
 from typing import Dict, TypedDict, List
 
+from flask import Blueprint, request
+from .view import render_template
+
 
 class Quiz(TypedDict):
     id: int
@@ -86,3 +89,28 @@ quizzes_overview = list(map(
     # sort lessons by lesson id
     sorted(
         quizzes.items(), key=lambda x: x[0])))  # type: List[str]
+
+blueprint = Blueprint("quiz", __name__)
+
+
+@blueprint.route("/quiz/<int:id>")
+def quiz(id: int):
+    return render_template(
+        "quiz.html",
+        quiz=quizzes[id],
+        quizzes_overview=quizzes_overview)
+
+
+@blueprint.route("/quiz/submit/<int:id>", methods=["POST"])
+def quiz_submit(id: int):
+    global quiz_score
+    _solution = request.json
+    quiz_score += 1
+
+    return "", 200
+
+
+@blueprint.route("/quiz/finish")
+def finish():
+    global quiz_score
+    return render_template("finish.html", score=quiz_score)

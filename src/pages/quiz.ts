@@ -38,7 +38,7 @@ function practice(): void {
     });
 
     if (nextID > quizzes_overview.length) {
-      window.location.href = "/finish";
+      window.location.href = "/quiz/finish";
     } else {
       window.location.href = `/quiz/${nextID}`;
     }

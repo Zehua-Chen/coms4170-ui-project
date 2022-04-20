@@ -10,7 +10,7 @@ from flask.wrappers import Response
 from .view import render_template
 from .learn import blueprint as learn_blueprint
 from .practice import blueprint as practice_blueprint
-from .quiz import quizzes, quizzes_overview, quiz_score
+from .quiz import blueprint as quiz_blueprint
 
 app = Flask(
     __name__,
@@ -27,30 +27,7 @@ def index():
 
 app.register_blueprint(learn_blueprint)
 app.register_blueprint(practice_blueprint)
-
-
-@app.route("/quiz/<int:id>")
-def quiz(id: int):
-    return render_template(
-        "quiz.html",
-        quiz=quizzes[id],
-        quizzes_overview=quizzes_overview)
-
-
-@app.route("/quiz/submit/<int:id>", methods=["POST"])
-def quiz_submit(id: int):
-    global quiz_score
-    _solution = request.json
-    app.logger.info(f"submit quiz {id}")
-    quiz_score += 1
-
-    return "", 200
-
-
-@app.route("/finish")
-def finish():
-    global quiz_score
-    return render_template("finish.html", score=quiz_score)
+app.register_blueprint(quiz_blueprint)
 
 
 if app.config["DEBUG"]:
