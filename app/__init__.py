@@ -4,9 +4,10 @@ import requests
 
 from datetime import datetime
 from urllib.parse import urlparse
-from flask import Flask, render_template, json, url_for, request
+from flask import Flask, json, url_for, request
 from flask.wrappers import Response
 
+from .view import render_template
 from .teach import lessons, lessons_overview
 from .practice import practices, practices_overview
 from .quiz import quizzes, quizzes_overview, quiz_score
@@ -19,27 +20,9 @@ app = Flask(
 current_id = 7
 
 
-def get_app_bundle():
-    try:
-        with open(path.join("static", "manifest.json")) as manifest_file:
-            manifest = json.load(manifest_file)
-
-        index = manifest["src/index.ts"]
-
-        return {
-            "js": url_for("static", filename=index["file"]),
-            "css": map(lambda f: url_for("static", filename=f), index["css"])
-        }
-    except FileNotFoundError:
-        return {
-            "js": "",
-            "css": ""
-        }
-
-
 @app.route("/")
 def index():
-    return render_template("index.html", bundle=get_app_bundle())
+    return render_template("index.html")
 
 
 @app.route("/learn/<int:id>")
@@ -51,7 +34,6 @@ def learn(id: int):
 
     return render_template(
         "learn.html",
-        bundle=get_app_bundle(),
         lessons_overview=lessons_overview,
         lesson=sent_lesson)
 
@@ -70,7 +52,6 @@ def practice_clip(id: int):
 def practice(id: int):
     return render_template(
         "practice.html",
-        bundle=get_app_bundle(),
         practices_overview=practices_overview,
         practice=practices[id])
 
@@ -79,7 +60,6 @@ def practice(id: int):
 def quiz(id: int):
     return render_template(
         "quiz.html",
-        bundle=get_app_bundle(),
         quiz=quizzes[id],
         quizzes_overview=quizzes_overview)
 
@@ -97,10 +77,7 @@ def quiz_submit(id: int):
 @app.route("/finish")
 def finish():
     global quiz_score
-    return render_template("finish.html", bundle=get_app_bundle(), score=quiz_score)
-# @app.route("/practice/<int:id>")
-# def practice(id: int):
-#     return render_template("practice.html", bundle=get_app_bundle(), id=id)
+    return render_template("finish.html", score=quiz_score)
 
 
 if app.config["DEBUG"]:
@@ -120,12 +97,3 @@ if app.config["DEBUG"]:
                 mimetype = static_response.headers["Content-Type"]
 
             return Response(static_response.content, mimetype=mimetype)
-
-
-# @app.route("/static/@vite/<path:url_path>")
-# def static_file(url_path):
-#     app.logger.info(url_path)
-#     response = requests.get(f"http://localhost:3000/static/@vite/{url_path}")
-
-
-#     return Response(response.content, mimetype="text/javascript")
