@@ -11,6 +11,6 @@ window.App = {
     import("./pages/practice").then((learn) => learn.default());
   },
   quiz() {
-    import("./pages/test").then((learn) => learn.default());
+    import("./pages/quiz").then((learn) => learn.default());
   },
 };
