@@ -1,4 +1,8 @@
+from os import path
 from typing import TypedDict, Dict, List
+
+from flask import Blueprint
+from .view import render_template
 
 
 class Practice(TypedDict):
@@ -21,3 +25,23 @@ practices_overview = list(map(
     # sort lessons by lesson id
     sorted(
         practices.items(), key=lambda x: x[0])))  # type: List[str]
+
+blueprint = Blueprint("practice", __name__)
+
+
+@blueprint.route("/practice/clip/<path:id>")
+def practice_clip(id: int):
+    clip_path = path.join("practices", f"{id}")
+    response = blueprint.send_static_file(clip_path)
+
+    response.mimetype = "audio/mp3"
+
+    return response
+
+
+@blueprint.route("/practice/<int:id>")
+def practice(id: int):
+    return render_template(
+        "practice.html",
+        practices_overview=practices_overview,
+        practice=practices[id])

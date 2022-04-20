@@ -9,7 +9,7 @@ from flask.wrappers import Response
 
 from .view import render_template
 from .learn import blueprint as learn_blueprint
-from .practice import practices, practices_overview
+from .practice import blueprint as practice_blueprint
 from .quiz import quizzes, quizzes_overview, quiz_score
 
 app = Flask(
@@ -26,24 +26,7 @@ def index():
 
 
 app.register_blueprint(learn_blueprint)
-
-
-@app.route("/practice/clip/<path:id>")
-def practice_clip(id: int):
-    clip_path = path.join("practices", f"{id}")
-    response = app.send_static_file(clip_path)
-
-    response.mimetype = "audio/mp3"
-
-    return response
-
-
-@app.route("/practice/<int:id>")
-def practice(id: int):
-    return render_template(
-        "practice.html",
-        practices_overview=practices_overview,
-        practice=practices[id])
+app.register_blueprint(practice_blueprint)
 
 
 @app.route("/quiz/<int:id>")
