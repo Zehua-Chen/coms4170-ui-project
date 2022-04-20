@@ -8,7 +8,7 @@ from flask import Flask, json, url_for, request
 from flask.wrappers import Response
 
 from .view import render_template
-from .teach import lessons, lessons_overview
+from .learn import blueprint as learn_blueprint
 from .practice import practices, practices_overview
 from .quiz import quizzes, quizzes_overview, quiz_score
 
@@ -25,17 +25,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/learn/<int:id>")
-def learn(id: int):
-    lesson = lessons[id]
-    sent_lesson = lesson.copy()
-
-    lesson["last_visited"] = str(datetime.now())
-
-    return render_template(
-        "learn.html",
-        lessons_overview=lessons_overview,
-        lesson=sent_lesson)
+app.register_blueprint(learn_blueprint)
 
 
 @app.route("/practice/clip/<path:id>")

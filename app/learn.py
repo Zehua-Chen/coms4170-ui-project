@@ -1,4 +1,8 @@
 from typing import Dict, TypedDict, List, Optional
+from datetime import datetime
+
+from flask import Blueprint
+from .view import render_template
 
 
 class Lesson(TypedDict):
@@ -58,3 +62,18 @@ lessons_overview = list(map(
     # sort lessons by lesson id
     sorted(
         lessons.items(), key=lambda x: x[0])))  # type: List[str]
+
+blueprint = Blueprint("learn", __name__)
+
+
+@blueprint.route("/learn/<int:id>")
+def learn(id: int):
+    lesson = lessons[id]
+    sent_lesson = lesson.copy()
+
+    lesson["last_visited"] = str(datetime.now())
+
+    return render_template(
+        "learn.html",
+        lessons_overview=lessons_overview,
+        lesson=sent_lesson)
