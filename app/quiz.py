@@ -20,14 +20,14 @@ quizzes = {
     1: {
         "id": 1,
         "title": "Question 1",
-        "subtitle":"Find the note you hear"
+        "subtitle":"Find the note you hear",
         "notes": [],
         "positions_to_click": []
     },
     2: {
         "id": 2,
         "title": "Question 2",
-        "subtitle":"Which two notes were played"
+        "subtitle":"Which two notes were played",
         "notes": [],
         "positions_to_click": []
     },
