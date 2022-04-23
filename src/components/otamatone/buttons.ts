@@ -56,8 +56,8 @@ export function buttons(
     const audio = getAudio(audios[position]);
 
     circle.on("click", async () => {
-      onPlay(position);
       await audio.play();
+      onPlay(position);
     });
 
     button.add(circle);

@@ -28,7 +28,9 @@ export default function learn() {
   });
 
   sidebar({ elements: lessons_overview, active: lesson.note });
+
   otamatone($("#otamatone"), {
+    positions: [position_to_click],
     onPlay: (position) => {
       if (position === position_to_click) {
         $("#next").removeAttr("disabled");
