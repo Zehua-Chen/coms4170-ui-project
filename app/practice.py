@@ -1,7 +1,7 @@
 from os import path
 from typing import TypedDict, Dict, List
 
-from flask import Blueprint
+from flask import Blueprint, current_app
 from .view import render_template
 
 
@@ -29,11 +29,11 @@ practices_overview = list(map(
 blueprint = Blueprint("practice", __name__)
 
 
-@blueprint.route("/practice/clip/<path:id>")
-def practice_clip(id: int):
-    clip_path = path.join("practices", f"{id}")
-    response = blueprint.send_static_file(clip_path)
+@blueprint.route("/practice/clip/<int:id>")
+def practice_clip(id):
+    clip_path = path.join("practices", f"{id}.mp3")
 
+    response = current_app.send_static_file(clip_path)
     response.mimetype = "audio/mp3"
 
     return response
