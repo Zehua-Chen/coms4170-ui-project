@@ -1,6 +1,7 @@
+from os import path
 from typing import Dict, TypedDict, List
 
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from .view import render_template
 
 
@@ -106,6 +107,16 @@ def quiz(id: int):
         "quiz.html",
         quiz=quizzes[id],
         quizzes_overview=quizzes_overview)
+
+
+@blueprint.route("/quiz/clip/<int:id>")
+def quiz_clip(id: int):
+    clip_path = path.join("quiz", f"quiz{id}.mp3")
+
+    response = current_app.send_static_file(clip_path)
+    response.mimetype = "audio/mp3"
+
+    return response
 
 
 @blueprint.route("/quiz/submit/<int:id>", methods=["POST"])

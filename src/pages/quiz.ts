@@ -49,7 +49,7 @@ function practice(): void {
     .append(
       $("<audio controls />").append(
         $("<source />")
-          .attr("src", `/practice/clip/${id}.mp3`)
+          .attr("src", `/quiz/clip/${id}`)
           .attr("type", "audio/mpeg")
       )
     );

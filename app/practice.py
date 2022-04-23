@@ -31,7 +31,7 @@ blueprint = Blueprint("practice", __name__)
 
 @blueprint.route("/practice/clip/<int:id>")
 def practice_clip(id):
-    clip_path = path.join("practices", f"{id}.mp3")
+    clip_path = path.join("practice", f"practice{id}.mp3")
 
     response = current_app.send_static_file(clip_path)
     response.mimetype = "audio/mp3"
