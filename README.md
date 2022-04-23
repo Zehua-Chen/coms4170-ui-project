@@ -23,13 +23,13 @@
     components)
 - [app](app/): server
 
-### Where is `static`?
+### `static` and `src`
 
-Unlike a typical Flask application, we don't have a `static` folder to serve
-js/ts, css and media files. We use [Vite](https://vitejs.dev/) to manage these
+Unlike a typical Flask application, `static` does not serve serve js/ts, css and
+some of the media files. We use [Vite](https://vitejs.dev/) to manage these
 files
 
-- **In production**: Vite would create a static folder from `src/`
+- **In production**: Vite would create a `static/assets` folder from `src/`
 - **In development**: A vite server is started first using `src/index.ts` as
   entry point, and `templates/layout.html` has been configured to find the
   js/ts, css and media files from `localhost:3000`, where the Vite server is
