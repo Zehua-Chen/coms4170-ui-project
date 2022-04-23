@@ -9,7 +9,7 @@ function userInputs(inputs: number[]) {
 }
 
 function practice(): void {
-  navbar({ active: "Practice" });
+  navbar({ active: "Quiz" });
   const { data } = window.App;
 
   if (!data) {
