@@ -43,7 +43,7 @@ quizzes = {
     4: {
         "id": 4,
         "title": "quiz4",
-        "subtitle": "",
+        "subtitle": "Try to replicate the clip",
         "notes": [],
         "positions_to_click": []
     },
@@ -78,7 +78,7 @@ quiz_solutions = {
     },
     4: {
         "id": 4,
-        "solution": []
+        "solution": [3,4,3,4,5,3,4,5]
     },
     5: {
         "id": 5,

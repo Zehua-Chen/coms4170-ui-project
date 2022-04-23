@@ -14,9 +14,19 @@ class Practice(TypedDict):
 practices = {
     1: {
         "id": 1,
-        "title": "1",
+        "title": "Practice 1",
         "positions_to_click": [1, 2, 3]
-    }
+    },
+    2: {
+            "id": 2,
+            "title": "Practice 2",
+            "positions_to_click": [1, 1, 5,5,6,6,5]
+        },
+    3: {
+            "id": 3,
+            "title": "Practice 3",
+            "positions_to_click": [3,6,5,6,5,2]
+        }
 }  # type: Dict[int, Practice]
 
 
