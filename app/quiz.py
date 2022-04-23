@@ -42,22 +42,22 @@ quizzes = {
     },
     4: {
         "id": 4,
-        "title": "quiz4",
+        "title": "Question 4",
         "subtitle": "Try to replicate the clip",
         "notes": [],
         "positions_to_click": []
     },
     5: {
         "id": 5,
-        "title": "quiz5",
-        "subtitle": "",
+        "title": "Question 5",
+        "subtitle": "Try to replicate the clip",
         "notes": [],
         "positions_to_click": []
     },
     6: {
         "id": 6,
-        "title": "quiz6",
-        "subtitle": "",
+        "title": "Question 6",
+        "subtitle": "Try to replicate the clip",
         "notes": [],
         "positions_to_click": []
     }
