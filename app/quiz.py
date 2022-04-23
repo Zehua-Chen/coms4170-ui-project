@@ -19,19 +19,22 @@ class QuizSolution(TypedDict):
 quizzes = {
     1: {
         "id": 1,
-        "title": "quiz1",
+        "title": "Question 1",
+        "subtitle":"Find the note you hear"
         "notes": [],
         "positions_to_click": []
     },
     2: {
         "id": 2,
-        "title": "quiz2",
+        "title": "Question 2",
+        "subtitle":"Which two notes were played"
         "notes": [],
         "positions_to_click": []
     },
     3: {
         "id": 3,
-        "title": "quiz3",
+        "title": "Question 3",
+        "subtitle":"Play the three notes you hear in sequence",
         "notes": [],
         "positions_to_click": []
     },
@@ -58,15 +61,15 @@ quizzes = {
 quiz_solutions = {
     1: {
         "id": 1,
-        "solution": []
+        "solution": [1]
     },
     2: {
         "id": 2,
-        "solution": []
+        "solution": [1,2]
     },
     3: {
         "id": 3,
-        "solution": []
+        "solution": [3,4,5]
     },
     4: {
         "id": 4,
