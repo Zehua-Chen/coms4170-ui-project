@@ -82,11 +82,11 @@ quiz_solutions = {
     },
     5: {
         "id": 5,
-        "solution": []
+        "solution": [5,5,4,4,3,3,2]
     },
     6: {
         "id": 6,
-        "solution": []
+        "solution": [2,7,6,5,2]
     }
 }  # type: Dict[int, QuizSolution]
 
