@@ -9,6 +9,7 @@ export { Position, OtamatoneConfiguration };
 
 const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
+const STICK_STROKE_WIDTH = 1;
 const BUTTON_SIZE = 20;
 const CIRCLE_SIZE = 250;
 const EYE_SIZE = 20;
@@ -68,6 +69,32 @@ function createHead(): Konva.Group {
   root.add(mouth);
 
   return root;
+}
+
+function createTail(): Konva.Line {
+  const tail = new Konva.Line({
+    points: [
+      // point 0
+      0, 0,
+      // point 1
+      90, 0,
+      // point 2
+      100, 10,
+      // point 3
+      100, 20,
+      // point 4
+      90, 60,
+      // point 5
+      120, 70,
+    ],
+    tension: 0.3,
+    stroke: "gray",
+    strokeWidth: STICK_HEIGHT + STICK_STROKE_WIDTH * 2,
+    y: STICK_HEIGHT / 2,
+    x: STICK_WIDTH,
+  });
+
+  return tail;
 }
 
 /**
@@ -143,10 +170,12 @@ export class OtamatoneComponent extends ClassComponent<
 
     this.stick = createStick(labels, onPlay, positions);
     const head = createHead();
+    const tail = createTail();
 
     this.otamatone = new Konva.Group();
     this.otamatone.add(this.stick);
     this.otamatone.add(head);
+    this.otamatone.add(tail);
 
     // add the shape to the layer
     this.layer.add(this.otamatone);
