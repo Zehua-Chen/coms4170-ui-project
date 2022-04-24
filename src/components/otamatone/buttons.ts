@@ -16,24 +16,6 @@ function xs(stickWidth: number, buttonSize: number) {
   }));
 }
 
-/**
- * Given an audio imported using `import a from "path"` syntax. Create an
- * `HTMLAudioElement`
- * @param audio the audio file
- * @returns
- */
-function getAudio(audio: string): HTMLAudioElement {
-  // Vite import returns a relative url. For development, where assets are
-  // served from a different address from the flask server, this would cause
-  // issues if it is not modified
-  const audioFile =
-    import.meta.env.MODE === "development"
-      ? `http://localhost:3000${audio}`
-      : audio;
-
-  return new Audio(audioFile);
-}
-
 export function buttons(
   stickWidth: number,
   stickHeight: number,
@@ -53,7 +35,7 @@ export function buttons(
       fill: "blue",
     });
 
-    const audio = getAudio(audios[position]);
+    const audio = new Audio(audios[position]);
 
     circle.on("click", async () => {
       await audio.play();
