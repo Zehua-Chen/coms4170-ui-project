@@ -10,12 +10,62 @@ export { Position, OtamatoneConfiguration };
 const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
 const BUTTON_SIZE = 20;
+const CIRCLE_SIZE = 250;
+const EYE_SIZE = 20;
 
 /**
- * Create the circle of otamatone
+ * Create the head of otamatone
  */
-function createCircle(): Konva.Group {
+function createHead(): Konva.Group {
   const root = new Konva.Group();
+
+  const face = new Konva.Circle({
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    stroke: "black",
+    x: -(CIRCLE_SIZE / 2),
+    y: STICK_HEIGHT / 2,
+  });
+
+  const eye1 = new Konva.Circle({
+    width: EYE_SIZE,
+    height: EYE_SIZE,
+    fill: "black",
+    x: -(CIRCLE_SIZE / 3),
+    y: -30,
+  });
+
+  const eye2 = new Konva.Circle({
+    width: EYE_SIZE,
+    height: EYE_SIZE,
+    fill: "black",
+    x: -(CIRCLE_SIZE / 3),
+    y: 30 + STICK_HEIGHT / 2,
+  });
+
+  const mouth = new Konva.Line({
+    points: [
+      // point 1
+      0,
+      CIRCLE_SIZE / 3,
+      // point 2
+      -20,
+      0,
+      // point 3
+      0,
+      -CIRCLE_SIZE / 3,
+    ],
+    tension: 0.3,
+    stroke: "black",
+    strokeWidth: 3,
+    x: -(CIRCLE_SIZE / 1.7),
+    y: STICK_HEIGHT / 2,
+  });
+
+  root.add(face);
+  root.add(eye1);
+  root.add(eye2);
+  root.add(mouth);
 
   return root;
 }
@@ -61,6 +111,7 @@ export class OtamatoneComponent extends ClassComponent<
   private stage: Konva.Stage;
   private layer: Konva.Layer;
   private otamatone: Konva.Group;
+  private stick: Konva.Group;
 
   constructor(
     root: JQuery<HTMLDivElement>,
@@ -83,19 +134,19 @@ export class OtamatoneComponent extends ClassComponent<
 
     this.stage = new Konva.Stage({
       container: rootElement,
-      height: 200,
+      height: CIRCLE_SIZE + 50,
       width: rootElement.clientWidth,
     });
 
     this.layer = new Konva.Layer({});
     this.stage.add(this.layer);
 
-    const stick = createStick(labels, onPlay, positions);
-    const circle = createCircle();
+    this.stick = createStick(labels, onPlay, positions);
+    const head = createHead();
 
     this.otamatone = new Konva.Group();
-    this.otamatone.add(stick);
-    this.otamatone.add(circle);
+    this.otamatone.add(this.stick);
+    this.otamatone.add(head);
 
     // add the shape to the layer
     this.layer.add(this.otamatone);
@@ -126,8 +177,8 @@ export class OtamatoneComponent extends ClassComponent<
   #setOtamatonePosition(x: number, y: number): void {
     this.otamatone.x(x);
     this.otamatone.y(y);
-    this.otamatone.offsetX(this.otamatone.getClientRect().width / 2);
-    this.otamatone.offsetY(this.otamatone.getClientRect().height / 2);
+    this.otamatone.offsetX(this.stick.getClientRect().width / 2);
+    this.otamatone.offsetY(this.stick.getClientRect().height / 2);
   }
 }
 
