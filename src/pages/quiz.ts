@@ -44,6 +44,15 @@ function practice(): void {
       window.location.href = `/quiz/${nextID}`;
     }
   });
+  $("#redo").on("click", async (e) => {
+    e.preventDefault();
+    console.log(positionsClicked)
+    while(positionsClicked.length > 0) {
+      positionsClicked.pop();
+    }
+    console.log(positionsClicked)
+    $("#next").attr("disabled","disabled");
+  });
 
   $("#clip")
     .empty()
