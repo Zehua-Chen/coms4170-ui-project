@@ -123,7 +123,12 @@ def quiz_submit(id: int):
     global quiz_score
     _solution = request.json
     if (list(_solution) == quiz_solutions[id]["solution"]):
-        quiz_score[id-1] = 1
+        if id<4:
+            quiz_score[id-1] = 1
+        elif id<6:
+            quiz_score[id-1] = 2
+        else:
+            quiz_score[id-1] = 3
     else:
         quiz_score[id-1] = 0
     print( _solution, quiz_solutions[id]["solution"], quiz_score )
@@ -134,4 +139,4 @@ def quiz_submit(id: int):
 @blueprint.route("/quiz/finish")
 def finish():
     global quiz_score
-    return render_template("finish.html", score=sum(quiz_score))
+    return render_template("finish.html", score=sum(quiz_score),scores=quiz_score)
