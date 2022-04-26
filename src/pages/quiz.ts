@@ -35,6 +35,7 @@ function practice(): void {
       headers: {
         "Content-Type": "application/json",
       },
+      
     });
 
     if (nextID > quizzes_overview.length) {

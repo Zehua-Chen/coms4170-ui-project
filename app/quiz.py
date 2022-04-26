@@ -66,19 +66,19 @@ quizzes = {
 quiz_solutions = {
     1: {
         "id": 1,
-        "solution": [1]
+        "solution": [4]
     },
     2: {
         "id": 2,
-        "solution": [1, 2]
+        "solution": [1, 2, 1 ,2 ,1]
     },
     3: {
         "id": 3,
-        "solution": [3, 4, 5]
+        "solution": [3,4,3,4,5]
     },
     4: {
         "id": 4,
-        "solution": [3,4,3,4,5,3,4,5]
+        "solution": [3,4,3,4,5]
     },
     5: {
         "id": 5,
@@ -90,7 +90,7 @@ quiz_solutions = {
     }
 }  # type: Dict[int, QuizSolution]
 
-quiz_score = 0
+quiz_score = [0]*len(quiz_solutions)
 
 quizzes_overview = list(map(
     lambda pair: pair[1]["title"],
@@ -115,7 +115,6 @@ def quiz_clip(id: int):
 
     response = current_app.send_static_file(clip_path)
     response.mimetype = "audio/mp3"
-
     return response
 
 
@@ -123,12 +122,16 @@ def quiz_clip(id: int):
 def quiz_submit(id: int):
     global quiz_score
     _solution = request.json
-    quiz_score += 1
-
+    if (list(_solution) == quiz_solutions[id]["solution"]):
+        quiz_score[id-1] = 1
+    else:
+        quiz_score[id-1] = 0
+    print( _solution, quiz_solutions[id]["solution"], quiz_score )
     return "", 200
+
 
 
 @blueprint.route("/quiz/finish")
 def finish():
     global quiz_score
-    return render_template("finish.html", score=quiz_score)
+    return render_template("finish.html", score=sum(quiz_score))
