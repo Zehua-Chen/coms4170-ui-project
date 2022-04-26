@@ -2,7 +2,7 @@ import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
-function userInputs(inputs: number[]) {
+function renderUserInputs(inputs: number[]) {
   $("#user-inputs")
     .empty()
     .append(inputs.map((input) => $("<span />").text(input)));
@@ -48,7 +48,12 @@ function practice(): void {
     onPlay(position) {
       positionsClicked.push(position);
 
-      userInputs(positionsClicked);
+      if (positionsClicked.length > positions_to_click.length) {
+        positionsClicked.splice(0, positionsClicked.length);
+        positionsClicked.push(position);
+      }
+
+      renderUserInputs(positionsClicked);
 
       if (
         JSON.stringify(positionsClicked) === JSON.stringify(positions_to_click)
