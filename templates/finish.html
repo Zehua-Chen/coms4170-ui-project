@@ -24,20 +24,15 @@ Sidebar
         <img src="https://thumbs.dreamstime.com/b/congratulations-banner-colorful-splash-stock-vector-congratulations-banner-colorful-splash-vector-157999321.jpg" width="70%">
       </div>
       <div class="line"> </div>
-      <div class="text"> 
+      <div class="text">
         <b> You have accomplished this tutorial! Now you know how to play otamatone! </b>
         <div class="score"> your tutorial score is : {{ score }}/10</div>
-        <div class="score"> Question 1 : {{ scores[0] }}/1</div>
-        <div class="score"> Question 2 : {{ scores[1] }}/1</div>
-        <div class="score"> Question 3 : {{ scores[2] }}/1</div>
-        <div class="score"> Question 4 : {{ scores[3] }}/2</div>
-        <div class="score"> Question 5 : {{ scores[4] }}/2</div>
-        <div class="score"> Question 6 : {{ scores[5] }}/3</div>
+        {% for question_score in scores %}
+          <div class="score"> Question {{ loop.index }} : {{ question_score }}/1</div>
+        {% endfor %}
       </div>
-      
+
     </div>
   </div>
 </div>
 {% endblock %}
-
-
