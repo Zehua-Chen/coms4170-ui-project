@@ -31,10 +31,7 @@ function practice(): void {
 
     await fetch(`/quiz/submit/${id}`, {
       method: "POST",
-      body: JSON.stringify({
-        id,
-        submission: positionsClicked,
-      }),
+      body: JSON.stringify(positionsClicked),
       headers: {
         "Content-Type": "application/json",
       },

@@ -20,12 +20,12 @@ Sidebar
 <div class="container">
   <div class="row">
     <div class="col">
-      <div class="photo">
-        <img src="https://thumbs.dreamstime.com/b/congratulations-banner-colorful-splash-stock-vector-congratulations-banner-colorful-splash-vector-157999321.jpg" width="70%">
-      </div>
-      <div class="line"> </div>
       <div class="text">
-        <b> You have accomplished this tutorial! Now you know how to play otamatone! </b>
+        <div>Total score {{ score }} / {{ total_score }}</div>
+        <div>
+          <b>You have accomplished this tutorial! Now you know how to play otamatone!</b>
+        </div>
+
         <div class="score"> your tutorial score is : {{ score }}/10</div>
         {% for question_score in scores %}
           <div class="score"> Question {{ loop.index }} : {{ question_score }}/1</div>
