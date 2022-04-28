@@ -6,12 +6,16 @@ from flask import Blueprint, request, current_app
 from .view import render_template
 
 
-class Quiz(TypedDict):
+class QuizQuestion(TypedDict):
     id: int
     title: str
     subtitle: str
     notes: list
     positions_to_click: list
+    weight: int
+    """The score that this question contributes to the total score if it is
+    answered correctly
+    """
 
 
 class QuizSolution(TypedDict):
@@ -24,50 +28,56 @@ class QuizSubmission(TypedDict):
     submission: List[int]
 
 
-quizzes = {
+quiz_questions = {
     1: {
         "id": 1,
         "title": "Question 1",
         "subtitle": "Find the note you hear",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 1,
     },
     2: {
         "id": 2,
         "title": "Question 2",
         "subtitle": "Which two notes were played",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 1,
     },
     3: {
         "id": 3,
         "title": "Question 3",
         "subtitle": "Play the three notes you hear in sequence",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 1,
     },
     4: {
         "id": 4,
         "title": "Question 4",
         "subtitle": "Try to replicate the clip",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 2,
     },
     5: {
         "id": 5,
         "title": "Question 5",
         "subtitle": "Try to replicate the clip",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 2,
     },
     6: {
         "id": 6,
         "title": "Question 6",
         "subtitle": "Try to replicate the clip",
         "notes": [],
-        "positions_to_click": []
+        "positions_to_click": [],
+        "weight": 3,
     }
-}  # type: Dict[int, Quiz]
+}  # type: Dict[int, QuizQuestion]
 
 quiz_solutions = {
     1: {
@@ -102,7 +112,7 @@ quizzes_overview = list(map(
     lambda pair: pair[1]["title"],
     # sort lessons by lesson id
     sorted(
-        quizzes.items(), key=lambda x: x[0])))  # type: List[str]
+        quiz_questions.items(), key=lambda x: x[0])))  # type: List[str]
 
 blueprint = Blueprint("quiz", __name__)
 
@@ -111,7 +121,7 @@ blueprint = Blueprint("quiz", __name__)
 def quiz(id: int):
     return render_template(
         "quiz.html",
-        quiz=quizzes[id],
+        question=quiz_questions[id],
         quizzes_overview=quizzes_overview)
 
 
@@ -142,12 +152,22 @@ def quiz_submit(id: int):
 @blueprint.route("/quiz/finish")
 def finish():
     global quiz_submissions
-    global quizzes
+    global quiz_questions
 
-    submitted_questions = set(quiz_submissions.keys())
-    questions = set(quizzes.keys())
+    submitted_question_ids = set(quiz_submissions.keys())
+    question_ids = set(quiz_questions.keys())
 
-    if len(questions.intersection(submitted_questions)) == len(quizzes):
-        return render_template("finish.html")
+    if len(question_ids.intersection(submitted_question_ids)) != len(question_ids):
+        return render_template("not-finish.html")
 
-    return render_template("not-finish.html")
+    score = 0
+
+    for submitted_quiz_id in quiz_submissions:
+        submission = quiz_submissions[submitted_quiz_id]["submission"]
+        solution = quiz_solutions[submitted_quiz_id]["solution"]
+        weight = quiz_questions[submitted_quiz_id]["weight"]
+
+        correct = 1 if submission == solution else 0
+        score += correct * weight
+
+    return render_template("finish.html", score=score)
