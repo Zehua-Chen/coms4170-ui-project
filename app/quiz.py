@@ -22,6 +22,16 @@ class QuizQuestion:
 
 
 @dataclass
+class QuizResult:
+    id: int
+    title: str
+    subtitle: str
+    submission: List[int]
+    solution: List[int]
+    weight: int
+
+
+@dataclass
 class QuizSolution:
     id: int
     solution: List[int]
@@ -141,7 +151,22 @@ def finish():
         correct = 1 if submission == solution else 0
         score += correct * weight
 
+    def question_to_result(question_id: int) -> QuizResult:
+        question = quiz_questions[question_id]
+        solution = quiz_solutions[question_id].solution
+
+        assert question.submission is not None
+
+        return QuizResult(
+            id=question.id,
+            title=question.title,
+            subtitle=question.subtitle,
+            submission=question.submission,
+            solution=solution,
+            weight=question.weight)
+
     return render_template(
         "finish.html",
         score=score,
-        total_score=10)
+        total_score=10,
+        results=map(question_to_result, quiz_questions))

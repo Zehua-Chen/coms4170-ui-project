@@ -21,15 +21,36 @@ Sidebar
   <div class="row">
     <div class="col">
       <div class="text">
-        <div>Total score {{ score }} / {{ total_score }}</div>
         <div>
           <b>You have accomplished this tutorial! Now you know how to play otamatone!</b>
         </div>
 
-        <div class="score"> your tutorial score is : {{ score }}/10</div>
-        {% for question_score in scores %}
-          <div class="score"> Question {{ loop.index }} : {{ question_score }}/1</div>
-        {% endfor %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Earned</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+              <tr>
+                <td>{{ result.title }}</td>
+                <td>0</td>
+                <td>{{ result.weight }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <thead>
+            <tr>
+              <th>Total</th>
+              <th>{{ score }}</th>
+              <th>{{ total_score }}</th>
+            </tr>
+          </thead>
+        </table>
+
       </div>
 
     </div>
