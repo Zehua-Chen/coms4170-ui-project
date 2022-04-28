@@ -1,5 +1,6 @@
 from os import path
 from typing import Dict, TypedDict, List
+from http.client import BAD_REQUEST, OK
 
 from flask import Blueprint, request, current_app
 from .view import render_template
@@ -15,7 +16,12 @@ class Quiz(TypedDict):
 
 class QuizSolution(TypedDict):
     id: int
-    solution: list
+    solution: List[int]
+
+
+class QuizSubmission(TypedDict):
+    id: int
+    submission: List[int]
 
 
 quizzes = {
@@ -70,27 +76,27 @@ quiz_solutions = {
     },
     2: {
         "id": 2,
-        "solution": [1, 2, 1 ,2 ,1]
+        "solution": [1, 2, 1, 2, 1]
     },
     3: {
         "id": 3,
-        "solution": [3,4,3,4,5]
+        "solution": [3, 4, 3, 4, 5]
     },
     4: {
         "id": 4,
-        "solution": [3,4,3,4,5]
+        "solution": [3, 4, 3, 4, 5]
     },
     5: {
         "id": 5,
-        "solution": [5,5,4,4,3,3,2]
+        "solution": [5, 5, 4, 4, 3, 3, 2]
     },
     6: {
         "id": 6,
-        "solution": [2,7,6,5,2]
+        "solution": [2, 7, 6, 5, 2]
     }
 }  # type: Dict[int, QuizSolution]
 
-quiz_score = [0]*len(quiz_solutions)
+quiz_submissions = {}  # type: Dict[int, QuizSubmission]
 
 quizzes_overview = list(map(
     lambda pair: pair[1]["title"],
@@ -120,23 +126,28 @@ def quiz_clip(id: int):
 
 @blueprint.route("/quiz/submit/<int:id>", methods=["POST"])
 def quiz_submit(id: int):
-    global quiz_score
-    _solution = request.json
-    if (list(_solution) == quiz_solutions[id]["solution"]):
-        if id<4:
-            quiz_score[id-1] = 1
-        elif id<6:
-            quiz_score[id-1] = 2
-        else:
-            quiz_score[id-1] = 3
-    else:
-        quiz_score[id-1] = 0
-    print( _solution, quiz_solutions[id]["solution"], quiz_score )
-    return "", 200
+    global quiz_submissions
 
+    if request.json is None:
+        return "", BAD_REQUEST
+
+    submission = request.json  # type: QuizSubmission
+    submission_id = submission["id"]
+
+    quiz_submissions[submission_id] = submission
+
+    return "", OK
 
 
 @blueprint.route("/quiz/finish")
 def finish():
-    global quiz_score
-    return render_template("finish.html", score=sum(quiz_score),scores=quiz_score)
+    global quiz_submissions
+    global quizzes
+
+    submitted_questions = set(quiz_submissions.keys())
+    questions = set(quizzes.keys())
+
+    if len(questions.intersection(submitted_questions)) == len(quizzes):
+        return render_template("finish.html")
+
+    return render_template("not-finish.html")
