@@ -1,9 +1,10 @@
+import { makeAutoObservable, autorun, action } from "mobx";
 import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
-function renderUserInputs(inputs: number[]) {
-  $("#user-inputs").empty().append(inputs.join(", "));
+class State {
+  positions: number[] = [];
 }
 
 function practice(): void {
@@ -22,7 +23,12 @@ function practice(): void {
   const { id, positions_to_click } = practice;
 
   const nextID = id + 1;
-  const positionsClicked: number[] = [];
+
+  const state = makeAutoObservable(new State());
+
+  autorun(() => {
+    $("#user-inputs").empty().append(state.positions.join(", "));
+  });
 
   $("#next").on("click", () => {
     if (nextID > practices_overview.length) {
@@ -33,8 +39,7 @@ function practice(): void {
   });
 
   $("#redo").on("click", () => {
-    positionsClicked.splice(0, positionsClicked.length);
-    renderUserInputs(positionsClicked);
+    state.positions.splice(0, state.positions.length);
   });
 
   $("#clip")
@@ -48,22 +53,20 @@ function practice(): void {
     );
 
   otamatone($("#otamatone"), {
-    onPlay(position) {
-      positionsClicked.push(position);
+    onPlay: action((position) => {
+      state.positions.push(position);
 
-      if (positionsClicked.length > positions_to_click.length) {
-        positionsClicked.splice(0, positionsClicked.length);
-        positionsClicked.push(position);
+      if (state.positions.length > positions_to_click.length) {
+        state.positions.splice(0, state.positions.length);
+        state.positions.push(position);
       }
 
-      renderUserInputs(positionsClicked);
-
       if (
-        JSON.stringify(positionsClicked) === JSON.stringify(positions_to_click)
+        JSON.stringify(state.positions) === JSON.stringify(positions_to_click)
       ) {
         $("#next").removeAttr("disabled");
       }
-    },
+    }),
   });
 
   sidebar({ elements: practices_overview, active: practice.title });
