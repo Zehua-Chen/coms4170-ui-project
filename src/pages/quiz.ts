@@ -1,11 +1,10 @@
+import { makeAutoObservable, autorun, action } from "mobx";
 import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
-function userInputs(inputs: number[]) {
-  $("#user-inputs")
-    .empty()
-    .append(inputs.map((input) => $("<span />").text(input)));
+class State {
+  positions: number[] = [];
 }
 
 function practice(): void {
@@ -24,14 +23,18 @@ function practice(): void {
   const { id } = quiz;
 
   const nextID = id + 1;
-  const positionsClicked: number[] = [];
+  const state = makeAutoObservable(new State());
+
+  autorun(() => {
+    $("#user-inputs").empty().append(state.positions.join(", "));
+  });
 
   $("#next").on("click", async (e) => {
     e.preventDefault();
 
     await fetch(`/quiz/submit/${id}`, {
       method: "POST",
-      body: JSON.stringify(positionsClicked),
+      body: JSON.stringify(state.positions),
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,9 +48,9 @@ function practice(): void {
   });
   $("#redo").on("click", async (e) => {
     e.preventDefault();
-    while (positionsClicked.length > 0) {
-      positionsClicked.pop();
-    }
+
+    state.positions.splice(0, state.positions.length);
+
     $("#next").attr("disabled", "disabled");
   });
 
@@ -63,9 +66,8 @@ function practice(): void {
 
   otamatone($("#otamatone"), {
     onPlay(position) {
-      positionsClicked.push(position);
+      state.positions.push(position);
 
-      userInputs(positionsClicked);
       $("#next").removeAttr("disabled");
 
       // if (
