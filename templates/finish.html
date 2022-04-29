@@ -41,7 +41,13 @@ Sidebar
           {% for result in results %}
             <tr class="{{ 'table-success' if result.earned == result.weight else 'table-danger' }}">
               <td>
-                <a href="#" data-micromodal-trigger="modal-{{ result.id }}">{{ result.title }}</a>
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal-{{ result.id }}"
+                >
+                  {{ result.title }}
+                </a>
               </td>
               <td>
                 <code class="text-dark">
@@ -64,57 +70,49 @@ Sidebar
   </div>
 
   {% for result in results %}
-    <!--
-      Snippet adopted from https://gist.github.com/ghosh/4f94cf497d7090359a5c9f81caf60699
-    -->
-    <div class="modal micromodal-slide" id="modal-{{ result.id }}" aria-hidden="true">
-      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-        <div
-          class="container bg-white rounded"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-1-title"
-        >
-          <div class="row mt-2">
-            <header class="col d-flex justify-content-between align-items-center">
-              <h1 class="" id="modal-1-title">
-                {{ result.title }}
-              </h1>
-              <a
-                aria-label="Close modal"
-                data-micromodal-close
-                href="#!"
-              >
-                <i class="bi bi-x-lg"></i>
-              </a>
-            </header>
+    <div
+      class="modal fade"
+      id="modal-{{ result.id }}"
+      tabindex="-1"
+      aria-labelledby="modal-{{ result.id }}"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title" id="exampleModalLabel">{{ result.title }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <main class="mt-2 mb-2" id="modal-1-content">
-            <p>{{ result.subtitle }}</p>
-            <audio controls>
-              <source src="/quiz/clip/{{ result.id }}" type="audio/mpeg">
-            </audio>
-            <h2>Your Answer</h2>
-            <p>{{ result.submission }}</p>
-            <h2>Correct Answer</h2>
-            <p>{{ result.solution }}</p>
-          </main>
-          <footer>
-            <a
-              class="btn btn-primary"
-              href="/quiz/{{ result.id }}"
-              aria-label="Go to {{ result.title }}"
-            >
-              Go
-            </a>
-            <button
-              class="btn btn-secondary"
-              data-micromodal-close
-              aria-label="Close this dialog window"
-            >
-              Close
-            </button>
-          </footer>
+          <div class="modal-body container">
+            <div class="row">
+              <div class="col text-center">
+                <p>{{ result.subtitle }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col text-center">
+                <audio controls>
+                  <source src="/quiz/clip/{{ result.id }}" type="audio/mpeg">
+                </audio>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col">
+                <ul>
+                  <li>
+                    <b>Your response:</b> {{ result.submission }}
+                  </li>
+                  <li>
+                    <b>Solution: </b> {{ result.solution }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a type="button" class="btn btn-primary" href="/quiz/{{ result.id }}">Go</a>
+          </div>
         </div>
       </div>
     </div>

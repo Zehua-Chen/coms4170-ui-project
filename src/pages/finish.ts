@@ -1,7 +1,3 @@
-import MicroModal from "micromodal";
-
-function finish() {
-  MicroModal.init({});
-}
+function finish() {}
 
 export default finish;
