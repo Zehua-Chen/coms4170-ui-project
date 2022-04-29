@@ -3,7 +3,7 @@ from os import path
 import requests
 
 from datetime import datetime
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse
 from flask import Flask, json, url_for, request
 from flask.wrappers import Response
 
@@ -33,9 +33,9 @@ app.register_blueprint(quiz_blueprint)
 if app.config["DEBUG"]:
     @app.before_request
     def before_request():
-        if "static" in request.url:
-            parse_result = urlparse(request.url)
+        parse_result = urlparse(request.url)
 
+        if parse_result.path.startswith("/static"):
             static_url = f"http://localhost:3000{parse_result.path}?{parse_result.query}"
             static_url = static_url.replace("%40", "@")
 
