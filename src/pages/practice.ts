@@ -3,9 +3,7 @@ import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
 function renderUserInputs(inputs: number[]) {
-  $("#user-inputs")
-    .empty()
-    .append(inputs.map((input) => $("<span />").text(input)));
+  $("#user-inputs").empty().append(inputs.join(", "));
 }
 
 function practice(): void {
@@ -32,6 +30,11 @@ function practice(): void {
     } else {
       window.location.href = `/practice/${nextID}`;
     }
+  });
+
+  $("#redo").on("click", () => {
+    positionsClicked.splice(0, positionsClicked.length);
+    renderUserInputs(positionsClicked);
   });
 
   $("#clip")
