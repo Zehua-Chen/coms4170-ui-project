@@ -28,6 +28,7 @@ class QuizResult:
     subtitle: str
     submission: List[int]
     solution: List[int]
+    earned: int
     weight: int
 
 
@@ -139,11 +140,14 @@ def finish():
     global quiz_questions
 
     score = 0
+    results = []  # type: List[QuizResult]
 
     for question_id in quiz_questions:
-        submission = quiz_questions[question_id].submission
+        question = quiz_questions[question_id]
+        submission = question.submission
+        weight = question.weight
+
         solution = quiz_solutions[question_id].solution
-        weight = quiz_questions[question_id].weight
 
         if submission is None:
             return render_template("not-finish.html")
@@ -151,22 +155,19 @@ def finish():
         correct = 1 if submission == solution else 0
         score += correct * weight
 
-    def question_to_result(question_id: int) -> QuizResult:
-        question = quiz_questions[question_id]
-        solution = quiz_solutions[question_id].solution
-
-        assert question.submission is not None
-
-        return QuizResult(
+        results.append(QuizResult(
             id=question.id,
             title=question.title,
             subtitle=question.subtitle,
-            submission=question.submission,
+            submission=submission,
             solution=solution,
-            weight=question.weight)
+            earned=correct * weight,
+            weight=question.weight))
+
+    results = sorted(results, key=lambda result: result.id)
 
     return render_template(
         "finish.html",
         score=score,
         total_score=10,
-        results=map(question_to_result, quiz_questions))
+        results=results)
