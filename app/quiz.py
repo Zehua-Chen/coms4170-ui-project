@@ -1,102 +1,102 @@
 from os import path
-from typing import Dict, TypedDict, List
+from typing import Dict, Optional, List
+from http.client import BAD_REQUEST, OK
+from dataclasses import dataclass, replace
 
 from flask import Blueprint, request, current_app
 from .view import render_template
 
 
-class Quiz(TypedDict):
+@dataclass
+class QuizQuestion:
     id: int
     title: str
     subtitle: str
     notes: list
     positions_to_click: list
+    weight: int
+    """The score that this question contributes to the total score if it is
+    answered correctly
+    """
+    submission: Optional[List[int]] = None
 
 
-class QuizSolution(TypedDict):
+@dataclass
+class QuizResult:
     id: int
-    solution: list
+    title: str
+    subtitle: str
+    submission: List[int]
+    solution: List[int]
+    earned: int
+    weight: int
 
 
-quizzes = {
-    1: {
-        "id": 1,
-        "title": "Question 1",
-        "subtitle": "Find the note you hear",
-        "notes": [],
-        "positions_to_click": []
-    },
-    2: {
-        "id": 2,
-        "title": "Question 2",
-        "subtitle": "Which two notes were played",
-        "notes": [],
-        "positions_to_click": []
-    },
-    3: {
-        "id": 3,
-        "title": "Question 3",
-        "subtitle": "Play the three notes you hear in sequence",
-        "notes": [],
-        "positions_to_click": []
-    },
-    4: {
-        "id": 4,
-        "title": "Question 4",
-        "subtitle": "Try to replicate the clip",
-        "notes": [],
-        "positions_to_click": []
-    },
-    5: {
-        "id": 5,
-        "title": "Question 5",
-        "subtitle": "Try to replicate the clip",
-        "notes": [],
-        "positions_to_click": []
-    },
-    6: {
-        "id": 6,
-        "title": "Question 6",
-        "subtitle": "Try to replicate the clip",
-        "notes": [],
-        "positions_to_click": []
-    }
-}  # type: Dict[int, Quiz]
+@dataclass
+class QuizSolution:
+    id: int
+    solution: List[int]
+
+
+quiz_questions = {
+    1: QuizQuestion(
+        id=1,
+        title="Question 1",
+        subtitle="Find the note you hear",
+        notes=[],
+        positions_to_click=[],
+        weight=1),
+    2: QuizQuestion(
+        id=2,
+        title="Question 2",
+        subtitle="Which two notes were played",
+        notes=[],
+        positions_to_click=[],
+        weight=1),
+    3: QuizQuestion(
+        id=3,
+        title="Question 3",
+        subtitle="Play the three notes you hear in sequence",
+        notes=[],
+        positions_to_click=[],
+        weight=1),
+    4: QuizQuestion(
+        id=4,
+        title="Question 4",
+        subtitle="Try to replicate the clip",
+        notes=[],
+        positions_to_click=[],
+        weight=2),
+    5: QuizQuestion(
+        id=5,
+        title="Question 5",
+        subtitle="Try to replicate the clip",
+        notes=[],
+        positions_to_click=[],
+        weight=2),
+    6: QuizQuestion(
+        id=6,
+        title="Question 6",
+        subtitle="Try to replicate the clip",
+        notes=[],
+        positions_to_click=[],
+        weight=3),
+}  # type: Dict[int, QuizQuestion]
 
 quiz_solutions = {
-    1: {
-        "id": 1,
-        "solution": [4]
-    },
-    2: {
-        "id": 2,
-        "solution": [1, 2, 1 ,2 ,1]
-    },
-    3: {
-        "id": 3,
-        "solution": [3,4,3,4,5]
-    },
-    4: {
-        "id": 4,
-        "solution": [3,4,3,4,5]
-    },
-    5: {
-        "id": 5,
-        "solution": [5,5,4,4,3,3,2]
-    },
-    6: {
-        "id": 6,
-        "solution": [2,7,6,5,2]
-    }
+    1: QuizSolution(id=1, solution=[4]),
+    2: QuizSolution(id=2, solution=[1, 2, 1, 2, 1]),
+    3: QuizSolution(id=3, solution=[3, 4, 3, 4, 5]),
+    4: QuizSolution(id=4, solution=[3, 4, 3, 4, 5]),
+    5: QuizSolution(id=5, solution=[5, 5, 4, 4, 3, 3, 2]),
+    6: QuizSolution(id=6, solution=[2, 7, 6, 5, 2]),
 }  # type: Dict[int, QuizSolution]
 
-quiz_score = [0]*len(quiz_solutions)
-
 quizzes_overview = list(map(
-    lambda pair: pair[1]["title"],
+    lambda pair: pair[1].title,
     # sort lessons by lesson id
     sorted(
-        quizzes.items(), key=lambda x: x[0])))  # type: List[str]
+        quiz_questions.items(), key=lambda x: x[0])))  # type: List[str]
 
 blueprint = Blueprint("quiz", __name__)
 
@@ -105,7 +105,7 @@ blueprint = Blueprint("quiz", __name__)
 def quiz(id: int):
     return render_template(
         "quiz.html",
-        quiz=quizzes[id],
+        question=quiz_questions[id],
         quizzes_overview=quizzes_overview)
 
 
@@ -120,23 +120,54 @@ def quiz_clip(id: int):
 
 @blueprint.route("/quiz/submit/<int:id>", methods=["POST"])
 def quiz_submit(id: int):
-    global quiz_score
-    _solution = request.json
-    if (list(_solution) == quiz_solutions[id]["solution"]):
-        if id<4:
-            quiz_score[id-1] = 1
-        elif id<6:
-            quiz_score[id-1] = 2
-        else:
-            quiz_score[id-1] = 3
-    else:
-        quiz_score[id-1] = 0
-    print( _solution, quiz_solutions[id]["solution"], quiz_score )
-    return "", 200
+    global quiz_submissions
 
+    if request.json is None:
+        return "", BAD_REQUEST
+
+    submission = request.json  # type: dict
+    question = quiz_questions[id]
+    question = replace(question, submission=submission)
+
+    quiz_questions[id] = question
+
+    return "", OK
 
 
 @blueprint.route("/quiz/finish")
 def finish():
-    global quiz_score
-    return render_template("finish.html", score=sum(quiz_score),scores=quiz_score)
+    global quiz_submissions
+    global quiz_questions
+
+    score = 0
+    results = []  # type: List[QuizResult]
+
+    for question_id in quiz_questions:
+        question = quiz_questions[question_id]
+        submission = question.submission
+        weight = question.weight
+
+        solution = quiz_solutions[question_id].solution
+
+        if submission is None:
+            return render_template("not-finish.html")
+
+        correct = 1 if submission == solution else 0
+        score += correct * weight
+
+        results.append(QuizResult(
+            id=question.id,
+            title=question.title,
+            subtitle=question.subtitle,
+            submission=submission,
+            solution=solution,
+            earned=correct * weight,
+            weight=question.weight))
+
+    results = sorted(results, key=lambda result: result.id)
+
+    return render_template(
+        "finish.html",
+        score=score,
+        total_score=10,
+        results=results)

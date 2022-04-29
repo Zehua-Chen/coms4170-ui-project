@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<script>
+  $(() => {
+    App.data = {
+      type: "finish",
+    },
+
+    App.finish();
+  });
+</script>
+{% endblock %}
+
+{% block two_col_sidebar %}
+Sidebar
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      Please finish the quiz first!
+    </div>
+  </div>
+</div>
+{% endblock %}

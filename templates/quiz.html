@@ -5,7 +5,7 @@
   $(() => {
     App.data = {
       type: "quiz",
-      quiz: {{ quiz | tojson }},
+      quiz: {{ question | tojson }},
       quizzes_overview: {{ quizzes_overview | tojson }}
     },
 
@@ -21,7 +21,7 @@ Sidebar
 {% block two_col_content %}
 <div class="row">
   <div class="col text-center">
-    <h1 id="title">{{ quiz.title }}</h1>
+    <h1 id="title">{{ question.title }}</h1>
   </div>
 </div>
 

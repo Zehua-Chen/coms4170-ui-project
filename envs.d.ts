@@ -9,7 +9,7 @@ module "*.mp3" {
 }
 
 namespace app {
-  type PageFunction = (...args: any[]) => void;
+  type PageFunction = (...args: any[]) => Promise<any>;
 
   interface Lesson {
     id: number;
@@ -55,6 +55,7 @@ interface AppNamespace {
   learn: app.PageFunction;
   practice: app.PageFunction;
   quiz: app.PageFunction;
+  finish: app.PageFunction;
 }
 
 interface Window {

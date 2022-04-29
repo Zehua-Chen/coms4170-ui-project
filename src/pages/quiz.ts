@@ -35,7 +35,6 @@ function practice(): void {
       headers: {
         "Content-Type": "application/json",
       },
-      
     });
 
     if (nextID > quizzes_overview.length) {
@@ -46,10 +45,10 @@ function practice(): void {
   });
   $("#redo").on("click", async (e) => {
     e.preventDefault();
-    while(positionsClicked.length > 0) {
+    while (positionsClicked.length > 0) {
       positionsClicked.pop();
     }
-    $("#next").attr("disabled","disabled");
+    $("#next").attr("disabled", "disabled");
   });
 
   $("#clip")
