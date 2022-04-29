@@ -1,16 +1,24 @@
 import "./index.scss";
 
 window.App = {
-  welcome() {
-    import("./pages/welcome").then((welcome) => welcome.default());
+  async welcome() {
+    const { default: welcome } = await import("./pages/welcome");
+    welcome();
   },
-  learn() {
-    import("./pages/learn").then((learn) => learn.default());
+  async learn() {
+    const { default: learn } = await import("./pages/learn");
+    learn();
   },
-  practice() {
-    import("./pages/practice").then((learn) => learn.default());
+  async practice() {
+    const { default: practice } = await import("./pages/practice");
+    practice();
   },
-  quiz() {
-    import("./pages/quiz").then((learn) => learn.default());
+  async quiz() {
+    const { default: quiz } = await import("./pages/quiz");
+    quiz();
+  },
+  async finish() {
+    const { default: finish } = await import("./pages/finish");
+    finish();
   },
 };
