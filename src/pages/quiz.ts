@@ -1,4 +1,4 @@
-import { makeAutoObservable, autorun, action } from "mobx";
+import { observable, autorun, action } from "mobx";
 import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
@@ -23,10 +23,10 @@ function practice(): void {
   const { id } = quiz;
 
   const nextID = id + 1;
-  const state = makeAutoObservable(new State());
+  const positions = observable([] as number[]);
 
   autorun(() => {
-    $("#user-inputs").empty().append(state.positions.join(", "));
+    $("#user-inputs").empty().append(positions.join(", "));
   });
 
   $("#next").on("click", async (e) => {
@@ -34,7 +34,7 @@ function practice(): void {
 
     await fetch(`/quiz/submit/${id}`, {
       method: "POST",
-      body: JSON.stringify(state.positions),
+      body: JSON.stringify(positions),
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,13 +46,17 @@ function practice(): void {
       window.location.href = `/quiz/${nextID}`;
     }
   });
-  $("#redo").on("click", async (e) => {
-    e.preventDefault();
 
-    state.positions.splice(0, state.positions.length);
+  $("#redo").on(
+    "click",
+    action((e: JQuery.ClickEvent) => {
+      e.preventDefault();
 
-    $("#next").attr("disabled", "disabled");
-  });
+      positions.splice(0, positions.length);
+
+      $("#next").attr("disabled", "disabled");
+    })
+  );
 
   $("#clip")
     .empty()
@@ -65,17 +69,11 @@ function practice(): void {
     );
 
   otamatone($("#otamatone"), {
-    onPlay(position) {
-      state.positions.push(position);
+    onPlay: action((position) => {
+      positions.push(position);
 
       $("#next").removeAttr("disabled");
-
-      // if (
-      //   JSON.stringify(positionsClicked) === JSON.stringify(quiz)
-      // ) {
-      //   $("#next").removeAttr("disabled");
-      // }
-    },
+    }),
   });
 
   sidebar({ elements: quizzes_overview, active: quiz.title });
