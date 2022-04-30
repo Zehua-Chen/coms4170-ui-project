@@ -17,13 +17,14 @@ const EYE_SIZE = 20;
 /**
  * Create the head of otamatone
  */
-function createHead(): Konva.Group {
+function createHead(primary: string, secondary: string): Konva.Group {
   const root = new Konva.Group();
 
   const face = new Konva.Circle({
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
-    stroke: "black",
+    stroke: primary,
+    fill: primary,
     x: -(CIRCLE_SIZE / 2),
     y: STICK_HEIGHT / 2,
   });
@@ -31,7 +32,7 @@ function createHead(): Konva.Group {
   const eye1 = new Konva.Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
-    fill: "black",
+    fill: secondary,
     x: -(CIRCLE_SIZE / 3),
     y: -30,
   });
@@ -39,7 +40,7 @@ function createHead(): Konva.Group {
   const eye2 = new Konva.Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
-    fill: "black",
+    fill: secondary,
     x: -(CIRCLE_SIZE / 3),
     y: 30 + STICK_HEIGHT / 2,
   });
@@ -57,7 +58,7 @@ function createHead(): Konva.Group {
       -CIRCLE_SIZE / 3,
     ],
     tension: 0.3,
-    stroke: "black",
+    stroke: secondary,
     strokeWidth: 3,
     x: -(CIRCLE_SIZE / 1.7),
     y: STICK_HEIGHT / 2,
@@ -71,7 +72,7 @@ function createHead(): Konva.Group {
   return root;
 }
 
-function createTail(): Konva.Line {
+function createTail(primary: string): Konva.Line {
   const tail = new Konva.Line({
     points: [
       // point 0
@@ -88,7 +89,7 @@ function createTail(): Konva.Line {
       120, 70,
     ],
     tension: 0.3,
-    stroke: "gray",
+    stroke: primary,
     strokeWidth: STICK_HEIGHT + STICK_STROKE_WIDTH * 2,
     y: STICK_HEIGHT / 2,
     x: STICK_WIDTH,
@@ -107,7 +108,9 @@ function createTail(): Konva.Line {
 function createStick(
   labels: Labels,
   onPlay: OnPlay,
-  positions: readonly number[]
+  positions: readonly number[],
+  primary: string,
+  secondary: string
 ): Konva.Group {
   const stick = new Konva.Group();
 
@@ -116,16 +119,21 @@ function createStick(
     y: 0,
     width: STICK_WIDTH,
     height: STICK_HEIGHT,
-    fill: "white",
-    stroke: "black",
+    fill: primary,
+    stroke: primary,
     strokeWidth: 2,
   });
 
   stick.add(stickRect);
   stick.add(
-    ...buttons(STICK_WIDTH, STICK_HEIGHT, BUTTON_SIZE, labels, onPlay).filter(
-      (button) => positions.includes(button.getAttr("stickPosition"))
-    )
+    ...buttons(
+      STICK_WIDTH,
+      STICK_HEIGHT,
+      BUTTON_SIZE,
+      labels,
+      onPlay,
+      secondary
+    ).filter((button) => positions.includes(button.getAttr("stickPosition")))
   );
   return stick;
 }
@@ -154,6 +162,10 @@ export class OtamatoneComponent extends ClassComponent<
 
     root.empty();
 
+    const style = getComputedStyle(document.body);
+    const primary = style.getPropertyValue("--bs-primary");
+    const secondary = style.getPropertyValue("--bs-secondary");
+
     const rootElement = root.get()[0];
 
     this.observer = new ResizeObserver(this.#onResize.bind(this));
@@ -168,9 +180,9 @@ export class OtamatoneComponent extends ClassComponent<
     this.layer = new Konva.Layer({});
     this.stage.add(this.layer);
 
-    this.stick = createStick(labels, onPlay, positions);
-    const head = createHead();
-    const tail = createTail();
+    this.stick = createStick(labels, onPlay, positions, primary, secondary);
+    const head = createHead(primary, secondary);
+    const tail = createTail(primary);
 
     this.otamatone = new Konva.Group();
     this.otamatone.add(this.stick);

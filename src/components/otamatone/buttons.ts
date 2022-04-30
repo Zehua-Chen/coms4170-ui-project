@@ -21,7 +21,8 @@ export function buttons(
   stickHeight: number,
   buttonSize: number,
   labels: Labels,
-  onPlay: OnPlay
+  onPlay: OnPlay,
+  color: string
 ): Konva.Group[] {
   return xs(stickWidth, buttonSize).map(({ position, x }, index) => {
     const button = new Konva.Group();
@@ -32,7 +33,7 @@ export function buttons(
       y: stickHeight / 2,
       width: buttonSize,
       height: buttonSize,
-      fill: "blue",
+      fill: color,
     });
 
     const audio = new Audio(audios[position]);
