@@ -20,16 +20,12 @@ Sidebar
 
 {% block two_col_content %}
 <div class="row">
-  <div class="col text-center">
+  <div class="col text">
     <h1 id="title=">{{lesson.note}}</h1>
   </div>
 </div>
 
-<div class="row">
-  <div class="col text-center">
-    Last visited {{ lesson.last_visited }}
-  </div>
-</div>
+
 
 <div class="row">
   <div class="col">
@@ -43,6 +39,13 @@ Sidebar
       Next
       <i class="bi bi-skip-end-fill"></i>
     </button>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col text-center" id="visited">
+    Last visited {{ lesson.last_visited }}
   </div>
 </div>
 {% endblock %}
