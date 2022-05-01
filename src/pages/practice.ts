@@ -50,7 +50,7 @@ function practice(): void {
     "click",
     action(() => {
       positions.splice(0, positions.length);
-      $("#next").attr("disabled",true);
+      $("#next").attr("disabled","disabled");
     })
   );
 
