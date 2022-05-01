@@ -27,11 +27,23 @@ function practice(): void {
   });
 
   $("#next").on("click", () => {
-    if (nextID > practices_overview.length) {
-      window.location.href = "/quiz/1";
-    } else {
-      window.location.href = `/practice/${nextID}`;
+    if (JSON.stringify(positions) === JSON.stringify(positions_to_click)){
+      if (nextID > practices_overview.length) {
+        window.location.href = "/quiz/1";
+      } else {
+        window.location.href = `/practice/${nextID}`;
+      }
+
     }
+    else{
+      alert("Please try again!");
+    }
+
+    // if (nextID > practices_overview.length) {
+    //   window.location.href = "/quiz/1";
+    // } else {
+    //   window.location.href = `/practice/${nextID}`;
+    // }
   });
 
   $("#redo").on(
@@ -60,9 +72,9 @@ function practice(): void {
         positions.push(position);
       }
 
-      if (JSON.stringify(positions) === JSON.stringify(positions_to_click)) {
-        $("#next").removeAttr("disabled");
-      }
+      // if (JSON.stringify(positions) === JSON.stringify(positions_to_click)) {
+      //   $("#next").removeAttr("disabled");
+      // }
     }),
   });
 
