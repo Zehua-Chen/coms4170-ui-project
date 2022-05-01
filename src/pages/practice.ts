@@ -50,6 +50,7 @@ function practice(): void {
     "click",
     action(() => {
       positions.splice(0, positions.length);
+      $("#next").attr("disabled",true);
     })
   );
 
@@ -72,9 +73,9 @@ function practice(): void {
         positions.push(position);
       }
 
-      // if (JSON.stringify(positions) === JSON.stringify(positions_to_click)) {
-      //   $("#next").removeAttr("disabled");
-      // }
+      if (positions.length>0) {
+        $("#next").removeAttr("disabled");
+      }
     }),
   });
 
