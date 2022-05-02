@@ -27,6 +27,12 @@ function practice(): void {
 
   autorun(() => {
     $("#user-inputs").empty().append(positions.join(", "));
+
+    if (positions.length === 0) {
+      $("#next").attr("disabled", "disabled");
+    } else {
+      $("#next").removeAttr("disabled");
+    }
   });
 
   $("#next").on("click", async (e) => {
@@ -53,8 +59,6 @@ function practice(): void {
       e.preventDefault();
 
       positions.splice(0, positions.length);
-
-      $("#next").attr("disabled", "disabled");
     })
   );
 
@@ -71,8 +75,6 @@ function practice(): void {
   otamatone($("#otamatone"), {
     onPlay: action((position) => {
       positions.push(position);
-
-      $("#next").removeAttr("disabled");
     }),
   });
 

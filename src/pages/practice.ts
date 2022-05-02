@@ -24,18 +24,22 @@ function practice(): void {
 
   autorun(() => {
     $("#user-inputs").empty().append(positions.join(", "));
+
+    if (positions.length === 0) {
+      $("#next").attr("disabled", "disabled");
+    } else {
+      $("#next").removeAttr("disabled");
+    }
   });
 
   $("#next").on("click", () => {
-    if (JSON.stringify(positions) === JSON.stringify(positions_to_click)){
+    if (JSON.stringify(positions) === JSON.stringify(positions_to_click)) {
       if (nextID > practices_overview.length) {
         window.location.href = "/quiz/1";
       } else {
         window.location.href = `/practice/${nextID}`;
       }
-
-    }
-    else{
+    } else {
       alert("Please try again!");
     }
 
@@ -50,7 +54,6 @@ function practice(): void {
     "click",
     action(() => {
       positions.splice(0, positions.length);
-      $("#next").attr("disabled","disabled");
     })
   );
 
@@ -71,10 +74,6 @@ function practice(): void {
       if (positions.length > positions_to_click.length) {
         positions.splice(0, positions.length);
         positions.push(position);
-      }
-
-      if (positions.length>0) {
-        $("#next").removeAttr("disabled");
       }
     }),
   });
