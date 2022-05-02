@@ -22,18 +22,19 @@ export function buttons(
   buttonSize: number,
   labels: Labels,
   onPlay: OnPlay,
-  color: string
+  color: string,
+  positions: readonly number[]
 ): Konva.Group[] {
   return xs(stickWidth, buttonSize).map(({ position, x }, index) => {
     const button = new Konva.Group();
-    button.setAttr("stickPosition", position);
+    const enable = positions.find((x) => x === position) !== undefined;
 
     const circle = new Konva.Circle({
       x,
       y: stickHeight / 2,
       width: buttonSize,
       height: buttonSize,
-      fill: color,
+      fill: enable ? color : "lightgray",
     });
 
     const audio = new Audio(audios[position]);
@@ -53,6 +54,7 @@ export function buttons(
         x,
         y: -20,
         align: "center",
+        fill: enable ? "black" : "lightgray",
       });
 
       text.offsetX(text.getWidth() / 2);

@@ -132,8 +132,9 @@ function createStick(
       BUTTON_SIZE,
       labels,
       onPlay,
-      secondary
-    ).filter((button) => positions.includes(button.getAttr("stickPosition")))
+      secondary,
+      positions
+    )
   );
   return stick;
 }
