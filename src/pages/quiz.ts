@@ -3,10 +3,6 @@ import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
 
-class State {
-  positions: number[] = [];
-}
-
 function practice(): void {
   navbar({ active: "Quiz" });
   const { data } = window.App;
