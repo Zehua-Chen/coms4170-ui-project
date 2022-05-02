@@ -2,6 +2,7 @@ import { observable, autorun, action } from "mobx";
 import navbar from "../components/navbar";
 import otamatone from "../components/otamatone";
 import sidebar from "../components/sidebar";
+import { equals } from "../utils";
 
 function practice(): void {
   navbar({ active: "Practice" });
@@ -33,7 +34,7 @@ function practice(): void {
   });
 
   $("#next").on("click", () => {
-    if (JSON.stringify(positions) === JSON.stringify(positions_to_click)) {
+    if (equals(positions, positions_to_click)) {
       if (nextID > practices_overview.length) {
         window.location.href = "/quiz/1";
       } else {
