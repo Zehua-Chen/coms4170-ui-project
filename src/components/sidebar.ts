@@ -22,7 +22,7 @@ export default function sidebar(config: SidebarConfiguration): JQuery {
     elements.map((element) =>
       $("<a href='#' />")
         .addClass("fs-5")
-        .addClass("sidebar-item")
+        .addClass("list-group-item")
         .addClass(element === active ? "active" : "")
         .text(element)
     )
