@@ -19,6 +19,7 @@ export default function navbar(config: NavbarConfiguration): JQuery {
   });
 
   link.addClass("active");
+  link.addClass("fw-bold");
 
   return root;
 }
