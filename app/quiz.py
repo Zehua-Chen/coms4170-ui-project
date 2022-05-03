@@ -86,8 +86,8 @@ quiz_questions = {
 
 quiz_solutions = {
     1: QuizSolution(id=1, solution=[4]),
-    2: QuizSolution(id=2, solution=[1, 2, 1, 2, 1]),
-    3: QuizSolution(id=3, solution=[3, 4, 3, 4, 5]),
+    2: QuizSolution(id=2, solution=[1, 2]),
+    3: QuizSolution(id=3, solution=[3, 4, 5]),
     4: QuizSolution(id=4, solution=[3, 4, 3, 4, 5]),
     5: QuizSolution(id=5, solution=[5, 5, 4, 4, 3, 3, 2]),
     6: QuizSolution(id=6, solution=[2, 7, 6, 5, 2]),
