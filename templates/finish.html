@@ -93,7 +93,7 @@ Sidebar
           <div class="modal-body container">
             <div class="row">
               <div class="col text-center">
-                <p>{{ result.subtitle }}</p>
+                Try <b>replicate the following clip</b>
               </div>
             </div>
             <div class="row">
@@ -107,10 +107,16 @@ Sidebar
               <div class="col">
                 <ul>
                   <li>
-                    <b>Your response:</b> {{ result.submission }}
+                    Your response:
+                    <code class="text-secondary">
+                      {{ result.submission }}
+                    </code>
                   </li>
                   <li>
-                    <b>Solution: </b> {{ result.solution }}
+                    Solution
+                    <code class="text-secondary">
+                      {{ result.solution }}
+                    </code>
                   </li>
                 </ul>
               </div>
