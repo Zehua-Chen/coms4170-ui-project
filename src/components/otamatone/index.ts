@@ -32,7 +32,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
   const eye1 = new Konva.Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
-    fill: secondary,
+    fill: "black",
     x: -(CIRCLE_SIZE / 3),
     y: -30,
   });
@@ -40,7 +40,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
   const eye2 = new Konva.Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
-    fill: secondary,
+    fill: "black",
     x: -(CIRCLE_SIZE / 3),
     y: 30 + STICK_HEIGHT / 2,
   });
@@ -58,7 +58,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
       -CIRCLE_SIZE / 3,
     ],
     tension: 0.3,
-    stroke: secondary,
+    stroke: "black",
     strokeWidth: 3,
     x: -(CIRCLE_SIZE / 1.7),
     y: STICK_HEIGHT / 2,
