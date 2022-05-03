@@ -50,7 +50,7 @@ quiz_questions = {
     2: QuizQuestion(
         id=2,
         title="Question 2",
-        subtitle="Which two notes <span class='fw-normal'>were played</span>",
+        subtitle="Play the two notes <span class='fw-normal'>you hear</span> in sequence",
         notes=[],
         positions_to_click=[],
         weight=1),
