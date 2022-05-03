@@ -56,8 +56,8 @@ Sidebar
                   {{ result.title }}
                 </a>
               </td>
-              <td class="{{ 'bg-success' if result.earned == result.weight else 'bg-danger' }}">
-                <code class="text-light">
+              <td class="{{ 'table-success' if result.earned == result.weight else 'table-danger' }}">
+                <code class="text-dark">
                   {{ result.earned }} / {{ result.weight }}
                 </code>
               </td>
@@ -66,7 +66,7 @@ Sidebar
           <tr>
             <th>Total</th>
             <th>
-              <code class="text-dark">
+              <code class="textgray">
                 {{ score }} / {{ total_score }}
               </code>
             </th>
