@@ -3,7 +3,7 @@ import sidebar from "../components/sidebar";
 import otamatone from "../components/otamatone";
 
 export default function learn() {
-  navbar({ active: "Music Scale" });
+  navbar({ active: "Learn" });
   const { data } = window.App;
 
   if (!data) {
