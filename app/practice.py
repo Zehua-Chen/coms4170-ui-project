@@ -3,6 +3,7 @@ from typing import TypedDict, Dict, List
 
 from flask import Blueprint, current_app
 from .view import render_template
+from .overview import OverviewItem
 
 
 class Practice(TypedDict):
@@ -15,26 +16,26 @@ practices = {
     1: {
         "id": 1,
         "title": "Practice 1",
-        "positions_to_click": [1,1,2,2,3,3]
+        "positions_to_click": [1, 1, 2, 2, 3, 3]
     },
     2: {
-            "id": 2,
-            "title": "Practice 2",
-            "positions_to_click": [1, 1, 5,5,6,6,5]
-        },
+        "id": 2,
+        "title": "Practice 2",
+        "positions_to_click": [1, 1, 5, 5, 6, 6, 5]
+    },
     3: {
-            "id": 3,
-            "title": "Practice 3",
-            "positions_to_click": [3,6,5,6,5,2]
-        }
+        "id": 3,
+        "title": "Practice 3",
+        "positions_to_click": [3, 6, 5, 6, 5, 2]
+    }
 }  # type: Dict[int, Practice]
 
 
 practices_overview = list(map(
-    lambda pair: pair[1]["title"],
+    lambda pair: OverviewItem(pair[0], pair[1]["title"]),
     # sort lessons by lesson id
     sorted(
-        practices.items(), key=lambda x: x[0])))  # type: List[str]
+        practices.items(), key=lambda x: x[0])))  # type: List[OverviewItem]
 
 blueprint = Blueprint("practice", __name__)
 

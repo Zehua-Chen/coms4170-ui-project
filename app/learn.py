@@ -1,8 +1,10 @@
 from typing import Dict, TypedDict, List, Optional
+from dataclasses import dataclass
 from datetime import datetime
 
 from flask import Blueprint
 from .view import render_template
+from .overview import OverviewItem
 
 
 class Lesson(TypedDict):
@@ -58,10 +60,10 @@ lessons = {
 }  # type: Dict[int, Lesson]
 
 lessons_overview = list(map(
-    lambda pair: pair[1]["note"],
+    lambda pair: OverviewItem(pair[0], pair[1]["note"]),
     # sort lessons by lesson id
     sorted(
-        lessons.items(), key=lambda x: x[0])))  # type: List[str]
+        lessons.items(), key=lambda x: x[0])))  # type: List[OverviewItem]
 
 blueprint = Blueprint("learn", __name__)
 

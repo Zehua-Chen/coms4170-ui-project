@@ -5,6 +5,7 @@ from dataclasses import dataclass, replace
 
 from flask import Blueprint, request, current_app
 from .view import render_template
+from .overview import OverviewItem
 
 
 @dataclass
@@ -93,10 +94,10 @@ quiz_solutions = {
 }  # type: Dict[int, QuizSolution]
 
 quizzes_overview = list(map(
-    lambda pair: pair[1].title,
+    lambda pair: OverviewItem(pair[0], pair[1].title),
     # sort lessons by lesson id
     sorted(
-        quiz_questions.items(), key=lambda x: x[0])))  # type: List[str]
+        quiz_questions.items(), key=lambda x: x[0])))  # type: List[OverviewItem]
 
 blueprint = Blueprint("quiz", __name__)
 

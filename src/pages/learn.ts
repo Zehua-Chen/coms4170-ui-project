@@ -27,7 +27,10 @@ export default function learn() {
     }
   });
 
-  sidebar({ elements: lessons_overview, active: lesson.note });
+  sidebar(
+    { elements: lessons_overview, active: lesson.note },
+    (id) => `/learn/${id}`
+  );
 
   otamatone($("#otamatone"), {
     positions: [position_to_click],

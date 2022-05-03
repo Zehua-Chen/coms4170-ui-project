@@ -11,6 +11,11 @@ module "*.mp3" {
 namespace app {
   type PageFunction = (...args: any[]) => Promise<any>;
 
+  interface OverviewItem {
+    id: number;
+    name: string;
+  }
+
   interface Lesson {
     id: number;
     note: string;
@@ -20,7 +25,7 @@ namespace app {
   interface LearnData {
     type: "learn";
     lesson: Lesson;
-    lessons_overview: string[];
+    lessons_overview: OverviewItem[];
   }
 
   interface Practice {
@@ -32,7 +37,7 @@ namespace app {
   interface PracticeData {
     type: "practice";
     practice: Practice;
-    practices_overview: string[];
+    practices_overview: OverviewItem[];
   }
 
   interface Quiz {
@@ -43,7 +48,7 @@ namespace app {
   interface QuizData {
     type: "quiz";
     quiz: Quiz;
-    quizzes_overview: string[];
+    quizzes_overview: OverviewItem[];
   }
 
   type Data = LearnData | PracticeData | QuizData;

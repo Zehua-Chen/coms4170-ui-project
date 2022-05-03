@@ -74,7 +74,10 @@ function practice(): void {
     }),
   });
 
-  sidebar({ elements: quizzes_overview, active: quiz.title });
+  sidebar(
+    { elements: quizzes_overview, active: quiz.title },
+    (id) => `/quiz/${id}`
+  );
 }
 
 export default practice;

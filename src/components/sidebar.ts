@@ -1,5 +1,5 @@
 export interface SidebarConfiguration {
-  elements: string[];
+  elements: app.OverviewItem[];
   /**
    * If set, the nav link with `innerText` equal to this string will be given
    * `.active` class
@@ -12,7 +12,10 @@ export interface SidebarConfiguration {
  * @param config the configuration
  * @returns the sidebar
  */
-export default function sidebar(config: SidebarConfiguration): JQuery {
+export default function sidebar(
+  config: SidebarConfiguration,
+  link: (id: number) => string = () => "#!"
+): JQuery {
   const { elements, active = "" } = config;
 
   const root = $("#sidebar");
@@ -20,11 +23,12 @@ export default function sidebar(config: SidebarConfiguration): JQuery {
 
   root.append(
     elements.map((element) =>
-      $("<a href='#' />")
+      $("<a />")
         .addClass("fs-5")
         .addClass("list-group-item")
-        .addClass(element === active ? "active" : "")
-        .text(element)
+        .addClass(element.name === active ? "active" : "")
+        .attr("href", link(element.id))
+        .text(element.name)
     )
   );
 

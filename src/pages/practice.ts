@@ -79,7 +79,10 @@ function practice(): void {
     }),
   });
 
-  sidebar({ elements: practices_overview, active: practice.title });
+  sidebar(
+    { elements: practices_overview, active: practice.title },
+    (id) => `/practice/${id}`
+  );
 }
 
 export default practice;
