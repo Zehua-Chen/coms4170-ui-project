@@ -10,7 +10,6 @@ class Practice(TypedDict):
     id: int
     title: str
     positions_to_click: List[int]
-    count:int
 
 
 practices = {
@@ -18,19 +17,16 @@ practices = {
         "id": 1,
         "title": "Practice 1",
         "positions_to_click": [1, 1, 2, 2, 3, 3],
-        "count":3
     },
     2: {
         "id": 2,
         "title": "Practice 2",
         "positions_to_click": [1, 1, 5, 5, 6, 6, 5],
-        "count":3
     },
     3: {
         "id": 3,
         "title": "Practice 3",
         "positions_to_click": [3, 6, 5, 6, 5, 2],
-        "count":4
     }
 }  # type: Dict[int, Practice]
 

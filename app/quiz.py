@@ -14,7 +14,6 @@ class QuizQuestion:
     title: str
     subtitle: str
     notes: list
-    positions_to_click: list
     weight: int
     """The score that this question contributes to the total score if it is
     answered correctly
@@ -45,42 +44,36 @@ quiz_questions = {
         title="Question 1",
         subtitle="Find the note <span class='fw-normal'>you hear</span>",
         notes=[],
-        positions_to_click=[],
         weight=1),
     2: QuizQuestion(
         id=2,
         title="Question 2",
         subtitle="Play the two notes <span class='fw-normal'>you hear</span> in sequence",
         notes=[],
-        positions_to_click=[],
         weight=1),
     3: QuizQuestion(
         id=3,
         title="Question 3",
         subtitle="Play the three notes <span class='fw-normal'>you hear</span> in sequence",
         notes=[],
-        positions_to_click=[],
         weight=1),
     4: QuizQuestion(
         id=4,
         title="Question 4",
         subtitle="<span class='fw-normal'>Try to</span> replicate the clip",
         notes=[],
-        positions_to_click=[],
         weight=2),
     5: QuizQuestion(
         id=5,
         title="Question 5",
         subtitle="<span class='fw-normal'>Try to</span> replicate the clip",
         notes=[],
-        positions_to_click=[],
         weight=2),
     6: QuizQuestion(
         id=6,
         title="Question 6",
         subtitle="<span class='fw-normal'>Try to</span> replicate the clip",
         notes=[],
-        positions_to_click=[],
         weight=3),
 }  # type: Dict[int, QuizQuestion]
 
