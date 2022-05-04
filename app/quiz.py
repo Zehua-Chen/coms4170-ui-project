@@ -142,6 +142,7 @@ def finish():
 
     score = 0
     results = []  # type: List[QuizResult]
+    unfinished_questions = []  # type: List[QuizQuestion]
 
     for question_id in quiz_questions:
         question = quiz_questions[question_id]
@@ -151,7 +152,8 @@ def finish():
         solution = quiz_solutions[question_id].solution
 
         if submission is None:
-            return render_template("not-finish.html")
+            unfinished_questions.append(question)
+            continue
 
         correct = 1 if submission == solution else 0
         score += correct * weight
@@ -164,6 +166,9 @@ def finish():
             solution=solution,
             earned=correct * weight,
             weight=question.weight))
+
+    if len(unfinished_questions) > 0:
+        return render_template("not-finish.html", questions=unfinished_questions)
 
     results = sorted(results, key=lambda result: result.id)
 

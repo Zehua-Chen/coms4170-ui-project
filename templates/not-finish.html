@@ -29,5 +29,17 @@ Sidebar
       Please finish the quiz first.
     </div>
   </div>
+
+  <div class="row mt-4">
+    <div class="col">
+      <ul class="list-group">
+        {% for question in questions %}
+          <a class="list-group-item text-secondary" href="/quiz/{{ question.id }}">
+            {{ question.title }}
+          </a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
 {% endblock %}
