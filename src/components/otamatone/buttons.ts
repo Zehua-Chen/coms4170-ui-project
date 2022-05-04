@@ -39,6 +39,12 @@ export function buttons(
 
     let audio: HTMLAudioElement | null = null;
 
+    circle.on("mouseenter", () => {
+      if (!audio) {
+        audio = new Audio(audios[position]);
+      }
+    });
+
     circle.on("click", async () => {
       if (!audio) {
         audio = new Audio(audios[position]);
