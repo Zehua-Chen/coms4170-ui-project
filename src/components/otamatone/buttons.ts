@@ -1,4 +1,6 @@
-import Konva from "konva";
+import { Group } from "konva/lib/Group";
+import { Circle } from "konva/lib/shapes/Circle";
+import { Text } from "konva/lib/shapes/Text";
 import type { Labels, OnPlay } from "./configuration";
 import { allPositions } from "./configuration";
 import audios from "./audios";
@@ -24,12 +26,12 @@ export function buttons(
   onPlay: OnPlay,
   color: string,
   positions: readonly number[]
-): Konva.Group[] {
+): Group[] {
   return xs(stickWidth, buttonSize).map(({ position, x }, index) => {
-    const button = new Konva.Group();
+    const button = new Group();
     const enable = positions.find((x) => x === position) !== undefined;
 
-    const circle = new Konva.Circle({
+    const circle = new Circle({
       x,
       y: stickHeight / 2,
       width: buttonSize,
@@ -59,7 +61,7 @@ export function buttons(
     const label = labels(position);
 
     if (label) {
-      const text = new Konva.Text({
+      const text = new Text({
         text: label,
         x,
         y: -20,

@@ -1,4 +1,9 @@
-import Konva from "konva";
+import { Group } from "konva/lib/Group";
+import { Layer } from "konva/lib/Layer";
+import { Stage } from "konva/lib/Stage";
+import { Circle } from "konva/lib/shapes/Circle";
+import { Line } from "konva/lib/shapes/Line";
+import { Rect } from "konva/lib/shapes/Rect";
 import { createComponentFromClass, ClassComponent } from "../component";
 import type { Position } from "./buttons";
 import { buttons } from "./buttons";
@@ -17,10 +22,10 @@ const EYE_SIZE = 20;
 /**
  * Create the head of otamatone
  */
-function createHead(primary: string, secondary: string): Konva.Group {
-  const root = new Konva.Group();
+function createHead(primary: string, secondary: string): Group {
+  const root = new Group();
 
-  const face = new Konva.Circle({
+  const face = new Circle({
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
     stroke: primary,
@@ -29,7 +34,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
     y: STICK_HEIGHT / 2,
   });
 
-  const eye1 = new Konva.Circle({
+  const eye1 = new Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
     fill: "black",
@@ -37,7 +42,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
     y: -30,
   });
 
-  const eye2 = new Konva.Circle({
+  const eye2 = new Circle({
     width: EYE_SIZE,
     height: EYE_SIZE,
     fill: "black",
@@ -45,7 +50,7 @@ function createHead(primary: string, secondary: string): Konva.Group {
     y: 30 + STICK_HEIGHT / 2,
   });
 
-  const mouth = new Konva.Line({
+  const mouth = new Line({
     points: [
       // point 1
       0,
@@ -72,8 +77,8 @@ function createHead(primary: string, secondary: string): Konva.Group {
   return root;
 }
 
-function createTail(primary: string): Konva.Line {
-  const tail = new Konva.Line({
+function createTail(primary: string): Line {
+  const tail = new Line({
     points: [
       // point 0
       0, 0,
@@ -106,16 +111,16 @@ function createTail(primary: string): Konva.Line {
  * @returns
  */
 function createStick(
-  stage: Konva.Stage,
+  stage: Stage,
   labels: Labels,
   onPlay: OnPlay,
   positions: readonly number[],
   primary: string,
   secondary: string
-): Konva.Group {
-  const stick = new Konva.Group();
+): Group {
+  const stick = new Group();
 
-  const stickRect = new Konva.Rect({
+  const stickRect = new Rect({
     x: 0,
     y: 0,
     width: STICK_WIDTH,
@@ -158,10 +163,10 @@ export class OtamatoneComponent extends ClassComponent<
   HTMLDivElement
 > {
   private observer: ResizeObserver;
-  private stage: Konva.Stage;
-  private layer: Konva.Layer;
-  private otamatone: Konva.Group;
-  private stick: Konva.Group;
+  private stage: Stage;
+  private layer: Layer;
+  private otamatone: Group;
+  private stick: Group;
 
   constructor(
     root: JQuery<HTMLDivElement>,
@@ -186,13 +191,13 @@ export class OtamatoneComponent extends ClassComponent<
     this.observer = new ResizeObserver(this.#onResize.bind(this));
     this.observer.observe(rootElement);
 
-    this.stage = new Konva.Stage({
+    this.stage = new Stage({
       container: rootElement,
       height: CIRCLE_SIZE + 50,
       width: rootElement.clientWidth,
     });
 
-    this.layer = new Konva.Layer({});
+    this.layer = new Layer({});
     this.stage.add(this.layer);
 
     this.stick = createStick(
@@ -206,7 +211,7 @@ export class OtamatoneComponent extends ClassComponent<
     const head = createHead(primary, secondary);
     const tail = createTail(primary);
 
-    this.otamatone = new Konva.Group();
+    this.otamatone = new Group();
     this.otamatone.add(this.stick);
     this.otamatone.add(head);
     this.otamatone.add(tail);
