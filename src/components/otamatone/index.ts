@@ -106,6 +106,7 @@ function createTail(primary: string): Konva.Line {
  * @returns
  */
 function createStick(
+  stage: Konva.Stage,
   labels: Labels,
   onPlay: OnPlay,
   positions: readonly number[],
@@ -124,6 +125,8 @@ function createStick(
     strokeWidth: 2,
   });
 
+  const defaultCursor = stage.container().style.cursor;
+
   stick.add(stickRect);
   stick.add(
     ...buttons(
@@ -134,8 +137,19 @@ function createStick(
       onPlay,
       secondary,
       positions
-    )
+    ).map((button) => {
+      button.on("mouseenter", () => {
+        stage.container().style.cursor = "pointer";
+      });
+
+      button.on("mouseleave", () => {
+        stage.container().style.cursor = defaultCursor;
+      });
+
+      return button;
+    })
   );
+
   return stick;
 }
 
@@ -181,7 +195,14 @@ export class OtamatoneComponent extends ClassComponent<
     this.layer = new Konva.Layer({});
     this.stage.add(this.layer);
 
-    this.stick = createStick(labels, onPlay, positions, primary, secondary);
+    this.stick = createStick(
+      this.stage,
+      labels,
+      onPlay,
+      positions,
+      primary,
+      secondary
+    );
     const head = createHead(primary, secondary);
     const tail = createTail(primary);
 
