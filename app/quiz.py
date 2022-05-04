@@ -97,9 +97,12 @@ blueprint = Blueprint("quiz", __name__)
 
 @blueprint.route("/quiz/<int:id>")
 def quiz(id: int):
+    solution = quiz_solutions[id]
+
     return render_template(
         "quiz.html",
         question=quiz_questions[id],
+        positions_to_click=len(solution.solution),
         quizzes_overview=quizzes_overview)
 
 

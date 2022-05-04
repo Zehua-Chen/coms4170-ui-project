@@ -15,7 +15,7 @@ function practice(): void {
     throw Error(`expect data type to be 'learn', got ${data.type}`);
   }
 
-  const { quiz, quizzes_overview } = data;
+  const { quiz, quizzes_overview, positions_to_click } = data;
   const { id } = quiz;
 
   const nextID = id + 1;
@@ -23,6 +23,9 @@ function practice(): void {
 
   autorun(() => {
     $("#user-inputs").empty().append(positions.join(", "));
+    $("#progress").text(
+      `${positions.length} out of ${positions_to_click} notes`
+    );
 
     if (positions.length === 0) {
       $("#next").attr("disabled", "disabled");

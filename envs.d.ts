@@ -48,6 +48,7 @@ namespace app {
   interface QuizData {
     type: "quiz";
     quiz: Quiz;
+    positions_to_click: number;
     quizzes_overview: OverviewItem[];
   }
 
