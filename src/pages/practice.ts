@@ -25,6 +25,9 @@ function practice(): void {
 
   autorun(() => {
     $("#user-inputs").empty().append(positions.join(", "));
+    $("#progress").text(
+      `${positions.length} out of ${positions_to_click.length} notes`
+    );
 
     if (positions.length === 0) {
       $("#next").attr("disabled", "disabled");
