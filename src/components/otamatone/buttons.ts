@@ -37,9 +37,13 @@ export function buttons(
       fill: enable ? color : "lightgray",
     });
 
-    const audio = new Audio(audios[position]);
+    let audio: HTMLAudioElement | null = null;
 
     circle.on("click", async () => {
+      if (!audio) {
+        audio = new Audio(audios[position]);
+      }
+
       await audio.play();
       onPlay(position);
     });
