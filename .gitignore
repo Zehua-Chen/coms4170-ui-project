@@ -10,3 +10,6 @@ static/assets/*.mp3
 static/manifest.json
 
 tsconfig.tsbuildinfo
+
+dist/
+*.zip
