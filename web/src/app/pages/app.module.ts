@@ -7,9 +7,12 @@ import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
 
 const routes = [
-  { path: 'learn', component: LearnPage },
-  { path: 'practice', component: PracticePage },
-  { path: 'quiz', component: QuizPage },
+  { path: 'learn', redirectTo: 'learn/1', pathMatch: 'full' },
+  { path: 'learn/:id', component: LearnPage },
+  { path: 'practice', redirectTo: 'practice/1', pathMatch: 'full' },
+  { path: 'practice/:id', component: PracticePage },
+  { path: 'quiz', redirectTo: 'quiz/1', pathMatch: 'full' },
+  { path: 'quiz/:id', component: QuizPage },
 ] as Routes;
 
 @NgModule({
