@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-page-learn',
-  templateUrl: './learn.component.html',
-  styleUrls: ['./learn.component.scss'],
+  selector: 'app-page-practice',
+  templateUrl: './practice.component.html',
+  styleUrls: ['./practice.component.scss'],
 })
-export class LearnPage implements OnInit {
+export class PracticePage implements OnInit {
   positions: number[] = [];
 
   constructor() {}
