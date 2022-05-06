@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { OtamatoneModule } from 'components/otamatone';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
-import { LearnComponent } from './pages/learn/learn.component';
 
 const routes: Routes = [
   {
@@ -10,12 +11,16 @@ const routes: Routes = [
   },
   {
     path: 'learn',
-    component: LearnComponent,
+    async loadChildren() {
+      const { LearnModule } = await import('./pages/learn/learn.module');
+      return LearnModule;
+    },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  declarations: [WelcomeComponent],
+  imports: [RouterModule.forRoot(routes), OtamatoneModule, MatButtonModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
