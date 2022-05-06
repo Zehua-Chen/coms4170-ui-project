@@ -14,156 +14,10 @@ import { Stage } from 'konva/lib/Stage';
 import { Circle } from 'konva/lib/shapes/Circle';
 import { Line } from 'konva/lib/shapes/Line';
 import { Rect } from 'konva/lib/shapes/Rect';
-import type { Position } from './buttons';
-import { buttons } from './buttons';
-import type { Labels } from './configuration';
+import { Text } from 'konva/lib/shapes/Text';
+import type { Labels, Position } from './configuration';
 import { allPositions } from './configuration';
-
-const STICK_WIDTH = 400;
-const STICK_HEIGHT = 20;
-const STICK_STROKE_WIDTH = 1;
-const BUTTON_SIZE = 20;
-const CIRCLE_SIZE = 250;
-const EYE_SIZE = 20;
-
-/**
- * Create the head of otamatone
- */
-function createHead(primary: string, secondary: string): Group {
-  const root = new Group();
-
-  const face = new Circle({
-    width: CIRCLE_SIZE,
-    height: CIRCLE_SIZE,
-    stroke: primary,
-    fill: primary,
-    x: -(CIRCLE_SIZE / 2),
-    y: STICK_HEIGHT / 2,
-  });
-
-  const eye1 = new Circle({
-    width: EYE_SIZE,
-    height: EYE_SIZE,
-    fill: 'black',
-    x: -(CIRCLE_SIZE / 3),
-    y: -30,
-  });
-
-  const eye2 = new Circle({
-    width: EYE_SIZE,
-    height: EYE_SIZE,
-    fill: 'black',
-    x: -(CIRCLE_SIZE / 3),
-    y: 30 + STICK_HEIGHT / 2,
-  });
-
-  const mouth = new Line({
-    points: [
-      // point 1
-      0,
-      CIRCLE_SIZE / 3,
-      // point 2
-      -20,
-      0,
-      // point 3
-      0,
-      -CIRCLE_SIZE / 3,
-    ],
-    tension: 0.3,
-    stroke: 'black',
-    strokeWidth: 3,
-    x: -(CIRCLE_SIZE / 1.7),
-    y: STICK_HEIGHT / 2,
-  });
-
-  root.add(face);
-  root.add(eye1);
-  root.add(eye2);
-  root.add(mouth);
-
-  return root;
-}
-
-function createTail(primary: string): Line {
-  const tail = new Line({
-    points: [
-      // point 0
-      0, 0,
-      // point 1
-      90, 0,
-      // point 2
-      100, 10,
-      // point 3
-      100, 20,
-      // point 4
-      90, 60,
-      // point 5
-      120, 70,
-    ],
-    tension: 0.3,
-    stroke: primary,
-    strokeWidth: STICK_HEIGHT + STICK_STROKE_WIDTH * 2,
-    y: STICK_HEIGHT / 2,
-    x: STICK_WIDTH,
-  });
-
-  return tail;
-}
-
-/**
- * Create the stick of otamaone and all the buttons on it
- * @param labels
- * @param onPlay
- * @param positions
- * @returns
- */
-function createStick(
-  stage: Stage,
-  labels: Labels,
-  onPlay: EventEmitter<number>,
-  positions: readonly number[],
-  primary: string,
-  secondary: string
-): Group {
-  const stick = new Group();
-
-  const stickRect = new Rect({
-    x: 0,
-    y: 0,
-    width: STICK_WIDTH,
-    height: STICK_HEIGHT,
-    fill: primary,
-    stroke: primary,
-    strokeWidth: 2,
-  });
-
-  const defaultCursor = stage.container().style.cursor;
-
-  stick.add(stickRect);
-  stick.add(
-    ...buttons(
-      STICK_WIDTH,
-      STICK_HEIGHT,
-      BUTTON_SIZE,
-      labels,
-      onPlay,
-      secondary,
-      positions
-    ).map((button) => {
-      button.on('mouseenter', () => {
-        stage.container().style.cursor = 'pointer';
-      });
-
-      button.on('mouseleave', () => {
-        stage.container().style.cursor = defaultCursor;
-      });
-
-      return button;
-    })
-  );
-
-  return stick;
-}
+import audios from './audios';
 
 @Component({
   selector: 'app-otamatone',
@@ -175,6 +29,24 @@ export class OtamatoneComponent implements AfterViewInit {
 
   @Input()
   labels: Labels = (position: Position) => `${position}`;
+
+  @Input()
+  stickWidth: number = 400;
+
+  @Input()
+  stickHeight: number = 20;
+
+  @Input()
+  stickStrokeWIdth: number = 1;
+
+  @Input()
+  buttonSize: number = 20;
+
+  @Input()
+  circleSize: number = 250;
+
+  @Input()
+  eyeSize: number = 20;
 
   @Output()
   onPlay: EventEmitter<Position> = new EventEmitter();
@@ -194,7 +66,7 @@ export class OtamatoneComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.stage = new Stage({
       container: this.content.nativeElement,
-      height: CIRCLE_SIZE + 50,
+      height: this.circleSize + 50,
       width: this.content.nativeElement.clientWidth,
     });
 
@@ -204,7 +76,7 @@ export class OtamatoneComponent implements AfterViewInit {
     const primary = 'lightblue';
     const secondary = 'orange';
 
-    this.stick = createStick(
+    this.stick = this.#createStick(
       this.stage,
       this.labels,
       this.onPlay,
@@ -213,8 +85,8 @@ export class OtamatoneComponent implements AfterViewInit {
       secondary
     );
 
-    const head = createHead(primary, secondary);
-    const tail = createTail(primary);
+    const head = this.#createHead(primary, secondary);
+    const tail = this.#createTail(primary);
 
     this.otamatone = new Group();
     this.otamatone.add(this.stick);
@@ -249,5 +121,205 @@ export class OtamatoneComponent implements AfterViewInit {
     this.otamatone.y(y);
     this.otamatone.offsetX(this.stick.getClientRect().width / 2);
     this.otamatone.offsetY(this.stick.getClientRect().height / 2);
+  }
+
+  #createHead(primary: string, secondary: string): Group {
+    const root = new Group();
+
+    const face = new Circle({
+      width: this.circleSize,
+      height: this.circleSize,
+      stroke: primary,
+      fill: primary,
+      x: -(this.circleSize / 2),
+      y: this.stickHeight / 2,
+    });
+
+    const eye1 = new Circle({
+      width: this.eyeSize,
+      height: this.eyeSize,
+      fill: 'black',
+      x: -(this.circleSize / 3),
+      y: -30,
+    });
+
+    const eye2 = new Circle({
+      width: this.eyeSize,
+      height: this.eyeSize,
+      fill: 'black',
+      x: -(this.circleSize / 3),
+      y: 30 + this.stickHeight / 2,
+    });
+
+    const mouth = new Line({
+      points: [
+        // point 1
+        0,
+        this.circleSize / 3,
+        // point 2
+        -20,
+        0,
+        // point 3
+        0,
+        -this.circleSize / 3,
+      ],
+      tension: 0.3,
+      stroke: 'black',
+      strokeWidth: 3,
+      x: -(this.circleSize / 1.7),
+      y: this.stickHeight / 2,
+    });
+
+    root.add(face);
+    root.add(eye1);
+    root.add(eye2);
+    root.add(mouth);
+
+    return root;
+  }
+
+  #createTail(primary: string): Line {
+    const tail = new Line({
+      points: [
+        // point 0
+        0, 0,
+        // point 1
+        90, 0,
+        // point 2
+        100, 10,
+        // point 3
+        100, 20,
+        // point 4
+        90, 60,
+        // point 5
+        120, 70,
+      ],
+      tension: 0.3,
+      stroke: primary,
+      strokeWidth: this.stickHeight + this.stickStrokeWIdth * 2,
+      y: this.stickHeight / 2,
+      x: this.stickWidth,
+    });
+
+    return tail;
+  }
+
+  #createStick(
+    stage: Stage,
+    labels: Labels,
+    onPlay: EventEmitter<number>,
+    positions: readonly number[],
+    primary: string,
+    secondary: string
+  ): Group {
+    const stick = new Group();
+
+    const stickRect = new Rect({
+      x: 0,
+      y: 0,
+      width: this.stickWidth,
+      height: this.stickHeight,
+      fill: primary,
+      stroke: primary,
+      strokeWidth: 2,
+    });
+
+    const defaultCursor = stage.container().style.cursor;
+
+    stick.add(stickRect);
+    stick.add(
+      ...this.#buttons(
+        this.stickWidth,
+        this.stickHeight,
+        this.buttonSize,
+        labels,
+        onPlay,
+        secondary,
+        positions
+      ).map((button) => {
+        button.on('mouseenter', () => {
+          stage.container().style.cursor = 'pointer';
+        });
+
+        button.on('mouseleave', () => {
+          stage.container().style.cursor = defaultCursor;
+        });
+
+        return button;
+      })
+    );
+
+    return stick;
+  }
+
+  #xs(stickWidth: number, buttonSize: number) {
+    const spaceCount = allPositions.length - 1;
+    const buttonSpace = allPositions.length * buttonSize;
+    const spaceWidth = (stickWidth - buttonSpace) / spaceCount;
+
+    return allPositions.map((position, index) => ({
+      position,
+      x: index * (spaceWidth + buttonSize) + buttonSize / 2,
+    }));
+  }
+
+  #buttons(
+    stickWidth: number,
+    stickHeight: number,
+    buttonSize: number,
+    labels: Labels,
+    onPlay: EventEmitter<number>,
+    color: string,
+    positions: readonly number[]
+  ): Group[] {
+    return this.#xs(stickWidth, buttonSize).map(({ position, x }, index) => {
+      const button = new Group();
+      const enable = positions.find((x) => x === position) !== undefined;
+
+      const circle = new Circle({
+        x,
+        y: stickHeight / 2,
+        width: buttonSize,
+        height: buttonSize,
+        fill: enable ? color : 'lightgray',
+      });
+
+      let audio: HTMLAudioElement | null = null;
+
+      circle.on('mouseenter', () => {
+        if (!audio) {
+          audio = new Audio(audios[position]);
+        }
+      });
+
+      circle.on('click', async () => {
+        if (!audio) {
+          audio = new Audio(audios[position]);
+        }
+
+        await audio.play();
+        onPlay.emit(position);
+      });
+
+      button.add(circle);
+
+      const label = labels(position);
+
+      if (label) {
+        const text = new Text({
+          text: label,
+          x,
+          y: -20,
+          align: 'center',
+          fill: enable ? 'black' : 'lightgray',
+        });
+
+        text.offsetX(text.getWidth() / 2);
+
+        button.add(text);
+      }
+
+      return button;
+    });
   }
 }
