@@ -1,4 +1,12 @@
-import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  AfterViewInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 import { Group } from 'konva/lib/Group';
 import { Layer } from 'konva/lib/Layer';
@@ -8,10 +16,8 @@ import { Line } from 'konva/lib/shapes/Line';
 import { Rect } from 'konva/lib/shapes/Rect';
 import type { Position } from './buttons';
 import { buttons } from './buttons';
-import type { Labels, OnPlay, OtamatoneConfiguration } from './configuration';
+import type { Labels } from './configuration';
 import { allPositions } from './configuration';
-
-export { Position, OtamatoneConfiguration };
 
 const STICK_WIDTH = 400;
 const STICK_HEIGHT = 20;
@@ -114,7 +120,7 @@ function createTail(primary: string): Line {
 function createStick(
   stage: Stage,
   labels: Labels,
-  onPlay: OnPlay,
+  onPlay: EventEmitter<number>,
   positions: readonly number[],
   primary: string,
   secondary: string
@@ -164,6 +170,15 @@ function createStick(
   templateUrl: './otamatone.component.html',
 })
 export class OtamatoneComponent implements AfterViewInit {
+  @Input()
+  positions: readonly Position[] = allPositions;
+
+  @Input()
+  labels: Labels = (position: Position) => `${position}`;
+
+  @Output()
+  onPlay: EventEmitter<Position> = new EventEmitter();
+
   @ViewChild('content')
   content!: ElementRef;
 
@@ -188,15 +203,12 @@ export class OtamatoneComponent implements AfterViewInit {
 
     const primary = 'lightblue';
     const secondary = 'orange';
-    const labels = (position: number) => `${position}`;
-    const onPlay = (position: number) => {};
-    const positions = [1, 2, 3, 4, 5, 6, 7];
 
     this.stick = createStick(
       this.stage,
-      labels,
-      onPlay,
-      positions,
+      this.labels,
+      this.onPlay,
+      this.positions,
       primary,
       secondary
     );

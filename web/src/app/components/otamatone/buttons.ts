@@ -1,7 +1,8 @@
+import { EventEmitter } from '@angular/core';
 import { Group } from 'konva/lib/Group';
 import { Circle } from 'konva/lib/shapes/Circle';
 import { Text } from 'konva/lib/shapes/Text';
-import type { Labels, OnPlay } from './configuration';
+import type { Labels } from './configuration';
 import { allPositions } from './configuration';
 import audios from './audios';
 
@@ -23,7 +24,7 @@ export function buttons(
   stickHeight: number,
   buttonSize: number,
   labels: Labels,
-  onPlay: OnPlay,
+  onPlay: EventEmitter<number>,
   color: string,
   positions: readonly number[]
 ): Group[] {
@@ -53,7 +54,7 @@ export function buttons(
       }
 
       await audio.play();
-      onPlay(position);
+      onPlay.emit(position);
     });
 
     button.add(circle);

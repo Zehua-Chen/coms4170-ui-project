@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-page-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent {
+  positions: number[] = [1, 2, 3];
+
   constructor() {}
 
-  ngOnInit(): void {}
+  onPlay(position: number): void {
+    this.positions.push(position);
+  }
 }
