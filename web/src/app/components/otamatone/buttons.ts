@@ -1,9 +1,9 @@
-import { Group } from "konva/lib/Group";
-import { Circle } from "konva/lib/shapes/Circle";
-import { Text } from "konva/lib/shapes/Text";
-import type { Labels, OnPlay } from "./configuration";
-import { allPositions } from "./configuration";
-import audios from "./audios";
+import { Group } from 'konva/lib/Group';
+import { Circle } from 'konva/lib/shapes/Circle';
+import { Text } from 'konva/lib/shapes/Text';
+import type { Labels, OnPlay } from './configuration';
+import { allPositions } from './configuration';
+import audios from './audios';
 
 export type Position = number;
 
@@ -36,18 +36,18 @@ export function buttons(
       y: stickHeight / 2,
       width: buttonSize,
       height: buttonSize,
-      fill: enable ? color : "lightgray",
+      fill: enable ? color : 'lightgray',
     });
 
     let audio: HTMLAudioElement | null = null;
 
-    circle.on("mouseenter", () => {
+    circle.on('mouseenter', () => {
       if (!audio) {
         audio = new Audio(audios[position]);
       }
     });
 
-    circle.on("click", async () => {
+    circle.on('click', async () => {
       if (!audio) {
         audio = new Audio(audios[position]);
       }
@@ -65,8 +65,8 @@ export function buttons(
         text: label,
         x,
         y: -20,
-        align: "center",
-        fill: enable ? "black" : "lightgray",
+        align: 'center',
+        fill: enable ? 'black' : 'lightgray',
       });
 
       text.offsetX(text.getWidth() / 2);

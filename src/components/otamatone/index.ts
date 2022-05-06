@@ -5,10 +5,14 @@ import { Circle } from "konva/lib/shapes/Circle";
 import { Line } from "konva/lib/shapes/Line";
 import { Rect } from "konva/lib/shapes/Rect";
 import { createComponentFromClass, ClassComponent } from "../component";
-import type { Position } from "./buttons";
-import { buttons } from "./buttons";
-import type { Labels, OnPlay, OtamatoneConfiguration } from "./configuration";
-import { allPositions } from "./configuration";
+import type { Position } from "../../../web/src/app/components/otamatone/buttons";
+import { buttons } from "../../../web/src/app/components/otamatone/buttons";
+import type {
+  Labels,
+  OnPlay,
+  OtamatoneConfiguration,
+} from "../../../web/src/app/components/otamatone/configuration";
+import { allPositions } from "../../../web/src/app/components/otamatone/configuration";
 
 export { Position, OtamatoneConfiguration };
 
