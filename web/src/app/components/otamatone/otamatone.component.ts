@@ -18,6 +18,7 @@ import { Text } from 'konva/lib/shapes/Text';
 import type { Labels, Position } from './configuration';
 import { allPositions } from './configuration';
 import audios from './audios';
+import { OtamatoneService } from './otamatone.service';
 
 @Component({
   selector: 'app-otamatone',
@@ -61,7 +62,7 @@ export class OtamatoneComponent implements AfterViewInit {
   private otamatone!: Group;
   private stick!: Group;
 
-  constructor() {}
+  constructor(private otamatoneService: OtamatoneService) {}
 
   ngAfterViewInit(): void {
     this.stage = new Stage({
@@ -284,20 +285,12 @@ export class OtamatoneComponent implements AfterViewInit {
         fill: enable ? color : 'lightgray',
       });
 
-      let audio: HTMLAudioElement | null = null;
-
       circle.on('mouseenter', () => {
-        if (!audio) {
-          audio = new Audio(audios[position]);
-        }
+        this.otamatoneService.fetch(position);
       });
 
       circle.on('click', async () => {
-        if (!audio) {
-          audio = new Audio(audios[position]);
-        }
-
-        await audio.play();
+        await this.otamatoneService.play(position);
         onPlay.emit(position);
       });
 
