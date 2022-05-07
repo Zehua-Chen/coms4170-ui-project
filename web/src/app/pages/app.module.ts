@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { OtamatoneModule } from 'components/otamatone';
+import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
 import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
@@ -23,6 +24,7 @@ const routes = [
     CommonModule,
     MatSidenavModule,
     OtamatoneModule,
+    TwoColumnModule,
   ],
   exports: [RouterModule],
 })
