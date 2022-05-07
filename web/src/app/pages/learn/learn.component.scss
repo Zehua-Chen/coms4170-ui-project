@@ -1,10 +1,10 @@
 :host {
   flex-grow: 1;
+  // background: var(--app-accent);
   display: flex;
   flex-direction: column;
-}
 
-.content {
-  top: 0px;
-  bottom: 0px;
+  & > * {
+    flex-grow: 1;
+  }
 }
