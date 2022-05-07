@@ -1,6 +1,14 @@
 <app-two-column class="">
-  <div sidebar>Sidebar</div>
-  <h1>Learn</h1>
+  <mat-action-list sidebar>
+    <button
+      mat-list-item
+      *ngFor="let lesson of lessons"
+      routerLink="/app/learn/{{ lesson }}"
+    >
+      {{ lesson }}
+    </button>
+  </mat-action-list>
+  <h1>Learn {{ id }}</h1>
   <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
   <code>{{ positions.join(", ") }}</code>
 </app-two-column>

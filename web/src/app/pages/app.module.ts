@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { OtamatoneModule } from 'components/otamatone';
 import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
@@ -22,7 +24,9 @@ const routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    MatButtonModule,
     MatSidenavModule,
+    MatListModule,
     OtamatoneModule,
     TwoColumnModule,
   ],
