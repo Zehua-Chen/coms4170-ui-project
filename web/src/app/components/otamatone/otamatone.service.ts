@@ -3,10 +3,15 @@ import { Injectable } from '@angular/core';
 import audioFiles from './audios';
 import { Position } from './configuration';
 
+interface ScheduleItem {
+  position: Position;
+  resolve?: () => any;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OtamatoneService {
   private audios: { [position in Position]: HTMLAudioElement } = {};
-  private scheduled: Position[] = [];
+  private scheduled: ScheduleItem[] = [];
 
   public isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -32,23 +37,35 @@ export class OtamatoneService {
    * Queue a list of positions to play
    * @param positions
    */
-  public play(positions: Position[]): void;
+  public play(positions: Position[]): Promise<void>;
 
   /**
    * Queue a position to play
    * @param position
    */
-  public play(position: Position): void;
+  public play(position: Position): Promise<void>;
 
-  public play(arg0: Position | Position[]): void {
+  public play(arg0: Position | Position[]): Promise<void> {
     if (Array.isArray(arg0)) {
-      this.scheduled.push(...arg0);
-    } else {
-      this.scheduled.push(arg0);
-    }
+      if (arg0.length == 0) {
+        return Promise.resolve();
+      }
 
-    if (!this.isPlaying.value) {
-      this.#startPlaying();
+      for (let i = 0; i < arg0.length - 1; i++) {
+        this.scheduled.push({ position: arg0[i] });
+      }
+
+      return new Promise((resolve) => {
+        this.scheduled.push({ position: arg0[arg0.length - 1], resolve });
+
+        this.#tryStartPlaying();
+      });
+    } else {
+      return new Promise((resolve) => {
+        this.scheduled.push({ position: arg0, resolve });
+
+        this.#tryStartPlaying();
+      });
     }
   }
 
@@ -69,6 +86,12 @@ export class OtamatoneService {
     });
   }
 
+  #tryStartPlaying(): void {
+    if (!this.isPlaying.value) {
+      this.#startPlaying();
+    }
+  }
+
   /**
    * Empty the playing queue
    */
@@ -77,8 +100,12 @@ export class OtamatoneService {
 
     while (this.scheduled.length > 0) {
       const first = this.scheduled.shift()!;
-      await this.fetch(first);
-      await this.#playAudio(this.audios[first]);
+      await this.fetch(first.position);
+      await this.#playAudio(this.audios[first.position]);
+
+      if (first.resolve) {
+        first.resolve();
+      }
     }
 
     this.isPlaying.next(false);

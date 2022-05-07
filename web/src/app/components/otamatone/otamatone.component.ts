@@ -290,7 +290,7 @@ export class OtamatoneComponent implements AfterViewInit {
       });
 
       circle.on('click', async () => {
-        this.otamatoneService.play(position);
+        await this.otamatoneService.play(position);
         onPlay.emit(position);
       });
 
