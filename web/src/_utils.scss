@@ -1,13 +1,4 @@
-@mixin margin() {
-  $space: 4px;
-
-  .mt-1 {
-    margin-top: $space;
-  }
-}
-
-@mixin all {
-  // flex utilities
+@mixin flex() {
   .d-flex {
     display: flex;
   }
@@ -19,9 +10,31 @@
   .flex-grow {
     flex-grow: 1;
   }
+}
 
-  // height utilities
+@mixin margin() {
+  $space: 4px;
 
+  @for $i from 1 through 5 {
+    .mt-#{$i} {
+      margin-top: $space * $i;
+    }
+
+    .mb-#{$i} {
+      margin-bottom: $space * $i;
+    }
+
+    .ml-#{$i} {
+      margin-left: $space * $i;
+    }
+
+    .mr-#{$i} {
+      margin-right: $space * $i;
+    }
+  }
+}
+
+@mixin height() {
   .h-100 {
     height: 100% !important;
   }
@@ -29,12 +42,17 @@
   .min-h-100vh {
     min-height: 100vh;
   }
+}
 
-  @include margin();
-
-  // text utilities
-
+@mixin text() {
   .text-center {
     text-align: center;
   }
+}
+
+@mixin all {
+  @include flex();
+  @include height();
+  @include margin();
+  @include text();
 }
