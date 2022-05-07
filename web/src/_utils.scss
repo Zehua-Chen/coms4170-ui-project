@@ -1,4 +1,13 @@
+@mixin margin() {
+  $space: 4px;
+
+  .mt-1 {
+    margin-top: $space;
+  }
+}
+
 @mixin all {
+  // flex utilities
   .d-flex {
     display: flex;
   }
@@ -11,11 +20,21 @@
     flex-grow: 1;
   }
 
+  // height utilities
+
   .h-100 {
     height: 100% !important;
   }
 
   .min-h-100vh {
     min-height: 100vh;
+  }
+
+  @include margin();
+
+  // text utilities
+
+  .text-center {
+    text-align: center;
   }
 }

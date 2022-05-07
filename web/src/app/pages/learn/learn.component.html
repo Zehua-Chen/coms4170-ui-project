@@ -8,7 +8,11 @@
       {{ lesson }}
     </button>
   </mat-action-list>
-  <h1>Learn {{ id }}</h1>
+
+  <div class="text-center mt-1">
+    <h1 class="mat-h1">Learn {{ id }}</h1>
+  </div>
+
   <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
   <code>{{ positions.join(", ") }}</code>
 </app-two-column>
