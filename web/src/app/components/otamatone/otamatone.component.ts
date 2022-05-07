@@ -23,6 +23,7 @@ import { OtamatoneService } from './otamatone.service';
 @Component({
   selector: 'app-otamatone',
   templateUrl: './otamatone.component.html',
+  styleUrls: ['./otamatone.component.scss'],
 })
 export class OtamatoneComponent implements AfterViewInit {
   @Input()
@@ -74,8 +75,10 @@ export class OtamatoneComponent implements AfterViewInit {
     this.layer = new Layer({});
     this.stage.add(this.layer);
 
-    const primary = 'lightblue';
-    const secondary = 'orange';
+    const style = getComputedStyle(document.documentElement);
+
+    const primary = style.getPropertyValue('--app-primary');
+    const secondary = style.getPropertyValue('--app-accent');
 
     this.stick = this.#createStick(
       this.stage,
