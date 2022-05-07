@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { OtamatoneModule } from 'components/otamatone';
 import { LearnPage } from './learn/learn.component';
 import { PracticePage } from './practice/practice.component';
@@ -17,7 +18,12 @@ const routes = [
 
 @NgModule({
   declarations: [LearnPage, PracticePage, QuizPage],
-  imports: [RouterModule.forChild(routes), CommonModule, OtamatoneModule],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    MatSidenavModule,
+    OtamatoneModule,
+  ],
   exports: [RouterModule],
 })
 export class AppModule {}

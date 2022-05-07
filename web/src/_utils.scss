@@ -1,0 +1,21 @@
+@mixin all {
+  .d-flex {
+    display: flex;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
+  .flex-grow {
+    flex-grow: 1;
+  }
+
+  .h-100 {
+    height: 100% !important;
+  }
+
+  .min-h-100vh {
+    min-height: 100vh;
+  }
+}

@@ -1,7 +1,13 @@
-<mat-toolbar>
-  <a mat-button routerLink="/">Otamatone</a>
-  <a mat-button routerLink="/app/learn">Learn</a>
-  <a mat-button routerLink="/app/practice">Practice</a>
-  <a mat-button routerLink="/app/quiz">Quiz</a>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div class="d-flex flex-col min-h-100vh">
+  <mat-toolbar color="primary">
+    <nav>
+      <a mat-button routerLink="/">Otamatone</a>
+      <a mat-button routerLink="/app/learn">Learn</a>
+      <a mat-button routerLink="/app/practice">Practice</a>
+      <a mat-button routerLink="/app/quiz">Quiz</a>
+    </nav>
+  </mat-toolbar>
+  <main class="flex-grow d-flex flex-col">
+    <router-outlet></router-outlet>
+  </main>
+</div>

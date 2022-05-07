@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@use "@angular/material" as mat;
 @use "sass:map";
+@use "@angular/material" as mat;
+@use "./utils";
 
 @include mat.core();
 
@@ -16,6 +17,10 @@ $my-theme: mat.define-light-theme(
   )
 );
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0px;
   padding: 0px;
@@ -27,3 +32,4 @@ body {
 }
 
 @include mat.all-component-themes($my-theme);
+@include utils.all();

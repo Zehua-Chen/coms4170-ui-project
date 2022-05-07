@@ -1,3 +1,10 @@
-<h1>Learn</h1>
-<app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
-<code>{{ positions.join(", ") }}</code>
+<mat-drawer-container class="flex-grow">
+  <mat-drawer mode="side" opened>
+    Progress
+  </mat-drawer>
+  <mat-drawer-content>
+    <h1>Learn</h1>
+    <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
+    <code>{{ positions.join(", ") }}</code>
+  </mat-drawer-content>
+</mat-drawer-container>

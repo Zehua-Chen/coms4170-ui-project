@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { OtamatoneComponent } from './otamatone.component';
+import { Otamatone } from './otamatone.component';
 import { OtamatoneService } from './otamatone.service';
 import type { Position, Labels } from './configuration';
 
 export { Position, Labels };
 
 @NgModule({
-  declarations: [OtamatoneComponent],
-  exports: [OtamatoneComponent],
+  declarations: [Otamatone],
+  exports: [Otamatone],
   imports: [],
   providers: [OtamatoneService],
 })

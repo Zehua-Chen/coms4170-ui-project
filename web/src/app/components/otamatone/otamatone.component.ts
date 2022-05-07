@@ -25,7 +25,7 @@ import { OtamatoneService } from './otamatone.service';
   templateUrl: './otamatone.component.html',
   styleUrls: ['./otamatone.component.scss'],
 })
-export class OtamatoneComponent implements AfterViewInit {
+export class Otamatone implements AfterViewInit {
   @Input()
   positions: readonly Position[] = allPositions;
 
