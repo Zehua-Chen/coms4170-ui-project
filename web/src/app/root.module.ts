@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { RootComponent } from './root.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     MatButtonModule,
     MatToolbarModule,
+    MatIconModule,
     OtamatoneModule,
   ],
   providers: [],
