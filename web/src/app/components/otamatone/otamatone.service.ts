@@ -4,11 +4,14 @@ import { Position } from './configuration';
 
 @Injectable({ providedIn: 'root' })
 export class OtamatoneService {
-  constructor() {
-    console.log(audioFiles);
-  }
+  private audios: { [position in number]: HTMLAudioElement } = {};
 
-  public async fetch(position: Position): Promise<void> {}
+  public fetch(position: Position): Promise<void> {
+    return new Promise((resolve) => {
+      this.audios[position] = new Audio(audioFiles[position]);
+      resolve();
+    });
+  }
 
   public async play(positions: Position[]): Promise<void>;
   public async play(position: Position): Promise<void>;
