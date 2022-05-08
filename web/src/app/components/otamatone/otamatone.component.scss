@@ -1,7 +1,23 @@
-.content {
-  min-height: 300px;
+.stick {
+  fill: var(--app-primary);
+  stroke: var(--app-primary);
+  stroke-width: 2px;
 }
 
-.foo {
-  color: var(--app-primary);
+.button {
+  fill: var(--app-accent);
+
+  &.disabled {
+    fill: lightgray;
+  }
+}
+
+.button-label {
+  fill: black;
+  font-family: "Roboto";
+  font-size: 12px;
+
+  &.disabled {
+    fill: lightgray;
+  }
 }

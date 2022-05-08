@@ -1,1 +1,36 @@
-<div class="content" #content></div>
+<svg [style.height]="circleSize + 50" style="width: 100%">
+  <!--stick-->
+  <g transform="translate(0, 40)">
+    <rect
+      class="stick"
+      x="0"
+      y="0"
+      [attr.width]="stickWidth"
+      [attr.height]="stickHeight"
+    ></rect>
+
+    <g
+      *ngFor="let position of allPositions; index as index"
+      [attr.transform]="
+        'translate(' +
+        (index * (spaceWidth + buttonSize) + buttonSize / 2) +
+        ', 0)'
+      "
+    >
+      <circle
+        class="button"
+        [class.disabled]="isDisabled(position)"
+        [attr.cy]="stickHeight / 2"
+        [attr.r]="buttonSize / 2"
+      ></circle>
+      <text
+        class="button-label"
+        [class.disabled]="isDisabled(position)"
+        text-anchor="middle"
+        y="-20"
+      >
+        {{ position }}
+      </text>
+    </g>
+  </g>
+</svg>

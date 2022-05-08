@@ -53,65 +53,47 @@ export class Otamatone implements AfterViewInit {
   @Output()
   onPlay: EventEmitter<Position> = new EventEmitter();
 
-  @ViewChild('content')
-  content!: ElementRef;
-
-  private observer!: ResizeObserver;
-
-  private stage!: Stage;
-  private layer!: Layer;
-  private otamatone!: Group;
-  private stick!: Group;
+  public allPositions: readonly Position[] = allPositions;
 
   constructor(private otamatoneService: OtamatoneService) {}
 
   ngAfterViewInit(): void {
-    this.stage = new Stage({
-      container: this.content.nativeElement,
-      height: this.circleSize + 50,
-      width: this.content.nativeElement.clientWidth,
-    });
-
-    this.layer = new Layer({});
-    this.stage.add(this.layer);
-
-    const style = getComputedStyle(document.documentElement);
-
-    const primary = style.getPropertyValue('--app-primary');
-    const secondary = style.getPropertyValue('--app-accent');
-
-    this.stick = this.#createStick(
-      this.stage,
-      this.labels,
-      this.onPlay,
-      this.positions,
-      primary,
-      secondary
-    );
-
-    const head = this.#createHead(primary, secondary);
-    const tail = this.#createTail(primary);
-
-    this.otamatone = new Group();
-    this.otamatone.add(this.stick);
-    this.otamatone.add(head);
-    this.otamatone.add(tail);
-
-    this.layer.add(this.otamatone);
-
-    this.observer = new ResizeObserver(this.#onResize.bind(this));
-    this.observer.observe(this.content.nativeElement);
+    // this.stage = new Stage({
+    //   container: this.content.nativeElement,
+    //   height: this.circleSize + 50,
+    //   width: this.content.nativeElement.clientWidth,
+    // });
+    // this.layer = new Layer({});
+    // this.stage.add(this.layer);
+    // const style = getComputedStyle(document.documentElement);
+    // const primary = style.getPropertyValue('--app-primary');
+    // const secondary = style.getPropertyValue('--app-accent');
+    // this.stick = this.#createStick(
+    //   this.stage,
+    //   this.labels,
+    //   this.onPlay,
+    //   this.positions,
+    //   primary,
+    //   secondary
+    // );
+    // const head = this.#createHead(primary, secondary);
+    // const tail = this.#createTail(primary);
+    // this.otamatone = new Group();
+    // this.otamatone.add(this.stick);
+    // this.otamatone.add(head);
+    // this.otamatone.add(tail);
+    // this.layer.add(this.otamatone);
+    // this.observer = new ResizeObserver(this.#onResize.bind(this));
+    // this.observer.observe(this.content.nativeElement);
   }
 
   #onResize(entries: ResizeObserverEntry[]): void {
-    const entry = entries[0];
-
-    this.stage.width(entry.contentRect.width);
-
-    this.#setOtamatonePosition(
-      entry.contentRect.width / 2,
-      entry.contentRect.height / 2
-    );
+    // const entry = entries[0];
+    // this.stage.width(entry.contentRect.width);
+    // this.#setOtamatonePosition(
+    //   entry.contentRect.width / 2,
+    //   entry.contentRect.height / 2
+    // );
   }
 
   /**
@@ -121,10 +103,10 @@ export class Otamatone implements AfterViewInit {
    * @param y
    */
   #setOtamatonePosition(x: number, y: number): void {
-    this.otamatone.x(x);
-    this.otamatone.y(y);
-    this.otamatone.offsetX(this.stick.getClientRect().width / 2);
-    this.otamatone.offsetY(this.stick.getClientRect().height / 2);
+    // this.otamatone.x(x);
+    // this.otamatone.y(y);
+    // this.otamatone.offsetX(this.stick.getClientRect().width / 2);
+    // this.otamatone.offsetY(this.stick.getClientRect().height / 2);
   }
 
   #createHead(primary: string, secondary: string): Group {
@@ -254,6 +236,22 @@ export class Otamatone implements AfterViewInit {
     );
 
     return stick;
+  }
+
+  public get spaceCount(): number {
+    return this.allPositions.length - 1;
+  }
+
+  public get buttonSpace(): number {
+    return this.allPositions.length * this.buttonSize;
+  }
+
+  public get spaceWidth(): number {
+    return (this.stickWidth - this.buttonSpace) / this.spaceCount;
+  }
+
+  public isDisabled(position: Position): boolean {
+    return this.positions.find((p) => p === position) === undefined;
   }
 
   #xs(stickWidth: number, buttonSize: number) {
