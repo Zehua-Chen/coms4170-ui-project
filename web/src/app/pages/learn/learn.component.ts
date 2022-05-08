@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LessonService } from 'app/api';
+
+export interface Lesson {
+  id: number;
+  title: string;
+}
 
 @Component({
   selector: 'app-page-learn',
@@ -7,11 +13,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./learn.component.scss'],
 })
 export class LearnPage implements OnInit {
-  positions: number[] = [];
+  position: number = -1;
   id: number = -1;
-  lessons: readonly number[] = [1, 2, 3, 4, 5, 6, 7];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    public lessonService: LessonService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -21,7 +29,8 @@ export class LearnPage implements OnInit {
   }
 
   onPlay(position: number): void {
-    this.positions.push(position);
-    console.log(this.positions);
+    this.position = position;
   }
+
+  playClip(): void {}
 }

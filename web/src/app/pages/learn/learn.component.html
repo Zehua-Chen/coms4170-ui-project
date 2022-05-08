@@ -1,31 +1,47 @@
-<app-two-column class="">
-  <mat-action-list sidebar>
-    <button
-      mat-list-item
-      *ngFor="let lesson of lessons"
-      routerLink="/app/learn/{{ lesson }}"
-    >
-      {{ lesson }}
-    </button>
-  </mat-action-list>
+<mat-grid-list cols="5">
+  <mat-grid-tile colspan="1" rowspan="2">
+    <mat-nav-list class="w-100 align-self-start">
+      <button
+        mat-list-item
+        *ngFor="let lesson of lessonService.getLessonOverviews() | async"
+        routerLink="/app/learn/{{ lesson.id }}"
+      >
+        {{ lesson.title }}
+      </button>
+    </mat-nav-list>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="4" rowspan="1">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="mat-h1">Learn {{ id }}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="mat-body">Replicate the note that you hear</p>
+        </div>
+      </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col mt-3 d-flex justify-content-center">
-        <h1 class="mat-h1">Learn {{ id }}</h1>
+      <div class="row">
+        <div class="col text-center">
+          <button mat-raised-button color="primary" (click)="playClip()">
+            Play
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col d-flex flex-row">
+          <a class="flex-grow-1 pr-1" mat-flat-button color="accent"
+            >Previous</a
+          >
+          <a class="flex-grow-1" mat-flat-button color="primary">Next</a>
+        </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col d-flex justify-content-center">
-        <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col d-flex justify-content-center">
-        <code>{{ positions.join(", ") }}</code>
-      </div>
-    </div>
-  </div>
-</app-two-column>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="4" rowspan="1">
+    <app-otamatone></app-otamatone>
+  </mat-grid-tile>
+</mat-grid-list>
