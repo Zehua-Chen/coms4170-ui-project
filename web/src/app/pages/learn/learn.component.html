@@ -1,43 +1,47 @@
-<mat-grid-list class="h-100" cols="5">
-  <mat-grid-tile colspan="1" rowspan="2">
-    <mat-nav-list class="w-100 align-self-start">
-      <button
-        mat-list-item
-        *ngFor="let lesson of lessonService.getLessonOverviews() | async"
-        routerLink="/app/learn/{{ lesson.id }}"
-      >
-        {{ lesson.title }}
-      </button>
-    </mat-nav-list>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="4" rowspan="1">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h1 class="mat-h1">Learn {{ id }}</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <p class="mat-body">Replicate the note that you hear</p>
-        </div>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-3 mt-4">
+      <mat-nav-list class="w-100 align-self-start">
+        <button
+          mat-list-item
+          *ngFor="let lesson of lessonService.getLessonOverviews() | async"
+          routerLink="/app/learn/{{ lesson.id }}"
+        >
+          {{ lesson.title }}
+        </button>
+      </mat-nav-list>
+    </div>
 
-      <div class="row">
-        <div class="col text-center">
-          <button mat-raised-button color="primary" (click)="playClip()">
-            Play
-          </button>
+    <div class="col-9 mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1 class="mat-h1">Learn {{ id }}</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mat-body">Replicate the note that you hear</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-center">
+            <button mat-raised-button color="primary" (click)="playClip()">
+              Play
+            </button>
+          </div>
+        </div>
+
+        <div class="row mt-5 pt-2">
+          <div class="col text-center">
+            <app-otamatone></app-otamatone>
+          </div>
         </div>
       </div>
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="4" rowspan="1">
-    <app-otamatone></app-otamatone>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
 
-<div class="container">
   <div class="row">
     <div class="col">
       <mat-divider></mat-divider>

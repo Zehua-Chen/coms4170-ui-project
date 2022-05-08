@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { OtamatoneModule } from 'components/otamatone';
 import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
@@ -29,7 +28,6 @@ const routes = [
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    MatGridListModule,
     OtamatoneModule,
     TwoColumnModule,
     APIModule,
