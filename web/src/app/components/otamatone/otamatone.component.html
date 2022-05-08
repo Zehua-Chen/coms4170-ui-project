@@ -52,6 +52,7 @@
         [class.disabled]="isDisabled(position)"
         [attr.cy]="stickHeight / 2"
         [attr.r]="buttonSize / 2"
+        (click)="play(position)"
       ></circle>
       <text
         class="button-label"

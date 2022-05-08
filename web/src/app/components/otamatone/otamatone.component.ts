@@ -70,10 +70,6 @@ export class Otamatone implements AfterViewInit {
       ${this.faceSize / 2.5},${this.faceSize / 1.5}`;
   }
 
-  constructor(private otamatoneService: OtamatoneService) {}
-
-  ngAfterViewInit(): void {}
-
   public get spaceCount(): number {
     return this.allPositions.length - 1;
   }
@@ -88,5 +84,13 @@ export class Otamatone implements AfterViewInit {
 
   public isDisabled(position: Position): boolean {
     return this.positions.find((p) => p === position) === undefined;
+  }
+
+  constructor(private otamatoneService: OtamatoneService) {}
+
+  ngAfterViewInit(): void {}
+
+  public play(position: Position): void {
+    this.otamatoneService.play(position);
   }
 }

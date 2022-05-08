@@ -19,6 +19,7 @@
 
 .button {
   fill: var(--app-accent);
+  cursor: pointer;
 
   &.disabled {
     fill: lightgray;
