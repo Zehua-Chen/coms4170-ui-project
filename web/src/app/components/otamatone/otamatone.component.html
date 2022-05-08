@@ -1,4 +1,7 @@
-<svg [attr.height]="circleSize" [attr.width]="stickWidth + circleSize + 50">
+<svg
+  [attr.height]="circleSize"
+  [attr.width]="stickWidth + circleSize + tailSeparatorSize + tailSize"
+>
   <!--face-->
   <g>
     <circle
@@ -63,5 +66,26 @@
         {{ position }}
       </text>
     </g>
+  </g>
+  <g
+    [attr.transform]="
+      'translate(' +
+      (circleSize + stickWidth) +
+      ', ' +
+      (circleSize / 2 - stickHeight / 2 - 1) +
+      ')'
+    "
+  >
+    <rect
+      class="tail-separator"
+      [attr.width]="tailSeparatorSize"
+      [attr.height]="stickHeight + stickStrokeWidth * 2"
+    ></rect>
+    <rect
+      class="tail"
+      x="10"
+      [attr.width]="tailSize"
+      [attr.height]="stickHeight + stickStrokeWidth * 2"
+    ></rect>
   </g>
 </svg>
