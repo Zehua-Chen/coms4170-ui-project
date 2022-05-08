@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { RootComponent } from './root.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatDividerModule,
     OtamatoneModule,
   ],
   providers: [],

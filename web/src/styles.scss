@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @use "sass:map";
 @use "@angular/material" as mat;
-@use "./utils";
+
+@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/bootstrap-utilities";
 
 @include mat.core();
 
@@ -32,4 +34,3 @@ body {
 }
 
 @include mat.all-component-themes($my-theme);
-@include utils.all();
