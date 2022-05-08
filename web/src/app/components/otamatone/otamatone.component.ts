@@ -29,31 +29,39 @@ export class Otamatone implements AfterViewInit {
   @Input()
   positions: readonly Position[] = allPositions;
 
-  @Input()
-  labels: Labels = (position: Position) => `${position}`;
-
-  @Input()
-  stickWidth: number = 400;
-
-  @Input()
-  stickHeight: number = 20;
-
-  @Input()
-  stickStrokeWIdth: number = 1;
-
-  @Input()
-  buttonSize: number = 20;
-
-  @Input()
-  circleSize: number = 250;
-
-  @Input()
-  eyeSize: number = 20;
-
   @Output()
   onPlay: EventEmitter<Position> = new EventEmitter();
 
-  public allPositions: readonly Position[] = allPositions;
+  @Input()
+  labels: Labels = (position: Position) => `${position}`;
+
+  public get stickWidth(): number {
+    return 400;
+  }
+
+  public get stickHeight(): number {
+    return 20;
+  }
+
+  public get stickStrokeWIdth(): number {
+    return 1;
+  }
+
+  public get buttonSize(): number {
+    return 20;
+  }
+
+  public get circleSize(): number {
+    return 250;
+  }
+
+  public get eyeSize(): number {
+    return 20;
+  }
+
+  public get allPositions(): readonly Position[] {
+    return allPositions;
+  }
 
   constructor(private otamatoneService: OtamatoneService) {}
 
@@ -83,8 +91,6 @@ export class Otamatone implements AfterViewInit {
     // this.otamatone.add(head);
     // this.otamatone.add(tail);
     // this.layer.add(this.otamatone);
-    // this.observer = new ResizeObserver(this.#onResize.bind(this));
-    // this.observer.observe(this.content.nativeElement);
   }
 
   #onResize(entries: ResizeObserverEntry[]): void {
@@ -162,6 +168,13 @@ export class Otamatone implements AfterViewInit {
     root.add(mouth);
 
     return root;
+  }
+
+  public get mousePoints(): string {
+    return `
+      ${this.circleSize / 2.5},${this.circleSize / 3}
+      ${this.circleSize / 3},${this.circleSize / 2}
+      ${this.circleSize / 2.5},${this.circleSize / 1.5}`;
   }
 
   #createTail(primary: string): Line {

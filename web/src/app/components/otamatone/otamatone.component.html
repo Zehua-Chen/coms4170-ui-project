@@ -1,6 +1,37 @@
-<svg [style.height]="circleSize + 50" style="width: 100%">
+<svg [attr.height]="circleSize" [attr.width]="stickWidth + circleSize + 50">
+  <!--face-->
+  <g>
+    <circle
+      class="face"
+      [attr.cx]="circleSize / 2"
+      [attr.cy]="circleSize / 2"
+      [attr.r]="circleSize / 2"
+    ></circle>
+    <circle
+      class="eye"
+      [attr.cx]="circleSize / 1.5"
+      [attr.cy]="circleSize / 3"
+      [attr.r]="eyeSize / 2"
+    ></circle>
+    <circle
+      class="eye"
+      [attr.cx]="circleSize / 1.5"
+      [attr.cy]="circleSize / 1.5"
+      [attr.r]="eyeSize / 2"
+    ></circle>
+    <polyline class="mouth" fill="none" [attr.points]="mousePoints"></polyline>
+  </g>
   <!--stick-->
-  <g transform="translate(0, 40)">
+  <g
+    aria-label="otamatone stick"
+    [attr.transform]="
+      'translate(' +
+      circleSize +
+      ', ' +
+      (circleSize / 2 - stickHeight / 2) +
+      ')'
+    "
+  >
     <rect
       class="stick"
       x="0"

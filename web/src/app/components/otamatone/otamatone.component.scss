@@ -1,3 +1,16 @@
+.face {
+  fill: var(--app-primary);
+}
+
+.eye {
+  fill: var(--app-accent);
+}
+
+.mouth {
+  stroke: var(--app-accent);
+  stroke-width: 7px;
+}
+
 .stick {
   fill: var(--app-primary);
   stroke: var(--app-primary);
