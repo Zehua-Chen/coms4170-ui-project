@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, delay } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 export interface LessonOverview {

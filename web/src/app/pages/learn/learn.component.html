@@ -1,4 +1,4 @@
-<mat-grid-list cols="5">
+<mat-grid-list class="h-100" cols="5">
   <mat-grid-tile colspan="1" rowspan="2">
     <mat-nav-list class="w-100 align-self-start">
       <button
@@ -30,18 +30,24 @@
           </button>
         </div>
       </div>
-
-      <div class="row mt-2">
-        <div class="col d-flex flex-row">
-          <a class="flex-grow-1 pr-1" mat-flat-button color="accent"
-            >Previous</a
-          >
-          <a class="flex-grow-1" mat-flat-button color="primary">Next</a>
-        </div>
-      </div>
     </div>
   </mat-grid-tile>
   <mat-grid-tile colspan="4" rowspan="1">
     <app-otamatone></app-otamatone>
   </mat-grid-tile>
 </mat-grid-list>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col d-flex flex-row">
+      <a class="flex-grow-1 pr-1" mat-button color="accent">Previous</a>
+      <a class="flex-grow-1" mat-raised-button color="primary">Next</a>
+    </div>
+  </div>
+</div>
