@@ -43,7 +43,7 @@ export class Otamatone implements AfterViewInit {
     return 20;
   }
 
-  public get circleSize(): number {
+  public get faceSize(): number {
     return 250;
   }
 
@@ -65,9 +65,9 @@ export class Otamatone implements AfterViewInit {
 
   public get mousePoints(): string {
     return `
-      ${this.circleSize / 2.5},${this.circleSize / 3}
-      ${this.circleSize / 3},${this.circleSize / 2}
-      ${this.circleSize / 2.5},${this.circleSize / 1.5}`;
+      ${this.faceSize / 2.5},${this.faceSize / 3}
+      ${this.faceSize / 3},${this.faceSize / 2}
+      ${this.faceSize / 2.5},${this.faceSize / 1.5}`;
   }
 
   constructor(private otamatoneService: OtamatoneService) {}
