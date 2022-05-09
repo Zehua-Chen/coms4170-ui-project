@@ -1,8 +1,6 @@
 import {
   Component,
-  ElementRef,
   AfterViewInit,
-  ViewChild,
   Input,
   Output,
   EventEmitter,
@@ -13,7 +11,7 @@ import { allPositions } from './configuration';
 import { OtamatoneService } from './otamatone.service';
 
 @Component({
-  selector: 'app-otamatone',
+  selector: 'app-otamatone, [app-otamatone]',
   templateUrl: './otamatone.component.html',
   styleUrls: ['./otamatone.component.scss'],
 })

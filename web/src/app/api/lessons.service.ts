@@ -9,19 +9,22 @@ export interface LessonOverview {
 export interface Lesson {
   id: number;
   title: string;
+  note: number;
+}
+
+let lessonOverviews = [] as LessonOverview[];
+
+for (let id = 1; id < 100; id++) {
+  lessonOverviews.push({ id, title: `${id}` });
 }
 
 @Injectable()
 export class LessonService {
   public getLessonOverviews(): Observable<LessonOverview[]> {
-    return of([
-      { id: 1, title: 'Do' },
-      { id: 2, title: 'Re' },
-      { id: 3, title: 'Mi' },
-    ]);
+    return of(lessonOverviews);
   }
 
   public getLesson(id: number): Observable<Lesson> {
-    return of({ id, title: 'Do' });
+    return of({ id, title: 'Do', note: 1 });
   }
 }

@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import audioFiles from './audios';
 import { Position } from './configuration';
@@ -13,9 +13,11 @@ export class OtamatoneService {
   private audios: { [position in Position]: HTMLAudioElement } = {};
   private scheduled: ScheduleItem[] = [];
 
-  public isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+  public get isPlaying(): Observable<boolean> {
+    return this.#isPlaying;
+  }
+
+  #isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * Fetch the audio for position if the audio has not already been fetched
@@ -87,7 +89,7 @@ export class OtamatoneService {
   }
 
   #tryStartPlaying(): void {
-    if (!this.isPlaying.value) {
+    if (!this.#isPlaying.value) {
       this.#startPlaying();
     }
   }
@@ -96,7 +98,7 @@ export class OtamatoneService {
    * Empty the playing queue
    */
   async #startPlaying(): Promise<void> {
-    this.isPlaying.next(true);
+    this.#isPlaying.next(true);
 
     while (this.scheduled.length > 0) {
       const first = this.scheduled.shift()!;
@@ -108,6 +110,6 @@ export class OtamatoneService {
       }
     }
 
-    this.isPlaying.next(false);
+    this.#isPlaying.next(false);
   }
 }
