@@ -18,7 +18,9 @@ for (let id = 1; id < 100; id++) {
   lessonOverviews.push({ id, title: `${id}` });
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LessonService {
   public getLessonOverviews(): Observable<LessonOverview[]> {
     return of(lessonOverviews);
