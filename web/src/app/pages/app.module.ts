@@ -6,7 +6,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { OtamatoneModule } from 'components/otamatone';
 import { OtamatoneClipModule } from 'components/otamatone-clip';
-import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
 import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
@@ -33,7 +32,6 @@ const routes = [
     MatToolbarModule,
     OtamatoneModule,
     OtamatoneClipModule,
-    TwoColumnModule,
     APIModule,
   ],
   exports: [RouterModule],

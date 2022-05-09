@@ -8,13 +8,11 @@ import { OtamatoneService } from 'components/otamatone';
   selector: 'app-page-learn',
   templateUrl: './learn.component.html',
   styleUrls: ['./learn.component.scss'],
+  host: {
+    class: 'h-full-component',
+  },
 })
 export class LearnPage implements OnInit {
-  @HostBinding('class')
-  get className(): string {
-    return 'h-full block';
-  }
-
   playedPosition: number | null = null;
 
   lesson!: Observable<Lesson>;

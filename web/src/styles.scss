@@ -16,6 +16,16 @@ $my-theme: mat.define-light-theme(
   )
 );
 
+@include mat.all-component-themes($my-theme);
+
+// tailwind
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// custom styles
+
 html {
   height: 100%;
 }
@@ -31,10 +41,11 @@ body {
   --app-accent: #{map.get($my-accent, "default")};
 }
 
-@include mat.all-component-themes($my-theme);
-
-// tailwind
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer components {
+  // host element made by angular (like <app-page-learn /> are inlined. This
+  // is not ideal for some components, which should have full height
+  .h-full-component {
+    @apply h-full;
+    @apply block;
+  }
+}
