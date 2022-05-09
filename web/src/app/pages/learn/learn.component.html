@@ -44,7 +44,8 @@
           class="flex-grow-1 pr-1"
           mat-button
           color="accent"
-          [routerLink]="previousLessonLink | async"
+          [disabled]="previousDisabled | async"
+          [routerLink]="previousLink | async"
         >
           Previous
         </button>
@@ -53,9 +54,9 @@
           mat-raised-button
           color="primary"
           [disabled]="(lesson | async)!.position !== playedPosition"
-          [routerLink]="nextLessonLink | async"
+          [routerLink]="nextLink | async"
         >
-          Next
+          {{ nextText | async }}
         </button>
       </div>
     </div>
