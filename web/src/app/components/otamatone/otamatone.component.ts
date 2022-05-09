@@ -88,7 +88,8 @@ export class Otamatone implements AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  public play(position: Position): void {
-    this.otamatoneService.play(position);
+  public async play(position: Position): Promise<void> {
+    await this.otamatoneService.play(position);
+    this.onPlay.emit(position);
   }
 }

@@ -1,7 +1,7 @@
-import { Observable, map } from 'rxjs';
+import { Observable, map, zip } from 'rxjs';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LessonService, Lesson } from 'app/api';
+import { LessonService, Lesson, LessonOverview } from 'app/api';
 import { OtamatoneService } from 'components/otamatone';
 
 @Component({
@@ -15,13 +15,25 @@ export class LearnPage implements OnInit {
     return 'h-full block';
   }
 
-  position: number = -1;
+  playedPosition: number | null = null;
 
   lesson!: Observable<Lesson>;
-  note: number = 1;
+  lessonOverviews!: Observable<LessonOverview[]>;
+
+  get previousLessonLink(): Observable<string> {
+    return this.lesson.pipe(map((lesson) => `/app/learn/${lesson.id - 1}`));
+  }
 
   get nextLessonLink(): Observable<string> {
-    return this.lesson.pipe(map((lesson) => `/app/learn/${lesson.id + 1}`));
+    return zip(this.lesson, this.lessonOverviews).pipe(
+      map(([lesson, lessonOverviews]) => {
+        if (lesson.id === lessonOverviews[lessonOverviews.length - 1].id) {
+          return '/app/practice';
+        }
+
+        return `/app/learn/${lesson.id + 1}`;
+      })
+    );
   }
 
   constructor(
@@ -35,19 +47,12 @@ export class LearnPage implements OnInit {
       const idS = params.get('id')!;
       const id = Number.parseInt(idS);
 
+      this.lessonOverviews = this.lessonService.getLessonOverviews();
       this.lesson = this.lessonService.getLesson(id);
-
-      this.lesson.subscribe((lesson) => {
-        this.note = lesson.note;
-      });
     });
   }
 
   onPlay(position: number): void {
-    this.position = position;
-  }
-
-  playClip(): void {
-    this.otamatoneService.play(this.note);
+    this.playedPosition = position;
   }
 }

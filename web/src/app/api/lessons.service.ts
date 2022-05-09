@@ -8,15 +8,51 @@ export interface LessonOverview {
 
 export interface Lesson {
   id: number;
-  title: string;
-  note: number;
+  note: string;
+  position: number;
 }
 
-let lessonOverviews = [] as LessonOverview[];
+const lessons = [
+  {
+    id: 1,
+    note: 'Do',
+    position: 1,
+  },
+  {
+    id: 2,
+    note: 'Re',
+    position: 2,
+  },
+  {
+    id: 3,
+    note: 'Mi',
+    position: 3,
+  },
+  {
+    id: 4,
+    note: 'Fa',
+    position: 4,
+  },
+  {
+    id: 5,
+    note: 'So',
+    position: 5,
+  },
+  {
+    id: 6,
+    note: 'La',
+    position: 6,
+  },
+  {
+    id: 7,
+    note: 'Ti',
+    position: 7,
+  },
+] as Lesson[];
 
-for (let id = 1; id < 100; id++) {
-  lessonOverviews.push({ id, title: `${id}` });
-}
+const lessonOverviews = lessons.map(
+  (lesson) => ({ id: lesson.id, title: lesson.note } as LessonOverview)
+);
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +63,6 @@ export class LessonService {
   }
 
   public getLesson(id: number): Observable<Lesson> {
-    return of({ id, title: 'Do', note: 1 });
+    return of(lessons.find((lesson) => lesson.id === id)!);
   }
 }

@@ -3,21 +3,27 @@
     <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
       <button
         mat-list-item
-        *ngFor="let lesson of lessonService.getLessonOverviews() | async"
-        routerLink="/app/learn/{{ lesson.id }}"
+        *ngFor="
+          let lessonOverview of lessonService.getLessonOverviews() | async
+        "
+        [class.selected]="lessonOverview.id === (lesson | async)!.id"
+        routerLink="/app/learn/{{ lessonOverview.id }}"
       >
-        {{ lesson.title }}
+        {{ lessonOverview.title }}
       </button>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar color="primary">
-      <h1>Lesson {{ (lesson | async)!.title }}</h1>
+      <h1 class="pr-4">Lesson {{ (lesson | async)!.note }}</h1>
+      <a mat-button routerLink="/app/practice">Practice</a>
+      <a mat-button routerLink="/app/quiz">Quiz</a>
     </mat-toolbar>
 
     <div class="grow container px-4 pt-2 grid grid-cols-12 gap-y-4">
       <div class="col-span-12">
-        <p class="mat-body">
+        <h2 class="mat-h1">Instruction</h2>
+        <p class="mat-body2">
           Replicate the following note you hear by click
           <span class="to-click">buttons on the otamatone</span> to play notes
         </p>
@@ -25,23 +31,32 @@
 
       <div class="col-span-12">
         <app-otamatone-clip
-          [notes]="[(lesson | async)!.note]"
+          [notes]="[(lesson | async)!.position]"
         ></app-otamatone-clip>
       </div>
 
       <div class="col-span-12 flex justify-center">
-        <app-otamatone></app-otamatone>
+        <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
       </div>
 
       <div class="col-span-12 grid grid-cols-2 gap-x-3">
-        <a class="flex-grow-1 pr-1" mat-button color="accent">Previous</a>
-        <a
+        <button
+          class="flex-grow-1 pr-1"
+          mat-button
+          color="accent"
+          [routerLink]="previousLessonLink | async"
+        >
+          Previous
+        </button>
+        <button
           class="flex-grow-1"
           mat-raised-button
           color="primary"
+          [disabled]="(lesson | async)!.position !== playedPosition"
           [routerLink]="nextLessonLink | async"
-          >Next</a
         >
+          Next
+        </button>
       </div>
     </div>
   </mat-drawer-content>
