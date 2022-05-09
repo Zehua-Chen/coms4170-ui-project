@@ -1,4 +1,36 @@
-<div class="container">
+<app-two-column>
+  <mat-nav-list sidebar class="w-100 align-self-start">
+    <button
+      mat-list-item
+      *ngFor="let lesson of lessonService.getLessonOverviews() | async"
+      routerLink="/app/learn/{{ lesson.id }}"
+    >
+      {{ lesson.title }}
+    </button>
+  </mat-nav-list>
+
+  <div class="container px-4 pt-2 grid grid-cols-12">
+    <div class="col-span-12">
+      <h1 class="mat-h1">Lesson {{ id }}</h1>
+    </div>
+
+    <div class="col-span-12">
+      <button mat-raised-button color="primary" (click)="playClip()">
+        Play
+      </button>
+    </div>
+
+    <div class="col-span-12 flex justify-center">
+      <app-otamatone></app-otamatone>
+    </div>
+
+    <div class="col-span-12 grid grid-cols-2 gap-x-3">
+      <a class="flex-grow-1 pr-1" mat-button color="accent">Previous</a>
+      <a class="flex-grow-1" mat-raised-button color="primary">Next</a>
+    </div>
+  </div>
+</app-two-column>
+<!-- <div class="container">
   <div class="row">
     <div class="col-3 mt-4">
       <mat-nav-list class="w-100 align-self-start">
@@ -54,4 +86,4 @@
       <a class="flex-grow-1" mat-raised-button color="primary">Next</a>
     </div>
   </div>
-</div>
+</div> -->
