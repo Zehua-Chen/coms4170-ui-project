@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class RootComponent {
   title = 'web';
+
+  @HostBinding('class')
+  get className(): string {
+    return 'h-full block';
+  }
 }

@@ -1,5 +1,5 @@
 import { Observable, map } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'app/api';
 import { OtamatoneService } from 'components/otamatone';
@@ -10,6 +10,11 @@ import { OtamatoneService } from 'components/otamatone';
   styleUrls: ['./learn.component.scss'],
 })
 export class LearnPage implements OnInit {
+  @HostBinding('class')
+  get className(): string {
+    return 'h-full block';
+  }
+
   position: number = -1;
 
   lesson!: Observable<Lesson>;

@@ -11,6 +11,7 @@ import { LearnPage } from './learn/learn.component';
 import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
 import { APIModule } from 'app/api';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 const routes = [
   { path: 'learn', redirectTo: 'learn/1', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes = [
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
+    MatToolbarModule,
     OtamatoneModule,
     OtamatoneClipModule,
     TwoColumnModule,
