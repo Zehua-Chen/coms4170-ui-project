@@ -16,10 +16,10 @@ function practice(): void {
   }
 
   const { quiz, quizzes_overview, positions_to_click } = data;
-  const { id } = quiz;
+  const { id, submission } = quiz;
 
   const nextID = id + 1;
-  const positions = observable([] as number[]);
+  const positions = observable(submission ?? []);
 
   autorun(() => {
     $("#user-inputs").empty().append(positions.join(", "));

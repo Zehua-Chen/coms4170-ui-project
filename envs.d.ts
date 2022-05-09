@@ -43,6 +43,7 @@ namespace app {
   interface Quiz {
     id: number;
     title: string;
+    submission: number[] | null;
   }
 
   interface QuizData {
