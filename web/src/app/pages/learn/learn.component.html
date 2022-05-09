@@ -11,7 +11,7 @@
 
   <div class="container px-4 pt-2 grid grid-cols-12 gap-y-4">
     <div class="col-span-12">
-      <h1 class="mat-h1">Lesson {{ lesson?.title ?? "?" }}</h1>
+      <h1 class="mat-h1">Lesson {{ (lesson | async)!.title }}</h1>
     </div>
 
     <div class="col-span-12">
@@ -22,14 +22,9 @@
     </div>
 
     <div class="col-span-12">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="playClip()"
-        [disabled]="otamatoneService.isPlaying | async"
-      >
-        {{ !(otamatoneService.isPlaying | async) ? "Play Note" : "Playing" }}
-      </button>
+      <app-otamatone-clip
+        [notes]="[(lesson | async)!.note]"
+      ></app-otamatone-clip>
     </div>
 
     <div class="col-span-12 flex justify-center">
@@ -38,7 +33,13 @@
 
     <div class="col-span-12 grid grid-cols-2 gap-x-3">
       <a class="flex-grow-1 pr-1" mat-button color="accent">Previous</a>
-      <a class="flex-grow-1" mat-raised-button color="primary">Next</a>
+      <a
+        class="flex-grow-1"
+        mat-raised-button
+        color="primary"
+        [routerLink]="nextLessonLink | async"
+        >Next</a
+      >
     </div>
   </div>
 </app-two-column>

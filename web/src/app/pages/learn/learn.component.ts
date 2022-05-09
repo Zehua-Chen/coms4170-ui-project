@@ -1,3 +1,4 @@
+import { Observable, map } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'app/api';
@@ -11,7 +12,12 @@ import { OtamatoneService } from 'components/otamatone';
 export class LearnPage implements OnInit {
   position: number = -1;
 
-  lesson?: Lesson;
+  lesson!: Observable<Lesson>;
+  note: number = 1;
+
+  get nextLessonLink(): Observable<string> {
+    return this.lesson.pipe(map((lesson) => `/app/learn/${lesson.id + 1}`));
+  }
 
   constructor(
     public lessonService: LessonService,
@@ -24,8 +30,10 @@ export class LearnPage implements OnInit {
       const idS = params.get('id')!;
       const id = Number.parseInt(idS);
 
-      this.lessonService.getLesson(id).subscribe((lesson) => {
-        this.lesson = lesson;
+      this.lesson = this.lessonService.getLesson(id);
+
+      this.lesson.subscribe((lesson) => {
+        this.note = lesson.note;
       });
     });
   }
@@ -35,6 +43,6 @@ export class LearnPage implements OnInit {
   }
 
   playClip(): void {
-    this.otamatoneService.play(this.lesson!.note);
+    this.otamatoneService.play(this.note);
   }
 }

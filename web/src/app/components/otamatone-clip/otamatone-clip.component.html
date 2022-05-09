@@ -1,0 +1,8 @@
+<button
+  mat-raised-button
+  color="primary"
+  (click)="play()"
+  [disabled]="otamatoneService.isPlaying | async"
+>
+  {{ !(otamatoneService.isPlaying | async) ? "Play Note" : "Playing" }}
+</button>
