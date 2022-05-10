@@ -16,4 +16,5 @@ vscode:
 github:
   prebuilds:
     # enable for the default branch (defaults to true)
-    master: false
+    master: true
+    pullRequests: false
