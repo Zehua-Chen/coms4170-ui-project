@@ -13,7 +13,7 @@ export class OtamatoneService {
   private audios: { [position in Position]: HTMLAudioElement } = {};
   private scheduled: ScheduleItem[] = [];
 
-  public get isPlaying(): Observable<boolean> {
+  public get isPlaying$(): Observable<boolean> {
     return this.#isPlaying;
   }
 

@@ -2,7 +2,7 @@
   <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
     <button
       mat-list-item
-      *ngFor="let lessonOverview of lessonService.getLessonOverviews() | async"
+      *ngFor="let lessonOverview of lessonService.lessonOverviews$ | async"
       routerLink="/app/learn/{{ lessonOverview.id }}"
     >
       <span

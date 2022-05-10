@@ -5,11 +5,7 @@
   },
   "hosting": {
     "public": "web/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
@@ -18,6 +14,9 @@
     ]
   },
   "emulators": {
+    "hosting": {
+      "port": "6000"
+    },
     "auth": {
       "port": 9099
     },

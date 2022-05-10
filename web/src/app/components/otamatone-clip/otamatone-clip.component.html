@@ -2,7 +2,9 @@
   mat-raised-button
   color="primary"
   (click)="play()"
-  [disabled]="otamatoneService.isPlaying | async"
+  [disabled]="otamatoneService.isPlaying$ | async"
 >
-  {{ !(otamatoneService.isPlaying | async) ? idlePlayLabel : playingPlayLabel }}
+  {{
+    !(otamatoneService.isPlaying$ | async) ? idlePlayLabel : playingPlayLabel
+  }}
 </button>

@@ -1,9 +1,11 @@
 <mat-toolbar color="primary">
-  <nav>
-    <a mat-button routerLink="/">Otamatone</a>
+  <nav class="w-full flex flex-row">
+    <a class="pr-4" routerLink="/">Otamatone</a>
     <a mat-button routerLink="/app/learn">Learn</a>
     <a mat-button routerLink="/app/practice">Practice</a>
     <a mat-button routerLink="/app/quiz">Quiz</a>
+    <span class="grow"></span>
+    <span>{{ (firebaseAuth.user$ | async)?.displayName ?? "" }}</span>
   </nav>
 </mat-toolbar>
 
@@ -20,7 +22,17 @@
     <mat-divider></mat-divider>
   </div>
 
-  <div class="col-span-12 grid grid-cols-3 gap-x-3">
+  <div
+    class="col-span-12 grid grid-cols-1 gap-x-3"
+    *ngIf="(firebaseAuth.user$ | async) === null"
+  >
+    <button mat-button (click)="login()">Login</button>
+  </div>
+
+  <div
+    class="col-span-12 grid grid-cols-3 gap-x-3"
+    *ngIf="(firebaseAuth.user$ | async) !== null"
+  >
     <a mat-button color="primary" routerLink="/app/learn">Learn</a>
     <a mat-button color="primary" routerLink="/app/practice">Practice</a>
     <a mat-button color="primary" routerLink="/app/quiz">Quiz</a>

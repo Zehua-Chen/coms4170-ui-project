@@ -58,7 +58,7 @@ const lessonOverviews = lessons.map(
   providedIn: 'root',
 })
 export class LessonService {
-  public getLessonOverviews(): Observable<LessonOverview[]> {
+  public get lessonOverviews$(): Observable<LessonOverview[]> {
     return of(lessonOverviews);
   }
 

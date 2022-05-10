@@ -27,7 +27,7 @@ export class LearnPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.lessonOverviews = this.lessonService.getLessonOverviews();
+    this.lessonOverviews = this.lessonService.lessonOverviews$;
     this.lesson = this.route.paramMap.pipe(
       mergeMap((params) => {
         const idS = params.get('id')!;

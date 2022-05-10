@@ -1,8 +1,34 @@
-# COMS 4170 UI Design Final Project
+# Learn Otamatone
 
-- [Github Project](https://github.com/users/Zehua-Chen/projects/2/views/1)
+### Repo Content
 
-## People
+- [web](web/): the angular web app
+
+## Get Started
+
+### Installation
+
+1. **Install node**
+2. **Enable pnpm**: `corepack enable`
+3. **Install Angular CLI**: `pnpm add -g @angular/cli`
+4. **Install Firebase CLI**: `pnpm add -g firebase-tools`
+
+## Development
+
+### Running Development Server
+
+Start these two commands at the same time
+
+- **Angular development server**: `cd web && ng serve`
+- **Firebase emulator**: `firebase emulators:start`
+
+## COMS 4170
+
+This project was originally developed as the final project of COMS 4170. The
+source and the build can be found at
+[coms4170-0.1.1](https://github.com/Zehua-Chen/learn-otamatone/releases/tag/coms4170-0.1.1).
+
+Here are the contributors of the project
 
 - Zehua Chen, zc2616@columbia.edu
   - Github: [Zehua-Chen](https://github.com/Zehua-Chen)
@@ -12,52 +38,3 @@
   - Github: [sl4986](https://github.com/sl4986)
 - Chenchen Deng, cd3301@columbia.edu
   - Github: [GraceD5](https://github.com/GraceD5)
-
-## Repo Content
-
-- [src](src/): frontend; JavaScript/TypeScript source code, (optional) style
-  sheets, media
-  - [pages](src/pages/): JavaScript/TypeScript code for each page
-  - [components](src/components/): components (see
-    [`Component.ts`](src/components/Component.ts) for how to implement new
-    components)
-- [app](app/): server
-
-### `static` and `src`
-
-Unlike a typical Flask application, `static` does not serve serve js/ts, css and
-some of the media files. We use [Vite](https://vitejs.dev/) to manage these
-files
-
-- **In production**: Vite would create a `static/assets` folder from `src/`
-- **In development**: A vite server is started first using `src/index.ts` as
-  entry point, and `templates/layout.html` has been configured to find the
-  js/ts, css and media files from `localhost:3000`, where the Vite server is
-  running at. **As a result, please put all js/ts, css and media files in `src`,
-  and then reference them in js/ts script in order for the Vite server to pick
-  them up**
-
-## Get Started
-
-1. **Install Python dependencies**: `pip install -e .`
-2. **Install Node dependencies**: `yarn install`
-   - Install yarn if you have not: `npm install -g yarn`
-   - Install node, npm if you have not (preferrably using `nvm`)
-3. **Start the web app**: `yarn start`
-   - Flask server running at: `localhost:4000`
-   - Vite server running at: `localhost:3000`
-
-## Development
-
-### Python Tools
-
-```
-$ pip install autopep8
-$ pip install pylint
-```
-
-### Building
-
-```
-$ yarn build
-```
