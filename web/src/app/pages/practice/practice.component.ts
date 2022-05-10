@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-page-practice',
   templateUrl: './practice.component.html',
-  styleUrls: ['./practice.component.scss'],
 })
 export class PracticePage implements OnInit {
   positions: number[] = [];
