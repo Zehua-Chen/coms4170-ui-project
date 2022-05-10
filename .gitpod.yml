@@ -3,12 +3,10 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: yarn install
-    command: yarn start
+  - init: corepack enable && pnpm install
+    command: pnpm start
 ports:
-  - port: 3000
-    onOpen: ignore
-  - port: 4000
+  - port: 4200
     onOpen: open-browser
     visibility: public
 vscode:
@@ -19,5 +17,3 @@ github:
   prebuilds:
     # enable for the default branch (defaults to true)
     master: false
-image:
-  file: .gitpod.Dockerfile
