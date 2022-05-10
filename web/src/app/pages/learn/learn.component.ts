@@ -17,47 +17,12 @@ export class LearnPage implements OnInit {
 
   lesson!: Observable<Lesson>;
   lessonOverviews!: Observable<LessonOverview[]>;
-  finishedLessons!: Observable<[Lesson, LessonOverview[]]>;
 
-  get previousDisabled(): Observable<boolean> {
-    return this.finishedLessons.pipe(
-      map(([lesson, lessonOverviews]) => {
-        if (lesson.id === lessonOverviews[0].id) {
-          return true;
-        }
+  previousDisabled!: Observable<boolean>;
+  previousLink!: Observable<string>;
 
-        return false;
-      })
-    );
-  }
-
-  get previousLink(): Observable<string> {
-    return this.lesson.pipe(map((lesson) => `/app/learn/${lesson.id - 1}`));
-  }
-
-  get nextText(): Observable<string> {
-    return this.finishedLessons.pipe(
-      map(([lesson, lessonOverviews]) => {
-        if (lesson.id === lessonOverviews[lessonOverviews.length - 1].id) {
-          return 'Practice';
-        }
-
-        return `Next`;
-      })
-    );
-  }
-
-  get nextLink(): Observable<string> {
-    return this.finishedLessons.pipe(
-      map(([lesson, lessonOverviews]) => {
-        if (lesson.id === lessonOverviews[lessonOverviews.length - 1].id) {
-          return '/app/practice';
-        }
-
-        return `/app/learn/${lesson.id + 1}`;
-      })
-    );
-  }
+  nextText!: Observable<string>;
+  nextLink!: Observable<string>;
 
   constructor(
     public lessonService: LessonService,
@@ -72,7 +37,60 @@ export class LearnPage implements OnInit {
 
       this.lessonOverviews = this.lessonService.getLessonOverviews();
       this.lesson = this.lessonService.getLesson(id);
-      this.finishedLessons = zip(this.lesson, this.lessonOverviews);
+
+      const isFirstLesson: Observable<[Lesson, boolean]> = zip(
+        this.lesson,
+        this.lessonOverviews
+      ).pipe(
+        map(([lesson, overviews]) => {
+          if (lesson.id === overviews[0].id) {
+            return [lesson, true];
+          }
+
+          return [lesson, false];
+        })
+      );
+
+      const isLastLesson: Observable<[Lesson, boolean]> = zip(
+        this.lesson,
+        this.lessonOverviews
+      ).pipe(
+        map(([lesson, overviews]) => {
+          if (lesson.id === overviews[overviews.length - 1].id) {
+            return [lesson, true];
+          }
+
+          return [lesson, false];
+        })
+      );
+
+      this.previousDisabled = isFirstLesson.pipe(
+        map(([_, first]) => {
+          return first;
+        })
+      );
+
+      this.previousLink = isFirstLesson.pipe(
+        map(([lesson, first]) =>
+          first ? `/app/learn/${lesson.id - 1}` : '/app/learn'
+        )
+      );
+
+      this.nextText = isLastLesson.pipe(
+        map(([_, last]) => {
+          return last ? 'Practice' : 'Next';
+        })
+      );
+
+      this.nextLink = isLastLesson.pipe(
+        map(([lesson, last]) => {
+          if (last) {
+            return '/app/practice';
+          }
+
+          return `/app/learn/${lesson.id + 1}`;
+        })
+      );
     });
   }
 
