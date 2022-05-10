@@ -1,7 +1,7 @@
 import { Observable, map, zip, of } from 'rxjs';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LessonService, Lesson, LessonOverview } from 'app/api';
+import { LessonService, Lesson, LessonOverview } from 'api/lessons.service';
 import { OtamatoneService } from 'components/otamatone';
 
 @Component({

@@ -21,7 +21,7 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "components/*": ["src/app/components/*"],
-      "app/*": ["src/app/*"]
+      "api/*": ["src/app/api/*"]
     }
   },
   "angularCompilerOptions": {

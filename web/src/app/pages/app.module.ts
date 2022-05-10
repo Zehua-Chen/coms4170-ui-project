@@ -6,8 +6,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { APIModule } from 'app/api';
-
 import { OtamatoneModule } from 'components/otamatone';
 import { OtamatoneClipModule } from 'components/otamatone-clip';
 import { TwoColumnModule } from 'components/two-column';
@@ -37,7 +35,6 @@ const routes = [
     OtamatoneModule,
     OtamatoneClipModule,
     TwoColumnModule,
-    APIModule,
   ],
   exports: [RouterModule],
 })
