@@ -13,3 +13,5 @@ tsconfig.tsbuildinfo
 
 dist/
 *.zip
+
+*.log
