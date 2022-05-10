@@ -40,12 +40,3 @@ body {
   --app-primary: #{map.get($my-primary, "default")};
   --app-accent: #{map.get($my-accent, "default")};
 }
-
-@layer components {
-  // host element made by angular (like <app-page-learn /> are inlined. This
-  // is not ideal for some components, which should have full height
-  .h-full-component {
-    @apply h-full;
-    @apply block;
-  }
-}
