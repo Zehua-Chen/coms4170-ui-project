@@ -3,10 +3,15 @@
     <button
       mat-list-item
       *ngFor="let lessonOverview of lessonService.getLessonOverviews() | async"
-      [class.selected]="lessonOverview.id === (lesson | async)!.id"
       routerLink="/app/learn/{{ lessonOverview.id }}"
     >
-      {{ lessonOverview.title }}
+      <span
+        [class.app-sidebar-selected]="
+          lessonOverview.id === (lesson | async)!.id
+        "
+      >
+        {{ lessonOverview.title }}
+      </span>
     </button>
   </mat-nav-list>
 

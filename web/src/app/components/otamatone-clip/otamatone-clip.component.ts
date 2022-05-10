@@ -9,6 +9,12 @@ export class OtamatoneClip {
   @Input()
   notes: number[] = [];
 
+  @Input()
+  idlePlayLabel: string = 'Play';
+
+  @Input()
+  playingPlayLabel: string = 'Playing...';
+
   constructor(public otamatoneService: OtamatoneService) {}
 
   play(): void {

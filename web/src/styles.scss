@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @use "sass:map";
 @use "@angular/material" as mat;
+@use "styles/sidebar";
+@use "styles/text";
 
 @include mat.core();
+
+// themes
 
 $my-primary: mat.define-palette(mat.$indigo-palette, 500);
 $my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
@@ -40,3 +44,6 @@ body {
   --app-primary: #{map.get($my-primary, "default")};
   --app-accent: #{map.get($my-accent, "default")};
 }
+
+@include sidebar.sidebar($my-theme);
+@include text.text($my-theme);

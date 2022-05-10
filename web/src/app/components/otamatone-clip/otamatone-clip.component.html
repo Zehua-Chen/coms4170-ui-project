@@ -4,5 +4,5 @@
   (click)="play()"
   [disabled]="otamatoneService.isPlaying | async"
 >
-  {{ !(otamatoneService.isPlaying | async) ? "Play Note" : "Playing" }}
+  {{ !(otamatoneService.isPlaying | async) ? idlePlayLabel : playingPlayLabel }}
 </button>
