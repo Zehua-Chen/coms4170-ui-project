@@ -18,6 +18,8 @@ import {
 } from 'firebase/auth';
 import { FirebaseService } from './firebase.service';
 
+import { environment } from 'environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
   get user$(): Observable<User | null> {
@@ -31,7 +33,10 @@ export class FirebaseAuthService {
 
   constructor(private firebase: FirebaseService) {
     this.auth = getAuth(this.firebase.app);
-    connectAuthEmulator(this.auth, 'http://localhost:9099');
+
+    if (!environment.development) {
+      connectAuthEmulator(this.auth, 'http://localhost:9099');
+    }
 
     this.googleProvider = new GoogleAuthProvider();
 

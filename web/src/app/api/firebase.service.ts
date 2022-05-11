@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import type { FirebaseApp } from 'firebase/app';
+import type { FirebaseApp, FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: 'AIzaSyDsUke3dHVP4FOS7xsl3iKfgG5SyxcebWk',
   authDomain: 'learn-otamatone-zc2616.firebaseapp.com',
   projectId: 'learn-otamatone-zc2616',
