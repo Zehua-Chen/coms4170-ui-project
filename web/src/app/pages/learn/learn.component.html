@@ -2,21 +2,19 @@
   <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
     <button
       mat-list-item
-      *ngFor="let lessonOverview of lessonService.lessonOverviews$ | async"
-      routerLink="/app/learn/{{ lessonOverview.id }}"
+      *ngFor="let navLesson of lessons$ | async"
+      routerLink="/app/learn/{{ navLesson.index }}"
     >
       <span
-        [class.app-sidebar-selected]="
-          lessonOverview.id === (lesson | async)!.id
-        "
+        [class.app-sidebar-selected]="navLesson.id === (lesson$ | async)?.id"
       >
-        {{ lessonOverview.title }}
+        {{ navLesson.title }}
       </span>
     </button>
   </mat-nav-list>
 
   <mat-toolbar color="primary">
-    <h1 class="pr-4">Lesson {{ (lesson | async)!.note }}</h1>
+    <h1 class="pr-4">Lesson {{ (lesson$ | async)?.title ?? "?" }}</h1>
     <a mat-button routerLink="/app/practice">Practice</a>
     <a mat-button routerLink="/app/quiz">Quiz</a>
   </mat-toolbar>
@@ -32,7 +30,7 @@
 
     <div class="col-span-12">
       <app-otamatone-clip
-        [notes]="[(lesson | async)!.position]"
+        [notes]="[(lesson$ | async)?.position ?? 1]"
       ></app-otamatone-clip>
     </div>
 
@@ -54,7 +52,7 @@
         class="flex-grow-1"
         mat-raised-button
         color="primary"
-        [disabled]="(lesson | async)!.position !== playedPosition"
+        [disabled]="(lesson$ | async)?.position !== playedPosition"
         [routerLink]="nextLink | async"
       >
         {{ nextText | async }}

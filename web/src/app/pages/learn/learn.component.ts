@@ -1,7 +1,7 @@
-import { Observable, map, zip, mergeMap } from 'rxjs';
+import { Observable, map, combineLatest } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LessonService, Lesson, LessonOverview } from 'api/lessons.service';
+import { LessonService, Lesson } from 'api/lessons.service';
 import { OtamatoneService } from 'components/otamatone';
 
 @Component({
@@ -11,8 +11,8 @@ import { OtamatoneService } from 'components/otamatone';
 export class LearnPage implements OnInit {
   playedPosition: number | null = null;
 
-  lesson!: Observable<Lesson>;
-  lessonOverviews!: Observable<LessonOverview[]>;
+  lesson$!: Observable<Lesson | null>;
+  lessons$!: Observable<Lesson[]>;
 
   previousDisabled!: Observable<boolean>;
   previousLink!: Observable<string>;
@@ -27,22 +27,29 @@ export class LearnPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.lessonOverviews = this.lessonService.lessonOverviews$;
-    this.lesson = this.route.paramMap.pipe(
-      mergeMap((params) => {
-        const idS = params.get('id')!;
-        const id = Number.parseInt(idS);
+    this.lessons$ = this.lessonService.lessons$;
+    this.lesson$ = combineLatest([this.route.paramMap, this.lessons$]).pipe(
+      map(([params, lessons]) => {
+        const index = Number.parseInt(params.get('index')!);
 
-        return this.lessonService.getLesson(id);
+        if (index > lessons.length) {
+          return null;
+        }
+
+        return lessons[index];
       })
     );
 
-    const isFirstLesson: Observable<[Lesson, boolean]> = zip(
-      this.lesson,
-      this.lessonOverviews
-    ).pipe(
-      map(([lesson, overviews]) => {
-        if (lesson.id === overviews[0].id) {
+    const isFirstLesson: Observable<[Lesson | null, boolean]> = combineLatest([
+      this.lesson$,
+      this.lessons$,
+    ]).pipe(
+      map(([lesson, lessons]) => {
+        if (!lesson || lesson.index >= lessons.length) {
+          return [null, false];
+        }
+
+        if (lesson.id === lessons[0].id) {
           return [lesson, true];
         }
 
@@ -50,11 +57,15 @@ export class LearnPage implements OnInit {
       })
     );
 
-    const isLastLesson: Observable<[Lesson, boolean]> = zip(
-      this.lesson,
-      this.lessonOverviews
-    ).pipe(
+    const isLastLesson: Observable<[Lesson | null, boolean]> = combineLatest([
+      this.lesson$,
+      this.lessons$,
+    ]).pipe(
       map(([lesson, overviews]) => {
+        if (!lesson || lesson.index >= overviews.length) {
+          return [null, false];
+        }
+
         if (lesson.id === overviews[overviews.length - 1].id) {
           return [lesson, true];
         }
@@ -71,7 +82,7 @@ export class LearnPage implements OnInit {
 
     this.previousLink = isFirstLesson.pipe(
       map(([lesson, first]) =>
-        !first ? `/app/learn/${lesson.id - 1}` : '/app/learn'
+        !first ? `/app/learn/${lesson ? lesson.index - 1 : 0}` : '/app/learn'
       )
     );
 
@@ -87,7 +98,7 @@ export class LearnPage implements OnInit {
           return '/app/practice';
         }
 
-        return `/app/learn/${lesson.id + 1}`;
+        return `/app/learn/${lesson ? lesson.index + 1 : 0}`;
       })
     );
   }
