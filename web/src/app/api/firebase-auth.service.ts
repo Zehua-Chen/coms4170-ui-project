@@ -6,6 +6,7 @@ import {
   CanActivateChild,
   RouterStateSnapshot,
   UrlTree,
+  Router,
 } from '@angular/router';
 
 import type { Auth, User } from 'firebase/auth';
@@ -59,11 +60,11 @@ export class FirebaseAuthService {
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthGuard implements CanActivate, CanActivateChild {
-  #canActivate: Observable<boolean>;
+  #canActivate: Observable<boolean | UrlTree>;
 
-  constructor(private auth: FirebaseAuthService) {
+  constructor(private auth: FirebaseAuthService, private router: Router) {
     this.#canActivate = this.auth.user$.pipe(
-      map((user) => (user ? true : false))
+      map((user) => (user ? true : this.router.parseUrl('/')))
     );
   }
 

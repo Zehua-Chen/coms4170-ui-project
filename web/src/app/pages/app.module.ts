@@ -15,6 +15,10 @@ import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
 
 const routes = [
+  {
+    path: '',
+    redirectTo: 'learn/1',
+  },
   { path: 'learn', redirectTo: 'learn/1', pathMatch: 'full' },
   {
     path: 'learn/:id',
