@@ -2,8 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  development: true,
+import { Environment } from './types';
+
+export const environment: Environment = {
+  mode: 'development',
+  authEmulatorUrl: 'http://localhost:9099',
+  firestoreEmulator: { host: 'localhost', port: 8080 },
 };
 
 /*

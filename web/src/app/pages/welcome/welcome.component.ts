@@ -8,13 +8,13 @@ import { FirebaseAuthService } from 'api/firebase-auth.service';
 export class WelcomeComponent {
   positions: number[] = [1, 2, 3];
 
-  constructor(public firebaseAuth: FirebaseAuthService) {}
+  constructor(public auth: FirebaseAuthService) {}
 
   onPlay(position: number): void {
     this.positions.push(position);
   }
 
   login(): void {
-    this.firebaseAuth.signinWithGoogle();
+    this.auth.signinWithGoogle();
   }
 }

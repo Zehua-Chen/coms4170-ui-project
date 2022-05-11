@@ -17,11 +17,11 @@ import { QuizPage } from './quiz/quiz.component';
 const routes = [
   {
     path: '',
-    redirectTo: 'learn/1',
+    redirectTo: 'learn/0',
   },
-  { path: 'learn', redirectTo: 'learn/1', pathMatch: 'full' },
+  { path: 'learn', redirectTo: 'learn/0', pathMatch: 'full' },
   {
-    path: 'learn/:id',
+    path: 'learn/:index',
     component: LearnPage,
   },
   { path: 'practice', redirectTo: 'practice/1', pathMatch: 'full' },

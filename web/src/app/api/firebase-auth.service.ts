@@ -35,8 +35,8 @@ export class FirebaseAuthService {
   constructor(private firebase: FirebaseService) {
     this.auth = getAuth(this.firebase.app);
 
-    if (!environment.development) {
-      connectAuthEmulator(this.auth, 'http://localhost:9099');
+    if (environment.mode === 'development') {
+      connectAuthEmulator(this.auth, environment.authEmulatorUrl);
     }
 
     this.googleProvider = new GoogleAuthProvider();
