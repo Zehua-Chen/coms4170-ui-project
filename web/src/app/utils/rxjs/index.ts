@@ -29,10 +29,10 @@ function isSameWithIndex<T extends Identifiable>(
         }
 
         if (element.id === elements[indexValue].id) {
-          return [element, false];
+          return [element, true];
         }
 
-        return [element, true];
+        return [element, false];
       })
     );
   };
