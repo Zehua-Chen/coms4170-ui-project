@@ -5,9 +5,5 @@ service cloud.firestore {
     match /lessons/{lesson} {
       allow read: if request.auth != null;
     }
-
-    match /practices/{practice} {
-      allow read: if request.auth != null;
-    }
   }
 }
