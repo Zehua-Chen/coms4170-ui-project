@@ -1,8 +1,9 @@
-import { Observable, map, combineLatest } from 'rxjs';
+import { Observable, map, combineLatest, take } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'api/lessons.service';
 import { OtamatoneService } from 'components/otamatone';
+import { isFirst, isLast } from 'utils/rxjs';
 
 @Component({
   selector: 'app-page-learn',
@@ -43,36 +44,12 @@ export class LearnPage implements OnInit {
     const isFirstLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(
-      map(([lesson, lessons]) => {
-        if (!lesson || lesson.index >= lessons.length) {
-          return [null, false];
-        }
-
-        if (lesson.id === lessons[0].id) {
-          return [lesson, true];
-        }
-
-        return [lesson, false];
-      })
-    );
+    ]).pipe(isFirst);
 
     const isLastLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(
-      map(([lesson, overviews]) => {
-        if (!lesson || lesson.index >= overviews.length) {
-          return [null, false];
-        }
-
-        if (lesson.id === overviews[overviews.length - 1].id) {
-          return [lesson, true];
-        }
-
-        return [lesson, false];
-      })
-    );
+    ]).pipe(isLast);
 
     this.previousDisabled = isFirstLesson.pipe(
       map(([_, first]) => {
