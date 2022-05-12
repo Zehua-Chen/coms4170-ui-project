@@ -4,9 +4,6 @@
     <a mat-button routerLink="/app/learn" [disabled]="!(auth.user$ | async)">
       Learn
     </a>
-    <a mat-button routerLink="/app/practice" [disabled]="!(auth.user$ | async)">
-      Practice
-    </a>
     <a mat-button routerLink="/app/quiz" [disabled]="!(auth.user$ | async)">
       Quiz
     </a>

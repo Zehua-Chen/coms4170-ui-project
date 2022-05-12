@@ -17,7 +17,7 @@ import { OtamatoneService } from './otamatone.service';
 })
 export class Otamatone implements AfterViewInit {
   @Input()
-  positions: readonly Position[] = allPositions;
+  positions: 'all' | Position[] = 'all';
 
   @Output()
   onPlay: EventEmitter<Position> = new EventEmitter();
@@ -81,6 +81,10 @@ export class Otamatone implements AfterViewInit {
   }
 
   public isDisabled(position: Position): boolean {
+    if (this.positions === 'all') {
+      return false;
+    }
+
     return this.positions.find((p) => p === position) === undefined;
   }
 

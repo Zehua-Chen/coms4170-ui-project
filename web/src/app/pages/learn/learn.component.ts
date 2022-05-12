@@ -9,7 +9,7 @@ import { OtamatoneService } from 'components/otamatone';
   templateUrl: './learn.component.html',
 })
 export class LearnPage implements OnInit {
-  playedPosition: number | null = null;
+  playedPositions: number[] = [];
 
   lesson$!: Observable<Lesson | null>;
   lessons$!: Observable<Lesson[]>;
@@ -88,14 +88,14 @@ export class LearnPage implements OnInit {
 
     this.nextText = isLastLesson.pipe(
       map(([_, last]) => {
-        return last ? 'Practice' : 'Next';
+        return last ? 'Quiz' : 'Next';
       })
     );
 
     this.nextLink = isLastLesson.pipe(
       map(([lesson, last]) => {
         if (last) {
-          return '/app/practice';
+          return '/app/quiz';
         }
 
         return `/app/learn/${lesson ? lesson.index + 1 : 0}`;
@@ -104,6 +104,6 @@ export class LearnPage implements OnInit {
   }
 
   onPlay(position: number): void {
-    this.playedPosition = position;
+    this.playedPositions.push(position);
   }
 }

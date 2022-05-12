@@ -35,12 +35,15 @@
 
     <div class="col-span-12">
       <app-otamatone-clip
-        [notes]="[(lesson$ | async)?.position ?? 1]"
+        [notes]="(lesson$ | async)?.solution ?? []"
       ></app-otamatone-clip>
     </div>
 
     <div class="col-span-12 flex justify-center">
-      <app-otamatone (onPlay)="onPlay($event)"></app-otamatone>
+      <app-otamatone
+        [positions]="(lesson$ | async)?.enabledPositions ?? 'all'"
+        (onPlay)="onPlay($event)"
+      ></app-otamatone>
     </div>
 
     <div class="col-span-12 grid grid-cols-2 gap-x-3">
@@ -57,7 +60,9 @@
         class="flex-grow-1"
         mat-raised-button
         color="primary"
-        [disabled]="(lesson$ | async)?.position !== playedPosition"
+        [disabled]="
+          !([(lesson$ | async)?.solution, playedPositions] | arraysEqual)
+        "
         [routerLink]="nextLink | async"
       >
         {{ nextText | async }}

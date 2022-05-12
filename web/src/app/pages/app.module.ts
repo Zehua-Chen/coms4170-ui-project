@@ -11,7 +11,6 @@ import { OtamatoneClipModule } from 'components/otamatone-clip';
 import { TwoColumnModule } from 'components/two-column';
 
 import { LearnPage } from './learn/learn.component';
-import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
 import { ArraysEqualModule } from 'utils/arrays-equal';
 
@@ -25,14 +24,12 @@ const routes = [
     path: 'learn/:index',
     component: LearnPage,
   },
-  { path: 'practice', redirectTo: 'practice/0', pathMatch: 'full' },
-  { path: 'practice/:index', component: PracticePage },
   { path: 'quiz', redirectTo: 'quiz/1', pathMatch: 'full' },
   { path: 'quiz/:id', component: QuizPage },
 ] as Routes;
 
 @NgModule({
-  declarations: [LearnPage, PracticePage, QuizPage],
+  declarations: [LearnPage, QuizPage],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

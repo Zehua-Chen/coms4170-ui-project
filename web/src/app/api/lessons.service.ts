@@ -9,7 +9,8 @@ export interface Lesson {
   id: string;
   index: number;
   title: string;
-  position: number;
+  enabledPositions: 'all' | number[];
+  solution: number[];
 }
 
 @Injectable({
