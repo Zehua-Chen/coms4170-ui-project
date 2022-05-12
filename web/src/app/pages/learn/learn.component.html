@@ -14,14 +14,19 @@
   </mat-nav-list>
 
   <mat-toolbar color="primary">
-    <h1 class="pr-4">Lesson {{ (lesson$ | async)?.title ?? "?" }}</h1>
-    <a mat-button routerLink="/app/practice">Practice</a>
-    <a mat-button routerLink="/app/quiz">Quiz</a>
+    <mat-toolbar-row>
+      <h1>Lesson</h1>
+      <a mat-button routerLink="/app/practice">Practice</a>
+      <a mat-button routerLink="/app/quiz">Quiz</a>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <h2 class="pr-3">{{ (lesson$ | async)?.title ?? "?" }}</h2>
+    </mat-toolbar-row>
   </mat-toolbar>
 
   <div class="grow container px-4 pt-2 grid grid-cols-12 gap-y-4">
     <div class="col-span-12">
-      <h2 class="mat-h1">Instruction</h2>
+      <h3 class="mat-h1">Instruction</h3>
       <p class="mat-body2">
         Replicate the following note you hear by click
         <span class="to-click">buttons on the otamatone</span> to play notes
