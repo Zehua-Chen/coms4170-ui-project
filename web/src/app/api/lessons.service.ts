@@ -16,7 +16,11 @@ export interface Lesson {
   providedIn: 'root',
 })
 export class LessonService {
-  #lessons: BehaviorSubject<Lesson[]> = new BehaviorSubject<Lesson[]>([]);
+  #lessons$: BehaviorSubject<Lesson[]> = new BehaviorSubject<Lesson[]>([]);
+
+  public get lessons$(): Observable<Lesson[]> {
+    return this.#lessons$;
+  }
 
   constructor(private firestore: FirebaseFirestoreService) {
     const lessons = collection(this.firestore.firestore, 'lessons');
@@ -27,11 +31,7 @@ export class LessonService {
         (doc) => ({ id: doc.id, ...doc.data() } as Lesson)
       );
 
-      this.#lessons.next(lessons);
+      this.#lessons$.next(lessons);
     });
-  }
-
-  public get lessons$(): Observable<Lesson[]> {
-    return this.#lessons;
   }
 }

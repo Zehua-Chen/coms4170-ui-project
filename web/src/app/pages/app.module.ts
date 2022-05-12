@@ -13,6 +13,7 @@ import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
 import { PracticePage } from './practice/practice.component';
 import { QuizPage } from './quiz/quiz.component';
+import { ArraysEqualModule } from 'utils/arrays-equal';
 
 const routes = [
   {
@@ -24,8 +25,8 @@ const routes = [
     path: 'learn/:index',
     component: LearnPage,
   },
-  { path: 'practice', redirectTo: 'practice/1', pathMatch: 'full' },
-  { path: 'practice/:id', component: PracticePage },
+  { path: 'practice', redirectTo: 'practice/0', pathMatch: 'full' },
+  { path: 'practice/:index', component: PracticePage },
   { path: 'quiz', redirectTo: 'quiz/1', pathMatch: 'full' },
   { path: 'quiz/:id', component: QuizPage },
 ] as Routes;
@@ -42,6 +43,7 @@ const routes = [
     OtamatoneModule,
     OtamatoneClipModule,
     TwoColumnModule,
+    ArraysEqualModule,
   ],
   exports: [RouterModule],
 })

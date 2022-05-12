@@ -54,8 +54,6 @@ export class FirebaseAuthService {
     onAuthStateChanged(this.auth, (user) => {
       this.#user$.next(user);
     });
-
-    console.log('create auth service');
   }
 
   /**

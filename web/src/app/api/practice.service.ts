@@ -1,48 +1,37 @@
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-export interface PracticeOverview {
-  id: number;
-  title: string;
-}
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+
+import { FirebaseFirestoreService } from './firebase-firestore.service';
 
 export interface Practice {
-  id: number;
+  id: string;
+  index: number;
   title: string;
-  solution: readonly number[];
+  solution: number[];
 }
-
-const practices = [
-  {
-    id: 1,
-    title: 'Practice 1',
-    solution: [1, 1, 2, 2, 3, 3],
-  },
-  {
-    id: 2,
-    title: 'Practice 2',
-    solution: [1, 1, 5, 5, 6, 6, 5],
-  },
-  {
-    id: 3,
-    title: 'Practice 3',
-    solution: [3, 6, 5, 6, 5, 2],
-  },
-] as Practice[];
-
-const practiceOverviews = practices.map(
-  (lesson) => ({ id: lesson.id, title: lesson.title } as PracticeOverview)
-);
 
 @Injectable({
   providedIn: 'root',
 })
 export class PracticeService {
-  public getPracticeOverviews(): Observable<PracticeOverview[]> {
-    return of(practiceOverviews);
+  #lessons$: BehaviorSubject<Practice[]> = new BehaviorSubject<Practice[]>([]);
+
+  get lessons$(): Observable<Practice[]> {
+    return this.#lessons$;
   }
 
-  public getPractice(id: number): Observable<Practice> {
-    return of(practices.find((lesson) => lesson.id === id)!);
+  constructor(private firestore: FirebaseFirestoreService) {
+    const lessons = collection(this.firestore.firestore, 'practices');
+    const lessonsById = query(lessons, orderBy('index'));
+
+    getDocs(lessonsById).then((snapshot) => {
+      const lessons = snapshot.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() } as Practice)
+      );
+
+      this.#lessons$.next(lessons);
+    });
   }
 }
