@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, filter } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -21,16 +21,26 @@ import { FirebaseService } from './firebase.service';
 
 import { environment } from 'environments/environment';
 
+/**
+ * State of the current user
+ * - `User`: user has signed in
+ * - `null`: user has not signed in
+ * - `undefined`: user's authentication status is not known
+ */
+export type UserState = User | null | undefined;
+
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
-  get user$(): Observable<User | null> {
-    return this.#user;
+  get user$(): Observable<UserState> {
+    return this.#user$;
   }
 
   private auth: Auth;
   private googleProvider: GoogleAuthProvider;
 
-  #user: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  #user$: BehaviorSubject<UserState> = new BehaviorSubject<UserState>(
+    undefined
+  );
 
   constructor(private firebase: FirebaseService) {
     this.auth = getAuth(this.firebase.app);
@@ -42,7 +52,7 @@ export class FirebaseAuthService {
     this.googleProvider = new GoogleAuthProvider();
 
     onAuthStateChanged(this.auth, (user) => {
-      this.#user.next(user);
+      this.#user$.next(user);
     });
 
     console.log('create auth service');
@@ -63,9 +73,9 @@ export class FirebaseAuthGuard implements CanActivate, CanActivateChild {
   #canActivate: Observable<boolean | UrlTree>;
 
   constructor(private auth: FirebaseAuthService, private router: Router) {
-    this.#canActivate = this.auth.user$.pipe(
-      map((user) => (user ? true : this.router.parseUrl('/')))
-    );
+    this.#canActivate = this.auth.user$
+      .pipe(filter((user) => user !== undefined))
+      .pipe(map((user) => (user ? true : this.router.parseUrl('/'))));
   }
 
   canActivate(
