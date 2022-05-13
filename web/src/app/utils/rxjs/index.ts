@@ -1,8 +1,15 @@
 import { Observable, OperatorFunction, map } from 'rxjs';
 
-export interface Identifiable {
-  id: any;
+export type Equals<T> = (a: T, b: T) => boolean;
+
+function identityEquals<T>(a: T, b: T): boolean {
+  return a === b;
 }
+
+export type IsSameWithIndexOperator<T> = OperatorFunction<
+  [T | null, T[]],
+  [T | null, boolean]
+>;
 
 /**
  * Check if an element is the same as another element at a specific index in
@@ -10,9 +17,10 @@ export interface Identifiable {
  * @param index given an array of elements, get the index used for comparison
  * @returns
  */
-function isSameWithIndex<T extends Identifiable>(
-  index: (elements: T[]) => number
-): OperatorFunction<[T | null, T[]], [T | null, boolean]> {
+function isSameWithIndex<T>(
+  index: (elements: T[]) => number,
+  equals: Equals<T>
+): IsSameWithIndexOperator<T> {
   return (
     source: Observable<[T | null, T[]]>
   ): Observable<[T | null, boolean]> => {
@@ -28,7 +36,7 @@ function isSameWithIndex<T extends Identifiable>(
           return [element, false];
         }
 
-        if (element.id === elements[indexValue].id) {
+        if (equals(element, elements[indexValue])) {
           return [element, true];
         }
 
@@ -43,10 +51,11 @@ function isSameWithIndex<T extends Identifiable>(
  * @param source
  * @returns
  */
-export function isLast<T extends Identifiable>(
-  source: Observable<[T | null, T[]]>
-): Observable<[T | null, boolean]> {
-  return source.pipe(isSameWithIndex<T>((elements) => elements.length - 1));
+export function isLast<T>(
+  equals: Equals<T> = identityEquals
+): IsSameWithIndexOperator<T> {
+  return (source) =>
+    source.pipe(isSameWithIndex<T>((elements) => elements.length - 1, equals));
 }
 
 /**
@@ -54,8 +63,8 @@ export function isLast<T extends Identifiable>(
  * @param source
  * @returns
  */
-export function isFirst<T extends Identifiable>(
-  source: Observable<[T | null, T[]]>
-): Observable<[T | null, boolean]> {
-  return source.pipe(isSameWithIndex<T>(() => 0));
+export function isFirst<T>(
+  equals: Equals<T> = identityEquals
+): IsSameWithIndexOperator<T> {
+  return (source) => source.pipe(isSameWithIndex<T>(() => 0, equals));
 }
