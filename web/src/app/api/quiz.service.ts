@@ -14,6 +14,8 @@ import {
   Firestore,
   onSnapshot,
   QuerySnapshot,
+  QueryDocumentSnapshot,
+  FirestoreDataConverter,
 } from 'firebase/firestore';
 
 import { FirebaseAuthService, UserState } from './firebase-auth.service';
@@ -36,6 +38,23 @@ export interface Quiz extends QuizContent {
   id: string;
 }
 
+const quizConverter: FirestoreDataConverter<Quiz> = {
+  fromFirestore(snapshot: QueryDocumentSnapshot) {
+    const { date, ...others } = snapshot.data();
+
+    return {
+      id: snapshot.id,
+      date: date.toDate(),
+      ...others,
+    } as Quiz;
+  },
+  toFirestore({ id, ...others }: Quiz): DocumentData {
+    return {
+      ...others,
+    };
+  },
+};
+
 /**
  * Creates an operator that given a user, return the collection of its quizzes
  * @param firestore
@@ -43,14 +62,16 @@ export interface Quiz extends QuizContent {
  */
 function userQuizzes(
   firestore: Firestore
-): OperatorFunction<UserState, CollectionReference<DocumentData>> {
+): OperatorFunction<UserState, CollectionReference<Quiz>> {
   return (user: Observable<UserState>) => {
     return user
       .pipe(
         filter((user) => user !== null),
         map((user) => `/users/${user!.uid}/quizzes`)
       )
-      .pipe(map((path) => collection(firestore, path)));
+      .pipe(
+        map((path) => collection(firestore, path).withConverter(quizConverter))
+      );
   };
 }
 
@@ -61,6 +82,12 @@ export class QuizService {
     private firestore: FirebaseFirestoreService
   ) {}
 
+  /**
+   * Returns a stream of quiz list. A new quiz list is emitted when new changes
+   * occur on Firestore
+   *
+   * @returns **Infinite sequence**
+   */
   public getQuizzes(): Observable<Quiz[]> {
     return this.auth.user$.pipe(userQuizzes(this.firestore.firestore)).pipe(
       map((collection) => query(collection, orderBy('date'))),
@@ -93,13 +120,9 @@ export class QuizService {
       mergeMap((collection) => {
         return new Observable<Quiz[]>((subcriber) => {
           getDocs(collection).then((snapshot) => {
-            const quizzes = snapshot.docs.map(
-              (doc) =>
-                ({
-                  id: doc.id,
-                  ...doc.data(),
-                } as Quiz)
-            );
+            const quizzes = snapshot.docs.map((doc) => {
+              return doc.data();
+            });
 
             subcriber.next(quizzes);
           });
@@ -108,6 +131,10 @@ export class QuizService {
     );
   }
 
+  /**
+   * Create a default quiz
+   * @returns **Finite sequence** that finishes after the quiz has been created
+   */
   public createDefaultQuiz(): Observable<void> {
     const defaultQuiz: QuizContent = {
       title: 'Default Quiz',

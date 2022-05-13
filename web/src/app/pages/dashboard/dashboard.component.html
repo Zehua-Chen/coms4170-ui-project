@@ -20,10 +20,15 @@
 
       <mat-list>
         <mat-list-item *ngFor="let quiz of quizzes$ | async">
-          <span matLine>{{ quiz.title }}</span>
+          <span matLine>
+            {{ quiz.title }}
+          </span>
+          <span matLine>
+            {{ quiz.date | date: "short" }}
+          </span>
           <span>
             <a mat-button routerLink="/app/quiz/{{ quiz.id }}">Open</a>
-            <button mat-button>Delete</button>
+            <button mat-button (click)="deleteQuiz(quiz.id)">Delete</button>
           </span>
         </mat-list-item>
       </mat-list>

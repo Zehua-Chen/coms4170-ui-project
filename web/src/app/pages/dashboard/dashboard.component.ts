@@ -21,4 +21,8 @@ export class DashboardPage implements OnInit {
       .createDefaultQuiz()
       .subscribe({ error: (error) => alert(error) });
   }
+
+  deleteQuiz(id: string): void {
+    alert('Not implemented');
+  }
 }
