@@ -29,7 +29,7 @@ export class LearnPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.lessons$ = this.lessonService.lessons$;
+    this.lessons$ = this.lessonService.getLessons();
     this.lesson$ = combineLatest([this.route.paramMap, this.lessons$]).pipe(
       map(([params, lessons]) => {
         const index = Number.parseInt(params.get('index')!);
@@ -45,12 +45,12 @@ export class LearnPage implements OnInit {
     const isFirstLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(isFirst);
+    ]).pipe(isFirst());
 
     const isLastLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(isLast);
+    ]).pipe(isLast());
 
     this.previousDisabled = isFirstLesson.pipe(
       map(([_, first]) => {

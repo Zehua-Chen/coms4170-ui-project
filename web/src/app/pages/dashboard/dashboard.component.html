@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <nav>
+    <h1>Dashboard</h1>
+  </nav>
+</mat-toolbar>
+
+<div class="container mx-auto grid grid-cols-12 gap-y-4 mt-5">
+  <a class="col-span-12" mat-button routerLink="/app/learn" color="primary">
+    Learn
+  </a>
+  <mat-accordion class="col-span-12">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Quizzes </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <button mat-raised-button color="primary" (click)="makeQuiz()">
+        New Quiz
+      </button>
+
+      <mat-list>
+        <mat-list-item *ngFor="let quiz of quizzes$ | async">
+          <span matLine>{{ quiz.title }}</span>
+          <span>
+            <a mat-button routerLink="/app/quiz/{{ quiz.id }}">Open</a>
+            <button mat-button>Delete</button>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { OtamatoneModule } from 'components/otamatone';
 import { OtamatoneClipModule } from 'components/otamatone-clip';
@@ -13,23 +14,24 @@ import { TwoColumnModule } from 'components/two-column';
 import { LearnPage } from './learn/learn.component';
 import { QuizPage } from './quiz/quiz.component';
 import { ArraysEqualModule } from 'utils/arrays-equal';
+import { DashboardPage } from './dashboard/dashboard.component';
 
 const routes = [
   {
     path: '',
-    redirectTo: 'learn/0',
+    component: DashboardPage,
   },
   { path: 'learn', redirectTo: 'learn/0', pathMatch: 'full' },
   {
     path: 'learn/:index',
     component: LearnPage,
   },
-  { path: 'quiz', redirectTo: 'quiz/1', pathMatch: 'full' },
+  { path: 'quiz', redirectTo: '', pathMatch: 'full' },
   { path: 'quiz/:id', component: QuizPage },
 ] as Routes;
 
 @NgModule({
-  declarations: [LearnPage, QuizPage],
+  declarations: [LearnPage, QuizPage, DashboardPage],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -37,6 +39,7 @@ const routes = [
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
+    MatExpansionModule,
     OtamatoneModule,
     OtamatoneClipModule,
     TwoColumnModule,

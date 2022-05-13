@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseAuthService } from 'api/firebase-auth.service';
 
 @Component({
@@ -8,13 +9,14 @@ import { FirebaseAuthService } from 'api/firebase-auth.service';
 export class WelcomeComponent {
   positions: number[] = [1, 2, 3];
 
-  constructor(public auth: FirebaseAuthService) {}
+  constructor(public auth: FirebaseAuthService, private router: Router) {}
 
   onPlay(position: number): void {
     this.positions.push(position);
   }
 
-  login(): void {
-    this.auth.signinWithGoogle();
+  async login(): Promise<void> {
+    await this.auth.signinWithGoogle();
+    this.router.navigateByUrl('/app');
   }
 }

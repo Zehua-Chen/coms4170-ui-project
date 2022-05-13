@@ -1,4 +1,4 @@
-import { Observable, BehaviorSubject, of, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
@@ -17,22 +17,20 @@ export interface Lesson {
   providedIn: 'root',
 })
 export class LessonService {
-  #lessons$: BehaviorSubject<Lesson[]> = new BehaviorSubject<Lesson[]>([]);
+  constructor(private firestore: FirebaseFirestoreService) {}
 
-  public get lessons$(): Observable<Lesson[]> {
-    return this.#lessons$;
-  }
+  public getLessons(): Observable<Lesson[]> {
+    return new Observable((subscriber) => {
+      const lessons = collection(this.firestore.firestore, 'lessons');
+      const lessonsById = query(lessons, orderBy('index'));
 
-  constructor(private firestore: FirebaseFirestoreService) {
-    const lessons = collection(this.firestore.firestore, 'lessons');
-    const lessonsById = query(lessons, orderBy('index'));
+      getDocs(lessonsById).then((snapshot) => {
+        const lessons = snapshot.docs.map(
+          (doc) => ({ id: doc.id, ...doc.data() } as Lesson)
+        );
 
-    getDocs(lessonsById).then((snapshot) => {
-      const lessons = snapshot.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as Lesson)
-      );
-
-      this.#lessons$.next(lessons);
+        subscriber.next(lessons);
+      });
     });
   }
 }
