@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, map, filter } from 'rxjs';
+import { ReplaySubject, Observable, map } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -25,9 +25,8 @@ import { environment } from 'environments/environment';
  * State of the current user
  * - `User`: user has signed in
  * - `null`: user has not signed in
- * - `undefined`: user's authentication status is not known
  */
-export type UserState = User | null | undefined;
+export type UserState = User | null;
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
@@ -38,9 +37,7 @@ export class FirebaseAuthService {
   private auth: Auth;
   private googleProvider: GoogleAuthProvider;
 
-  #user$: BehaviorSubject<UserState> = new BehaviorSubject<UserState>(
-    undefined
-  );
+  #user$: ReplaySubject<UserState> = new ReplaySubject<UserState>(1);
 
   constructor(private firebase: FirebaseService) {
     this.auth = getAuth(this.firebase.app);
@@ -71,9 +68,9 @@ export class FirebaseAuthGuard implements CanActivate, CanActivateChild {
   #canActivate: Observable<boolean | UrlTree>;
 
   constructor(private auth: FirebaseAuthService, private router: Router) {
-    this.#canActivate = this.auth.user$
-      .pipe(filter((user) => user !== undefined))
-      .pipe(map((user) => (user ? true : this.router.parseUrl('/'))));
+    this.#canActivate = this.auth.user$.pipe(
+      map((user) => (user ? true : this.router.parseUrl('/')))
+    );
   }
 
   canActivate(
