@@ -1,4 +1,4 @@
-import { Observable, map, combineLatest, take } from 'rxjs';
+import { Observable, Subject, map, combineLatest, scan, share } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'api/lessons.service';
@@ -10,7 +10,8 @@ import { isFirst, isLast } from 'utils/rxjs';
   templateUrl: './learn.component.html',
 })
 export class LearnPage implements OnInit {
-  playedPositions: number[] = [];
+  playedPosition$: Subject<number> = new Subject<number>();
+  playedPositions$!: Observable<number[]>;
 
   lesson$!: Observable<Lesson | null>;
   lessons$!: Observable<Lesson[]>;
@@ -78,9 +79,16 @@ export class LearnPage implements OnInit {
         return `/app/learn/${lesson ? lesson.index + 1 : 0}`;
       })
     );
+
+    this.playedPositions$ = this.playedPosition$.pipe(
+      scan((positions, position) => {
+        return [...positions, position];
+      }, [] as number[]),
+      share()
+    );
   }
 
   onPlay(position: number): void {
-    this.playedPositions.push(position);
+    this.playedPosition$.next(position);
   }
 }
