@@ -23,6 +23,9 @@ export class DashboardPage implements OnInit {
   }
 
   deleteQuiz(id: string): void {
-    alert('Not implemented');
+    this.quizService.deleteQuiz(id).subscribe({
+      error: (error) => alert(error),
+      complete: () => console.log('finish'),
+    });
   }
 }

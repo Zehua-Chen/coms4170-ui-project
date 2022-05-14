@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
-import { filter, map, mergeMap, Observable, OperatorFunction } from 'rxjs';
+import {
+  filter,
+  first,
+  map,
+  mergeMap,
+  Observable,
+  OperatorFunction,
+} from 'rxjs';
 
 import {
   collection,
   getDocs,
   addDoc,
+  doc,
+  deleteDoc,
   orderBy,
   query,
   where,
@@ -155,6 +164,15 @@ export class QuizService {
           addDoc(collection, defaultQuiz).then(() => subcriber.complete());
         });
       })
+    );
+  }
+
+  public deleteQuiz(id: string): Observable<void> {
+    return this.auth.user$.pipe(
+      filter((user) => user !== null),
+      map((user) => `/users/${user!.uid}/quizzes/${id}`),
+      mergeMap((path) => deleteDoc(doc(this.firestore.firestore, path))),
+      first()
     );
   }
 }
