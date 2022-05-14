@@ -1,2 +1,39 @@
-<h1>Quiz</h1>
-<app-otamatone ></app-otamatone>
+<app-two-column>
+  <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
+    <button
+      mat-list-item
+      *ngFor="let navQuestion of questions$ | async; let index = index"
+      routerLink="/app/quiz/{{ quizId$ | async }}/{{ index }}"
+    >
+      <span [class.app-sidebar-selected]="index === (questionIndex$ | async)">
+        {{ navQuestion.title }}
+      </span>
+    </button>
+  </mat-nav-list>
+
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <a mat-icon-button routerLink="/app" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1>{{ (quiz$ | async)?.title }}</h1>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <h2 class="pr-3">{{ (question$ | async)?.title }}</h2>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="container px-4 pt-2 grid grid-cols-12 gap-y-4">
+    <div class="col-span-12">
+      <h3 class="mat-h1">Instruction</h3>
+      <p class="mat-body2">
+        Replicate the following note you hear by click
+        <span class="to-click">buttons on the otamatone</span> to play notes
+      </p>
+    </div>
+
+    <div class="col-span-12">
+      <app-otamatone-clip></app-otamatone-clip>
+    </div>
+  </div>
+</app-two-column>

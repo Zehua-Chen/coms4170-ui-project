@@ -1,11 +1,8 @@
 <mat-toolbar color="primary">
   <nav class="w-full flex flex-row">
     <a class="pr-4" routerLink="/">Otamatone</a>
-    <a mat-button routerLink="/app/learn" [disabled]="!(auth.user$ | async)">
-      Learn
-    </a>
-    <a mat-button routerLink="/app/quiz" [disabled]="!(auth.user$ | async)">
-      Quiz
+    <a mat-button routerLink="/app" [disabled]="!(auth.user$ | async)">
+      Dashboard
     </a>
     <span class="grow"></span>
     <span>{{ (auth.user$ | async)?.displayName ?? "" }}</span>
@@ -29,7 +26,7 @@
     class="col-span-12 grid grid-cols-1 gap-x-3"
     *ngIf="(auth.user$ | async) === null"
   >
-    <button mat-button (click)="login()">Login</button>
+    <button mat-button (click)="login()">Login With Google</button>
   </div>
 
   <div
@@ -37,6 +34,5 @@
     *ngIf="(auth.user$ | async) !== null"
   >
     <a mat-button color="primary" routerLink="/app/">Dashboard</a>
-    <a mat-button color="primary" routerLink="/app/learn">Learn</a>
   </div>
 </div>

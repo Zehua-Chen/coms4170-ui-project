@@ -11,14 +11,13 @@ import {
 
 import {
   collection,
+  getDoc,
   getDocs,
   addDoc,
   doc,
   deleteDoc,
   orderBy,
   query,
-  where,
-  documentId,
   DocumentData,
   CollectionReference,
   Firestore,
@@ -26,6 +25,7 @@ import {
   QuerySnapshot,
   QueryDocumentSnapshot,
   FirestoreDataConverter,
+  DocumentReference,
 } from 'firebase/firestore';
 
 import { FirebaseAuthService, UserState } from './firebase-auth.service';
@@ -70,13 +70,29 @@ const quizConverter: FirestoreDataConverter<Quiz> = {
  * @param firestore
  * @returns
  */
-function userQuizzes(
+function quizzes(
   firestore: Firestore
 ): OperatorFunction<UserState, CollectionReference<Quiz>> {
   return pipe(
     filter((user) => user !== null),
     map((user) => `/users/${user!.uid}/quizzes`),
     map((path) => collection(firestore, path).withConverter(quizConverter))
+  );
+}
+
+/**
+ * Creates an operator that given a user, return the quiz with the id
+ * @param firestore
+ * @returns
+ */
+function quiz(
+  firestore: Firestore,
+  id: string
+): OperatorFunction<UserState, DocumentReference<Quiz>> {
+  return pipe(
+    filter((user) => user !== null),
+    map((user) => `/users/${user!.uid}/quizzes/${id}`),
+    map((path) => doc(firestore, path).withConverter(quizConverter))
   );
 }
 
@@ -95,7 +111,7 @@ export class QuizService {
    */
   public getQuizzes(): Observable<Quiz[]> {
     return this.auth.user$.pipe(
-      userQuizzes(this.firestore.firestore),
+      quizzes(this.firestore.firestore),
       map((collection) => query(collection, orderBy('date'))),
       mergeMap((collection) => {
         return new Observable<Quiz[]>((subcriber) => {
@@ -121,12 +137,11 @@ export class QuizService {
     );
   }
 
-  public getQuiz(id: string): Observable<Quiz[]> {
+  public getQuiz(id: string): Observable<Quiz | undefined> {
     return this.auth.user$.pipe(
-      userQuizzes(this.firestore.firestore),
-      map((collection) => query(collection, where(documentId(), '==', id))),
-      mergeMap((collection) => getDocs(collection)),
-      map((snapshot) => snapshot.docs.map((doc) => doc.data())),
+      quiz(this.firestore.firestore, id),
+      mergeMap((quiz) => getDoc(quiz)),
+      map((snapshot) => snapshot.data()),
       first()
     );
   }
@@ -149,7 +164,8 @@ export class QuizService {
       ],
     };
 
-    return this.auth.user$.pipe(userQuizzes(this.firestore.firestore)).pipe(
+    return this.auth.user$.pipe(
+      quizzes(this.firestore.firestore),
       mergeMap(async (collection) => {
         await addDoc(collection, defaultQuiz);
       }),
@@ -159,9 +175,8 @@ export class QuizService {
 
   public deleteQuiz(id: string): Observable<void> {
     return this.auth.user$.pipe(
-      filter((user) => user !== null),
-      map((user) => `/users/${user!.uid}/quizzes/${id}`),
-      mergeMap((path) => deleteDoc(doc(this.firestore.firestore, path))),
+      quiz(this.firestore.firestore, id),
+      mergeMap((quiz) => deleteDoc(quiz)),
       first()
     );
   }

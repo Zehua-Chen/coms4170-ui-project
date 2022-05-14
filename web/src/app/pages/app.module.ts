@@ -28,7 +28,8 @@ const routes = [
     component: LearnPage,
   },
   { path: 'quiz', redirectTo: '', pathMatch: 'full' },
-  { path: 'quiz/:id', component: QuizPage },
+  { path: 'quiz/:id', redirectTo: 'quiz/:id/0', pathMatch: 'full' },
+  { path: 'quiz/:id/:question', component: QuizPage },
 ] as Routes;
 
 @NgModule({
