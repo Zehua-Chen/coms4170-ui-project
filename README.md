@@ -3,6 +3,9 @@
 ### Repo Content
 
 - [web](web/): the angular web app
+- [static](static/): the original practice and question clips. The current
+  implementation synthesizes clips during runtime, but the original clips are
+  still kept as a reference
 
 ## Get Started
 
@@ -22,13 +25,13 @@ Start these two commands at the same time
 - **Angular development server**: `cd web && ng serve`
 - **Firebase emulator**: `firebase emulators:start`
 
-## COMS 4170
+## Acknowledgement
 
 This project was originally developed as the final project of COMS 4170. The
 source and the build can be found at
 [coms4170-0.1.1](https://github.com/Zehua-Chen/learn-otamatone/releases/tag/coms4170-0.1.1).
 
-Here are the contributors of the project
+Here are the original contributors of the project
 
 - Zehua Chen, zc2616@columbia.edu
   - Github: [Zehua-Chen](https://github.com/Zehua-Chen)
