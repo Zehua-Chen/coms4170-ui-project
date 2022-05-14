@@ -17,13 +17,30 @@ import { OtamatoneClip } from 'components/otamatone-clip';
   templateUrl: './quiz.component.html',
 })
 export class QuizPage implements OnInit, OnDestroy {
-  quiz$!: Observable<Quiz | undefined>;
-  quizId$!: Observable<string>;
+  quizId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => params.get('id')!),
+    filter((id) => id !== null)
+  );
 
-  questions$!: Observable<Question[]>;
+  quiz$: Observable<Quiz | undefined> = this.quizId$.pipe(
+    mergeMap((id) => this.quizService.getQuiz(id!))
+  );
 
-  questionIndex$!: Observable<number>;
-  question$!: Observable<Question | undefined>;
+  questions$: Observable<Question[]> = this.quiz$.pipe(
+    filter((quiz) => quiz !== undefined),
+    map((quiz) => quiz!.questions)
+  );
+
+  questionIndex$: Observable<number> = this.route.paramMap.pipe(
+    map((params) => params.get('question')!),
+    filter((question) => question !== null),
+    map((question) => Number.parseInt(question))
+  );
+
+  question$: Observable<Question | undefined> = combineLatest([
+    this.questions$,
+    this.questionIndex$,
+  ]).pipe(map(([questions, index]) => questions[index]));
 
   /**
    * Notes to be played must be set in TypeScript, otherwise notes will be
@@ -32,42 +49,16 @@ export class QuizPage implements OnInit, OnDestroy {
   @ViewChild(OtamatoneClip)
   clip!: OtamatoneClip;
 
-  clipNoteSubscription!: Subscription;
+  clipNoteSubscription: Subscription = this.question$.subscribe((question) => {
+    this.clip.notes = question?.solution ?? [];
+  });
 
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService
   ) {}
 
-  ngOnInit(): void {
-    this.quizId$ = this.route.paramMap.pipe(
-      map((params) => params.get('id')!),
-      filter((id) => id !== null)
-    );
-
-    this.questionIndex$ = this.route.paramMap.pipe(
-      map((params) => params.get('question')!),
-      filter((question) => question !== null),
-      map((question) => Number.parseInt(question))
-    );
-
-    this.quiz$ = this.quizId$.pipe(
-      mergeMap((id) => this.quizService.getQuiz(id!))
-    );
-
-    this.questions$ = this.quiz$.pipe(
-      filter((quiz) => quiz !== undefined),
-      map((quiz) => quiz!.questions)
-    );
-
-    this.question$ = combineLatest([this.questions$, this.questionIndex$]).pipe(
-      map(([questions, index]) => questions[index])
-    );
-
-    this.clipNoteSubscription = this.question$.subscribe((question) => {
-      this.clip.notes = question?.solution ?? [];
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.clipNoteSubscription.unsubscribe();

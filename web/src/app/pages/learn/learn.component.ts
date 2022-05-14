@@ -15,37 +15,36 @@ function lessonEquals(a: Lesson, b: Lesson): boolean {
 })
 export class LearnPage implements OnInit {
   playedPosition$: Subject<number> = new Subject<number>();
-  playedPositions$!: Observable<number[]>;
+  playedPositions$: Observable<number[]>;
 
-  lesson$!: Observable<Lesson | null>;
-  lessons$!: Observable<Lesson[]>;
+  lessons$: Observable<Lesson[]> = this.lessonService.getLessons();
 
-  previousDisabled!: Observable<boolean>;
-  previousLink!: Observable<string>;
+  lesson$: Observable<Lesson | null> = combineLatest([
+    this.route.paramMap,
+    this.lessons$,
+  ]).pipe(
+    map(([params, lessons]) => {
+      const index = Number.parseInt(params.get('index')!);
 
-  nextText!: Observable<string>;
-  nextLink!: Observable<string>;
+      if (index > lessons.length) {
+        return null;
+      }
+
+      return lessons[index];
+    })
+  );
+
+  previousDisabled: Observable<boolean>;
+  previousLink: Observable<string>;
+
+  nextText: Observable<string>;
+  nextLink: Observable<string>;
 
   constructor(
     public lessonService: LessonService,
     public otamatoneService: OtamatoneService,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.lessons$ = this.lessonService.getLessons();
-    this.lesson$ = combineLatest([this.route.paramMap, this.lessons$]).pipe(
-      map(([params, lessons]) => {
-        const index = Number.parseInt(params.get('index')!);
-
-        if (index > lessons.length) {
-          return null;
-        }
-
-        return lessons[index];
-      })
-    );
-
+  ) {
     const isFirstLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
@@ -91,6 +90,8 @@ export class LearnPage implements OnInit {
       share()
     );
   }
+
+  ngOnInit(): void {}
 
   onPlay(position: number): void {
     this.playedPosition$.next(position);
