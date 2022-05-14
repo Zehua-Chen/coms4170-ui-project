@@ -17,15 +17,16 @@ export class DashboardPage implements OnInit {
   }
 
   makeQuiz(): void {
-    this.quizService
-      .createDefaultQuiz()
-      .subscribe({ error: (error) => alert(error) });
+    this.quizService.createDefaultQuiz().subscribe({
+      error(error) {
+        alert(error);
+      },
+    });
   }
 
   deleteQuiz(id: string): void {
     this.quizService.deleteQuiz(id).subscribe({
       error: (error) => alert(error),
-      complete: () => console.log('finish'),
     });
   }
 }
