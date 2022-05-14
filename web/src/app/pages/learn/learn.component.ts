@@ -5,6 +5,10 @@ import { LessonService, Lesson } from 'api/lessons.service';
 import { OtamatoneService } from 'components/otamatone';
 import { isFirst, isLast } from 'utils/rxjs';
 
+function lessonEquals(a: Lesson, b: Lesson): boolean {
+  return a.id === b.id;
+}
+
 @Component({
   selector: 'app-page-learn',
   templateUrl: './learn.component.html',
@@ -45,12 +49,12 @@ export class LearnPage implements OnInit {
     const isFirstLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(isFirst());
+    ]).pipe(isFirst(lessonEquals));
 
     const isLastLesson: Observable<[Lesson | null, boolean]> = combineLatest([
       this.lesson$,
       this.lessons$,
-    ]).pipe(isLast());
+    ]).pipe(isLast(lessonEquals));
 
     this.previousDisabled = isFirstLesson.pipe(
       map(([_, first]) => {
