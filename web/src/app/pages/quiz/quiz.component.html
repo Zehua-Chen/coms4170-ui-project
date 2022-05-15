@@ -35,5 +35,12 @@
     <div class="col-span-12">
       <app-otamatone-clip></app-otamatone-clip>
     </div>
+
+    <div
+      class="col-span-12"
+      app-otamatone-input
+      [(notes)]="notes"
+      [maxNotes]="(question$ | async)?.solution?.length ?? 0"
+    ></div>
   </div>
 </app-two-column>

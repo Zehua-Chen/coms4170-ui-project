@@ -1,29 +1,25 @@
-import {
-  Component,
-  AfterViewInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import type { Labels, Position } from './configuration';
-import { allPositions } from './configuration';
+import type { Labels, Note } from './configuration';
+import { allNotes } from './configuration';
 import { OtamatoneService } from './otamatone.service';
+
+export type EnabledNotes = 'all' | Note[];
 
 @Component({
   selector: 'app-otamatone, [app-otamatone]',
   templateUrl: './otamatone.component.html',
   styleUrls: ['./otamatone.component.scss'],
 })
-export class Otamatone implements AfterViewInit {
+export class Otamatone {
   @Input()
-  positions: 'all' | Position[] = 'all';
+  enabledNotes: EnabledNotes = 'all';
 
   @Output()
-  onPlay: EventEmitter<Position> = new EventEmitter();
+  onPlay: EventEmitter<Note> = new EventEmitter();
 
   @Input()
-  labels: Labels = (position: Position) => `${position}`;
+  labels: Labels = (position: Note) => `${position}`;
 
   public get stickWidth(): number {
     return 400;
@@ -57,8 +53,8 @@ export class Otamatone implements AfterViewInit {
     return 50;
   }
 
-  public get allPositions(): readonly Position[] {
-    return allPositions;
+  public get allPositions(): readonly Note[] {
+    return allNotes;
   }
 
   public get mousePoints(): string {
@@ -80,19 +76,17 @@ export class Otamatone implements AfterViewInit {
     return (this.stickWidth - this.buttonSpace) / this.spaceCount;
   }
 
-  public isDisabled(position: Position): boolean {
-    if (this.positions === 'all') {
+  public isDisabled(position: Note): boolean {
+    if (this.enabledNotes === 'all') {
       return false;
     }
 
-    return this.positions.find((p) => p === position) === undefined;
+    return this.enabledNotes.find((p) => p === position) === undefined;
   }
 
   constructor(private otamatoneService: OtamatoneService) {}
 
-  ngAfterViewInit(): void {}
-
-  public async play(position: Position): Promise<void> {
+  public async play(position: Note): Promise<void> {
     await this.otamatoneService.play(position);
     this.onPlay.emit(position);
   }

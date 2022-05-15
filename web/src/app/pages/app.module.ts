@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { OtamatoneModule } from 'components/otamatone';
 import { OtamatoneClipModule } from 'components/otamatone-clip';
+import { OtamatoneInputModule } from 'components/otamatone-input';
 import { TwoColumnModule } from 'components/two-column';
 
 import { LearnPage } from './learn/learn.component';
@@ -45,6 +46,7 @@ const routes = [
     MatIconModule,
     OtamatoneModule,
     OtamatoneClipModule,
+    OtamatoneInputModule,
     TwoColumnModule,
     ArraysEqualModule,
   ],

@@ -8,6 +8,7 @@ import {
   Subscription,
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 import { Quiz, Question, QuizService } from 'api/quiz.service';
 import { OtamatoneClip } from 'components/otamatone-clip';
@@ -49,8 +50,14 @@ export class QuizPage implements OnInit, OnDestroy {
   @ViewChild(OtamatoneClip)
   clip!: OtamatoneClip;
 
+  notes: number[] = [];
+
   clipNoteSubscription: Subscription = this.question$.subscribe((question) => {
     this.clip.notes = question?.solution ?? [];
+  });
+
+  notesSubscription: Subscription = this.question$.subscribe((question) => {
+    this.notes = question?.submission ?? [];
   });
 
   constructor(
@@ -62,5 +69,6 @@ export class QuizPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clipNoteSubscription.unsubscribe();
+    this.notesSubscription.unsubscribe();
   }
 }

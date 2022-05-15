@@ -9,7 +9,7 @@ export interface Lesson {
   id: string;
   index: number;
   title: string;
-  enabledPositions: 'all' | number[];
+  enabledNotes: 'all' | number[];
   solution: number[];
 }
 

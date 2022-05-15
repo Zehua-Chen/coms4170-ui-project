@@ -40,12 +40,11 @@
       ></app-otamatone-clip>
     </div>
 
-    <div class="col-span-12 flex justify-center">
-      <app-otamatone
-        [positions]="(lesson$ | async)?.enabledPositions ?? 'all'"
-        (onPlay)="onPlay($event)"
-      ></app-otamatone>
-    </div>
+    <div
+      class="col-span-12"
+      app-otamatone-input
+      [enabledNotes]="(lesson$ | async)?.enabledNotes ?? 'all'"
+    ></div>
 
     <div class="col-span-12 flex justify-center">
       <code>

@@ -1,16 +1,16 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import audioFiles from './audios';
-import { Position } from './configuration';
+import { Note } from './configuration';
 
 interface ScheduleItem {
-  position: Position;
+  position: Note;
   resolve?: () => any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class OtamatoneService {
-  private audios: { [position in Position]: HTMLAudioElement } = {};
+  private audios: { [position in Note]: HTMLAudioElement } = {};
   private scheduled: ScheduleItem[] = [];
 
   public get isPlaying$(): Observable<boolean> {
@@ -24,7 +24,7 @@ export class OtamatoneService {
    * @param position
    * @returns
    */
-  public fetch(position: Position): Promise<void> {
+  public fetch(position: Note): Promise<void> {
     if (this.audios.hasOwnProperty(position)) {
       return Promise.resolve();
     }
@@ -39,15 +39,15 @@ export class OtamatoneService {
    * Queue a list of positions to play
    * @param positions
    */
-  public play(positions: Position[]): Promise<void>;
+  public play(positions: Note[]): Promise<void>;
 
   /**
    * Queue a position to play
    * @param position
    */
-  public play(position: Position): Promise<void>;
+  public play(position: Note): Promise<void>;
 
-  public play(arg0: Position | Position[]): Promise<void> {
+  public play(arg0: Note | Note[]): Promise<void> {
     if (Array.isArray(arg0)) {
       if (arg0.length == 0) {
         return Promise.resolve();
