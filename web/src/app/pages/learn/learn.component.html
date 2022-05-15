@@ -44,17 +44,12 @@
       class="col-span-12"
       app-otamatone-input
       [enabledNotes]="(lesson$ | async)?.enabledNotes ?? 'all'"
+      [maxNotes]="(lesson$ | async)?.solution?.length ?? 0"
+      [(notes)]="notes"
     ></div>
-
-    <div class="col-span-12 flex justify-center">
-      <code>
-        {{ playedPositions$ | async }}
-      </code>
-    </div>
 
     <div class="col-span-12 grid grid-cols-2 gap-x-3">
       <button
-        class="flex-grow-1 pr-1"
         mat-button
         color="accent"
         [disabled]="previousDisabled | async"
@@ -63,15 +58,9 @@
         Previous
       </button>
       <button
-        class="flex-grow-1"
         mat-raised-button
         color="primary"
-        [disabled]="
-          !(
-            [(lesson$ | async)?.solution, playedPositions$ | async]
-            | arraysEqual
-          )
-        "
+        [disabled]="!([(lesson$ | async)?.solution, notes] | arraysEqual)"
         [routerLink]="nextLink | async"
       >
         {{ nextText | async }}

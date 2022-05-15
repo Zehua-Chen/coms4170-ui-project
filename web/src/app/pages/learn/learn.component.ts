@@ -14,8 +14,7 @@ function lessonEquals(a: Lesson, b: Lesson): boolean {
   templateUrl: './learn.component.html',
 })
 export class LearnPage implements OnInit {
-  playedPosition$: Subject<number> = new Subject<number>();
-  playedPositions$: Observable<number[]>;
+  notes: number[] = [];
 
   lessons$: Observable<Lesson[]> = this.lessonService.getLessons();
 
@@ -82,18 +81,7 @@ export class LearnPage implements OnInit {
         return `/app/learn/${lesson ? lesson.index + 1 : 0}`;
       })
     );
-
-    this.playedPositions$ = this.playedPosition$.pipe(
-      scan((positions, position) => {
-        return [...positions, position];
-      }, [] as number[]),
-      share()
-    );
   }
 
   ngOnInit(): void {}
-
-  onPlay(position: number): void {
-    this.playedPosition$.next(position);
-  }
 }
