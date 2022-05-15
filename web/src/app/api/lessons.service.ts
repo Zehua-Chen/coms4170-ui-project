@@ -1,7 +1,15 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  QuerySnapshot,
+  DocumentData,
+  onSnapshot,
+} from 'firebase/firestore';
 
 import { FirebaseFirestoreService } from './firebase-firestore.service';
 
@@ -28,13 +36,16 @@ export class LessonService {
       const lessons = collection(this.firestore.firestore, 'lessons');
       const lessonsById = query(lessons, orderBy('index'));
 
-      getDocs(lessonsById).then((snapshot) => {
+      function next(snapshot: QuerySnapshot<DocumentData>) {
         const lessons = snapshot.docs.map(
           (doc) => ({ id: doc.id, ...doc.data() } as Lesson)
         );
 
         subscriber.next(lessons);
-      });
+      }
+
+      getDocs(lessonsById).then(next);
+      onSnapshot(lessons, next);
     });
   }
 }
