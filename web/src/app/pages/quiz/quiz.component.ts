@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
   combineLatest,
   map,
+  zip,
   shareReplay,
   filter,
   mergeMap,
@@ -151,7 +152,7 @@ export class QuizPage implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    combineLatest([this.question$, this.quiz$])
+    zip([this.question$, this.quiz$])
       .pipe(
         filter(([_, quiz]) => Boolean(quiz)),
         map(([{ question, index }, quiz]) => {
