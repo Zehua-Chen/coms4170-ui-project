@@ -39,7 +39,7 @@ import { FirebaseFirestoreService } from './firebase-firestore.service';
 export interface Question {
   title: string;
   weight: number;
-  submission?: number[];
+  submission: number[];
   solution: number[];
 }
 
@@ -213,12 +213,27 @@ export class QuizService {
       title: 'Default Quiz',
       date: new Date(),
       questions: [
-        { title: 'Question 1', weight: 1, solution: [4] },
-        { title: 'Question 2', weight: 1, solution: [1, 2] },
-        { title: 'Question 3', weight: 1, solution: [3, 4, 5] },
-        { title: 'Question 4', weight: 2, solution: [3, 4, 3, 4, 5] },
-        { title: 'Question 5', weight: 2, solution: [5, 5, 4, 4, 3, 3, 2] },
-        { title: 'Question 6', weight: 3, solution: [2, 7, 6, 5, 2] },
+        { title: 'Question 1', weight: 1, submission: [], solution: [4] },
+        { title: 'Question 2', weight: 1, submission: [], solution: [1, 2] },
+        { title: 'Question 3', weight: 1, submission: [], solution: [3, 4, 5] },
+        {
+          title: 'Question 4',
+          weight: 2,
+          submission: [],
+          solution: [3, 4, 3, 4, 5],
+        },
+        {
+          title: 'Question 5',
+          weight: 2,
+          submission: [],
+          solution: [5, 5, 4, 4, 3, 3, 2],
+        },
+        {
+          title: 'Question 6',
+          weight: 3,
+          submission: [],
+          solution: [2, 7, 6, 5, 2],
+        },
       ],
     };
 

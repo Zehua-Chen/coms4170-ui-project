@@ -52,7 +52,7 @@
       <button
         mat-raised-button
         color="primary"
-        [disabled]="(question$ | async)?.question?.submission"
+        [disabled]="(question$ | async)?.question?.submission?.length !== 0"
         (click)="submit()"
       >
         Submit
