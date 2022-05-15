@@ -29,8 +29,6 @@ function isSameWithIndex<T>(
 
       const indexValue = index(elements);
 
-      console.log(indexValue);
-
       if (indexValue >= elements.length || indexValue < 0) {
         return [element, false];
       }
