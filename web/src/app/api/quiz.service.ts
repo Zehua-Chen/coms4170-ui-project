@@ -26,7 +26,10 @@ import {
   QueryDocumentSnapshot,
   FirestoreDataConverter,
   DocumentReference,
+  DocumentSnapshot,
 } from 'firebase/firestore';
+
+import { arraysEqual } from 'src/app/utils';
 
 import { FirebaseAuthService, UserState } from './firebase-auth.service';
 import { FirebaseFirestoreService } from './firebase-firestore.service';
@@ -96,6 +99,34 @@ function quiz(
   );
 }
 
+export function quizTotalScore(): OperatorFunction<Quiz | undefined, number> {
+  return pipe(
+    filter((quiz) => Boolean(quiz)),
+    map((quiz) =>
+      quiz!.questions.reduce((score, question) => score + question.weight, 0)
+    )
+  );
+}
+
+export function quizScore(): OperatorFunction<Quiz | undefined, number> {
+  return pipe(
+    filter((quiz) => Boolean(quiz)),
+    map((quiz) =>
+      quiz!.questions.reduce((score, question) => {
+        if (!question.submission) {
+          return 0;
+        }
+
+        const correct = arraysEqual(question.submission, question.solution)
+          ? 1
+          : 0;
+
+        return score + correct * question.weight;
+      }, 0)
+    )
+  );
+}
+
 @Injectable({ providedIn: 'root' })
 export class QuizService {
   constructor(
@@ -147,7 +178,13 @@ export class QuizService {
   public getQuiz(id: string): Observable<Quiz | undefined> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
-      mergeMap((quiz) => getDoc(quiz)),
+      mergeMap(
+        (quiz) =>
+          new Observable<DocumentSnapshot<Quiz>>((subscriber) => {
+            getDoc(quiz).then((snapshot) => subscriber.next(snapshot));
+            onSnapshot(quiz, (snapshot) => subscriber.next(snapshot));
+          })
+      ),
       map((snapshot) => snapshot.data()),
       first()
     );

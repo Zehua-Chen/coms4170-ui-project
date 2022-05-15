@@ -6,9 +6,14 @@
       routerLink="/app/quiz/{{ quizId$ | async }}/{{ index }}"
     >
       <span [class.app-sidebar-selected]="index === (questionIndex$ | async)">
-        {{ navQuestion.title }}
+        {{ navQuestion.question?.title }}
       </span>
     </button>
+
+    <h2 matSubheader>Score</h2>
+    <mat-list-item>
+      {{ quizScore$ | async }} / {{ quizTotalScore$ | async }}
+    </mat-list-item>
   </mat-nav-list>
 
   <mat-toolbar color="primary">
@@ -19,7 +24,7 @@
       <h1>{{ (quiz$ | async)?.title }}</h1>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <h2 class="pr-3">{{ (question$ | async)?.title }}</h2>
+      <h2 class="pr-3">{{ (question$ | async)?.question?.title }}</h2>
     </mat-toolbar-row>
   </mat-toolbar>
 
@@ -40,7 +45,32 @@
       class="col-span-12"
       app-otamatone-input
       [(notes)]="notes"
-      [maxNotes]="(question$ | async)?.solution?.length ?? 0"
+      [maxNotes]="(question$ | async)?.question?.solution?.length ?? 0"
     ></div>
+
+    <div class="col-span-12 grid grid-cols-1 gap-x-3">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="(question$ | async)?.question?.submission"
+        (click)="submit()"
+      >
+        Submit
+      </button>
+    </div>
+
+    <div class="col-span-12 grid grid-cols-2 gap-x-3">
+      <button
+        mat-button
+        color="accent"
+        [disabled]="previousDisabled$ | async"
+        routerLink="/app/quiz/{{ quizId$ | async }}"
+      >
+        Previous
+      </button>
+      <button mat-button color="primary" [disabled]="nextDisabled$ | async">
+        Next
+      </button>
+    </div>
   </div>
 </app-two-column>

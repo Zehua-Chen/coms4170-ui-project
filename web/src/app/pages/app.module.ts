@@ -15,7 +15,7 @@ import { TwoColumnModule } from 'components/two-column';
 
 import { LearnPage } from './learn/learn.component';
 import { QuizPage } from './quiz/quiz.component';
-import { ArraysEqualModule } from 'utils/arrays-equal';
+import { ArraysEqualModule } from 'pipes/arrays-equal';
 import { DashboardPage } from './dashboard/dashboard.component';
 
 const routes = [
