@@ -19,6 +19,10 @@ export interface Lesson {
 export class LessonService {
   constructor(private firestore: FirebaseFirestoreService) {}
 
+  /**
+   * Guaranteed to emit upon subscription
+   * @returns
+   */
   public getLessons(): Observable<Lesson[]> {
     return new Observable((subscriber) => {
       const lessons = collection(this.firestore.firestore, 'lessons');

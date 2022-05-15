@@ -30,6 +30,9 @@ export type UserState = User | null;
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
+  /**
+   * Guaranteed to emit the current user or null upon subscription
+   */
   get user$(): Observable<UserState> {
     return this.#user$;
   }

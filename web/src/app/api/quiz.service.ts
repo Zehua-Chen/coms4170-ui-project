@@ -107,6 +107,8 @@ export class QuizService {
    * Returns a stream of quiz list. A new quiz list is emitted when new changes
    * occur on Firestore
    *
+   * Guaranteed to emit upon subscription, so long as the user has signed in
+   *
    * @returns **Infinite sequence**
    */
   public getQuizzes(): Observable<Quiz[]> {
@@ -137,6 +139,11 @@ export class QuizService {
     );
   }
 
+  /**
+   * Guaranteed to emit upon subscription, so long as the user has signed in
+   * @param id
+   * @returns
+   */
   public getQuiz(id: string): Observable<Quiz | undefined> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
@@ -148,6 +155,9 @@ export class QuizService {
 
   /**
    * Create a default quiz
+   *
+   * Guaranteed to emit upon subscription, so long as the user has signed in
+   *
    * @returns **Finite sequence** that finishes after the quiz has been created
    */
   public createDefaultQuiz(): Observable<void> {
@@ -173,6 +183,11 @@ export class QuizService {
     );
   }
 
+  /**
+   * Guaranteed to emit upon subscription, so long as the user has signed in
+   * @param id
+   * @returns
+   */
   public deleteQuiz(id: string): Observable<void> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
