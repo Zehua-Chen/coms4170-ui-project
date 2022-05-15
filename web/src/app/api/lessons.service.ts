@@ -44,8 +44,7 @@ export class LessonService {
         subscriber.next(lessons);
       }
 
-      getDocs(lessonsById).then(next);
-      onSnapshot(lessons, next);
+      return onSnapshot(lessons, next);
     });
   }
 }

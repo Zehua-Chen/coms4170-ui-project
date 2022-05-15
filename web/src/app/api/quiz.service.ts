@@ -160,11 +160,9 @@ export class QuizService {
             subcriber.next(quizzes);
           }
 
-          onSnapshot(collection, next, (error) => subcriber.error(error));
-
-          getDocs(collection)
-            .then(next)
-            .catch((error) => subcriber.error(error));
+          return onSnapshot(collection, next, (error) =>
+            subcriber.error(error)
+          );
         });
       })
     );
@@ -181,8 +179,7 @@ export class QuizService {
       mergeMap(
         (quiz) =>
           new Observable<DocumentSnapshot<Quiz>>((subscriber) => {
-            getDoc(quiz).then((snapshot) => subscriber.next(snapshot));
-            onSnapshot(quiz, (snapshot) => subscriber.next(snapshot));
+            return onSnapshot(quiz, (snapshot) => subscriber.next(snapshot));
           })
       ),
       map((snapshot) => snapshot.data()),
