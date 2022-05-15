@@ -98,7 +98,9 @@ export class QuizPage implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.quiz$.subscribe(() => console.log('new quiz'));
+  }
 
   ngOnDestroy(): void {
     this.clipNoteSubscription.unsubscribe();
@@ -106,13 +108,25 @@ export class QuizPage implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.question$
+    combineLatest([this.question$, this.quiz$])
       .pipe(
-        map((question) => question.question),
-        first()
+        filter(([_, quiz]) => Boolean(quiz)),
+        map(([{ question, index }, quiz]) => {
+          const newQuiz = Object.assign({}, quiz) as Quiz;
+          const newQuestion = { ...question };
+          newQuestion.submission = this.notes;
+
+          newQuiz.questions = [...quiz!.questions];
+          newQuiz.questions[index] = newQuestion;
+
+          return newQuiz;
+        }),
+        mergeMap(({ id, ...content }) => this.quizService.setQuiz(id, content))
       )
-      .subscribe((question) => {
-        console.log(question);
+      .subscribe({
+        error(e) {
+          alert(e);
+        },
       });
   }
 }

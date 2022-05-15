@@ -5,6 +5,7 @@ import {
   map,
   pipe,
   mergeMap,
+  share,
   Observable,
   OperatorFunction,
 } from 'rxjs';
@@ -27,6 +28,7 @@ import {
   FirestoreDataConverter,
   DocumentReference,
   DocumentSnapshot,
+  setDoc,
 } from 'firebase/firestore';
 
 import { arraysEqual } from 'src/app/utils';
@@ -164,7 +166,8 @@ export class QuizService {
             subcriber.error(error)
           );
         });
-      })
+      }),
+      share()
     );
   }
 
@@ -179,10 +182,21 @@ export class QuizService {
       mergeMap(
         (quiz) =>
           new Observable<DocumentSnapshot<Quiz>>((subscriber) => {
-            return onSnapshot(quiz, (snapshot) => subscriber.next(snapshot));
+            return onSnapshot(quiz, (snapshot) => {
+              subscriber.next(snapshot);
+            });
           })
       ),
       map((snapshot) => snapshot.data()),
+      share()
+    );
+  }
+
+  public setQuiz(id: string, data: QuizContent): Observable<void> {
+    return this.auth.user$.pipe(
+      quiz(this.firestore.firestore, id),
+      mergeMap((quiz) => setDoc(quiz, data)),
+      share(),
       first()
     );
   }
