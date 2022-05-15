@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
   combineLatest,
   map,
-  first,
+  share,
   filter,
   mergeMap,
   Observable,
@@ -20,7 +20,19 @@ import {
 import { OtamatoneClip } from 'components/otamatone-clip';
 import { isFirst, isLast } from 'utils/rxjs';
 
-export type QuestionAndIndex = { question: Question; index: number };
+/**
+ * Questions by default do not have index associated with them
+ */
+export interface QuestionAndIndex {
+  question: Question;
+  index: number;
+}
+
+export interface NavItem {
+  title: string;
+  done: boolean;
+  link: string;
+}
 
 @Component({
   selector: 'app-quiz',
@@ -29,33 +41,59 @@ export type QuestionAndIndex = { question: Question; index: number };
 export class QuizPage implements OnInit, OnDestroy {
   quizId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')!),
-    filter((id) => id !== null)
+    filter((id) => id !== null),
+    share()
   );
 
   quiz$: Observable<Quiz | undefined> = this.quizId$.pipe(
-    mergeMap((id) => this.quizService.getQuiz(id!))
+    mergeMap((id) => this.quizService.getQuiz(id!)),
+    share()
   );
 
-  quizTotalScore$: Observable<number> = this.quiz$.pipe(quizTotalScore());
-  quizScore$: Observable<number> = this.quiz$.pipe(quizScore());
+  quizTotalScore$: Observable<number> = this.quiz$.pipe(
+    quizTotalScore(),
+    share()
+  );
+  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), share());
 
   questions$: Observable<QuestionAndIndex[]> = this.quiz$.pipe(
     filter((quiz) => quiz !== undefined),
     map((quiz) =>
       quiz!.questions.map((question, index) => ({ question, index }))
-    )
+    ),
+    share()
+  );
+
+  navItems$: Observable<NavItem[]> = combineLatest([
+    this.quiz$,
+    this.questions$,
+  ]).pipe(
+    map(([quiz, questions]) => {
+      return questions.map(
+        ({ question, index }) =>
+          ({
+            title: question.title,
+            done: question.submission.length !== 0,
+            link: `/app/quiz/${quiz?.id}/${index}`,
+          } as NavItem)
+      );
+    })
   );
 
   questionIndex$: Observable<number> = this.route.paramMap.pipe(
     map((params) => params.get('question')!),
     filter((question) => question !== null),
-    map((question) => Number.parseInt(question))
+    map((question) => Number.parseInt(question)),
+    share()
   );
 
   question$: Observable<QuestionAndIndex> = combineLatest([
     this.questions$,
     this.questionIndex$,
-  ]).pipe(map(([questions, index]) => questions[index]));
+  ]).pipe(
+    map(([questions, index]) => questions[index]),
+    share()
+  );
 
   previousDisabled$: Observable<boolean>;
 

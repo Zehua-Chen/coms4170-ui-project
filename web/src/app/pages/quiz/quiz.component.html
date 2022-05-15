@@ -2,11 +2,11 @@
   <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
     <button
       mat-list-item
-      *ngFor="let navQuestion of questions$ | async; let index = index"
-      routerLink="/app/quiz/{{ quizId$ | async }}/{{ index }}"
+      *ngFor="let navItem of navItems$ | async; let index = index"
+      [routerLink]="navItem.link"
     >
       <span [class.app-sidebar-selected]="index === (questionIndex$ | async)">
-        {{ navQuestion.question?.title }}
+        {{ navItem.title }}
       </span>
     </button>
 
