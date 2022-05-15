@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
   combineLatest,
   map,
-  share,
+  shareReplay,
   filter,
   mergeMap,
   Observable,
@@ -30,8 +30,10 @@ export interface QuestionAndIndex {
 
 export interface NavItem {
   title: string;
-  done: boolean;
   link: string;
+
+  done: boolean;
+  active: boolean;
 }
 
 @Component({
@@ -42,49 +44,52 @@ export class QuizPage implements OnInit, OnDestroy {
   quizId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')!),
     filter((id) => id !== null),
-    share()
+    shareReplay()
   );
 
   quiz$: Observable<Quiz | undefined> = this.quizId$.pipe(
     mergeMap((id) => this.quizService.getQuiz(id!)),
-    share()
+    shareReplay()
   );
 
   quizTotalScore$: Observable<number> = this.quiz$.pipe(
     quizTotalScore(),
-    share()
+    shareReplay()
   );
-  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), share());
+  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), shareReplay());
 
   questions$: Observable<QuestionAndIndex[]> = this.quiz$.pipe(
     filter((quiz) => quiz !== undefined),
     map((quiz) =>
       quiz!.questions.map((question, index) => ({ question, index }))
     ),
-    share()
+    shareReplay()
+  );
+
+  questionIndex$: Observable<number> = this.route.paramMap.pipe(
+    map((params) => params.get('question')!),
+    filter((question) => Boolean(question)),
+    map((question) => Number.parseInt(question)),
+    shareReplay()
   );
 
   navItems$: Observable<NavItem[]> = combineLatest([
     this.quiz$,
     this.questions$,
+    this.questionIndex$,
   ]).pipe(
-    map(([quiz, questions]) => {
+    map(([quiz, questions, questionIndex]) => {
       return questions.map(
         ({ question, index }) =>
           ({
             title: question.title,
             done: question.submission.length !== 0,
             link: `/app/quiz/${quiz?.id}/${index}`,
+            active: questionIndex === index,
           } as NavItem)
       );
-    })
-  );
-
-  questionIndex$: Observable<number> = this.route.paramMap.pipe(
-    map((params) => params.get('question')!),
-    filter((question) => question !== null),
-    map((question) => Number.parseInt(question)),
-    share()
+    }),
+    shareReplay()
   );
 
   question$: Observable<QuestionAndIndex> = combineLatest([
@@ -92,7 +97,7 @@ export class QuizPage implements OnInit, OnDestroy {
     this.questionIndex$,
   ]).pipe(
     map(([questions, index]) => questions[index]),
-    share()
+    shareReplay()
   );
 
   previousDisabled$: Observable<boolean>;

@@ -5,7 +5,7 @@ import {
   map,
   pipe,
   mergeMap,
-  share,
+  shareReplay,
   Observable,
   OperatorFunction,
 } from 'rxjs';
@@ -167,7 +167,7 @@ export class QuizService {
           );
         });
       }),
-      share()
+      shareReplay()
     );
   }
 
@@ -188,7 +188,7 @@ export class QuizService {
           })
       ),
       map((snapshot) => snapshot.data()),
-      share()
+      shareReplay()
     );
   }
 
@@ -196,7 +196,7 @@ export class QuizService {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
       mergeMap((quiz) => setDoc(quiz, data)),
-      share(),
+      shareReplay(),
       first()
     );
   }

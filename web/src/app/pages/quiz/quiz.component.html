@@ -5,7 +5,19 @@
       *ngFor="let navItem of navItems$ | async; let index = index"
       [routerLink]="navItem.link"
     >
-      <span [class.app-sidebar-selected]="index === (questionIndex$ | async)">
+      <mat-icon
+        *ngIf="navItem.done"
+        [class.app-sidebar-selected]="navItem.active"
+        matListIcon
+      >
+        done
+      </mat-icon>
+      <mat-icon
+        *ngIf="!navItem.done"
+        [class.app-sidebar-selected]="navItem.active"
+        matListIcon
+      ></mat-icon>
+      <span [class.app-sidebar-selected]="navItem.active" matLine>
         {{ navItem.title }}
       </span>
     </button>
