@@ -9,7 +9,7 @@
 
 <div class="container mx-auto grid grid-cols-12 gap-y-4 mt-5">
   <div class="col-span-12 text-center">
-    <h1 class="mat-h1">Let's Learn Otamatone</h1>
+    <h1 class="mat-h1">Let's Learn Otamatone!</h1>
   </div>
 
   <div class="col-span-12 flex justify-center">
@@ -32,5 +32,78 @@
     *ngIf="(user$ | async) !== null"
   >
     <a mat-button color="primary" routerLink="/app/">Dashboard</a>
+  </div>
+
+  <div class="col-span-12">
+    <h2 class="mat-h2">What is Otamatone?</h2>
+    <blockquote
+      class="mat-body2"
+      cite="https://en.wikipedia.org/wiki/Otamatone"
+    >
+      The Otamatone (Japanese: オタマトーン, Hepburn: Otamatōn) is an
+      <b>electronic musical synthesizer</b>. It was <b>developed in Japan</b> by
+      the <b>CUBE toy company and the Maywa Denki design firm</b> led by the
+      brothers Masamichi and Nobumichi Tosa.
+    </blockquote>
+  </div>
+
+  <div class="col-span-12">
+    <h2 class="mat-h2">About</h2>
+    <p class="mat-body2">
+      This experience is brought to you by
+      <a href="https://github.com/Zehua-Chen">Zehua Chen</a> using
+      <a>Angular</a> on the frontend and <a>Firebase</a> on the backend. The
+      repository is hosted at
+      <a href="https://github.com/Zehua-Chen/learn-otamatone">
+        Zehua-Chen/learn-otamatone
+      </a>
+    </p>
+  </div>
+
+  <div class="col-span-12">
+    <h2 class="mat-h2">Acknowledgement</h2>
+    <p class="mat-body2">
+      This project was originally developed as the final project of COMS 4170 of
+      Columbia University, Spring 2022. The source and the build can be found at
+      <a
+        href="https://github.com/Zehua-Chen/learn-otamatone/releases/tag/coms4170-0.1.1"
+      >
+        Zehua-Chen/learn-otmaatone/coms4170-0.1.1
+      </a>
+    </p>
+    <p class="mat-body2">
+      The project was originally developed using JQuery on the frontend and
+      Flask on the backend, as required by the course.
+    </p>
+  </div>
+
+  <div class="col-span-12">
+    <h3 class="mat-h3">Original Contributors</h3>
+    <p class="mat-body2">Here are the original contributors of the project</p>
+    <ul class="list-disc pl-4 mat-body">
+      <li>
+        <a href="https://github.com/Zehua-Chen">
+          Zehua Chen zc2616@columbia.edu
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/nuomicii">
+          Yuxuan Jia yj2680@columbia.edu
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sl4986">
+          Shangru Li, sl4986@columbia.edu
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/GraceD5">
+          Chenchen Deng, cd3301@columbia.edu
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/mns2162">TA: Megha Sharma</a>
+      </li>
+    </ul>
   </div>
 </div>
