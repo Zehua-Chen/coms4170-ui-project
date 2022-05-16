@@ -12,13 +12,7 @@ import {
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-import {
-  Quiz,
-  Question,
-  QuizService,
-  quizTotalScore,
-  quizScore,
-} from 'api/quiz.service';
+import { Quiz, Question, QuizService } from 'api/quiz.service';
 import { OtamatoneClip } from 'components/otamatone-clip';
 import { isFirst, isLast } from 'utils/rxjs';
 import { arraysEqual } from 'src/app/utils';
@@ -73,12 +67,6 @@ export class QuizPage implements OnInit, OnDestroy {
     concatMap((id) => this.quizService.getQuiz(id!)),
     shareReplay(1)
   );
-
-  quizTotalScore$: Observable<number> = this.quiz$.pipe(
-    quizTotalScore(),
-    shareReplay(1)
-  );
-  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), shareReplay(1));
 
   questions$: Observable<QuestionAndIndex[]> = this.quiz$.pipe(
     filter((quiz) => quiz !== undefined),
@@ -196,16 +184,20 @@ export class QuizPage implements OnInit, OnDestroy {
         first(),
         filter(([_, quiz]) => Boolean(quiz)),
         map(([{ question, index }, quiz]) => {
-          const newQuiz = Object.assign({}, quiz) as Quiz;
-          const newQuestion = { ...question };
-          newQuestion.submission = this.notes;
+          const questions = [...quiz!.questions];
 
-          newQuiz.questions = [...quiz!.questions];
-          newQuiz.questions[index] = newQuestion;
+          const newQuestion = new Question(
+            question.title,
+            question.weight,
+            this.notes,
+            question.solution
+          );
 
-          return newQuiz;
+          questions[index] = newQuestion;
+
+          return new Quiz(quiz!.id, quiz!.title, quiz!.date, questions);
         }),
-        concatMap(({ id, ...content }) => this.quizService.setQuiz(id, content))
+        concatMap((quiz) => this.quizService.setQuiz(quiz.id, quiz))
       )
       .subscribe({
         error(e) {

@@ -21,7 +21,7 @@
 
     <h2 matSubheader>Score</h2>
     <mat-list-item>
-      {{ quizScore$ | async }} / {{ quizTotalScore$ | async }}
+      {{ (quiz$ | async)?.score }} / {{ (quiz$ | async)?.totalScore }}
     </mat-list-item>
   </mat-nav-list>
 
@@ -83,22 +83,22 @@
     </div>
 
     <div class="col-span-12 grid grid-cols-2 gap-x-3">
-      <a
+      <button
         mat-button
         color="accent"
         [disabled]="previousDisabled$ | async"
         [routerLink]="previousLink$ | async"
       >
         Previous
-      </a>
-      <a
+      </button>
+      <button
         mat-button
         color="primary"
         [disabled]="nextDisabled$ | async"
         [routerLink]="nextLink$ | async"
       >
         Next
-      </a>
+      </button>
     </div>
   </div>
 </app-two-column>

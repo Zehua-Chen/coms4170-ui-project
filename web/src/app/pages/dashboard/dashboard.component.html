@@ -35,6 +35,7 @@
           <span matLine>
             {{ quiz.date | date: "short" }}
           </span>
+          <span matLine> Score: {{ quiz.score }} / {{ quiz.totalScore }} </span>
           <span>
             <a mat-button routerLink="/app/quiz/{{ quiz.id }}">Open</a>
             <button mat-button (click)="deleteQuiz(quiz.id)">Delete</button>

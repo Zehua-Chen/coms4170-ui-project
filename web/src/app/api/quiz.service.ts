@@ -36,37 +36,69 @@ import { arraysEqual } from 'src/app/utils';
 import { FirebaseAuthService, UserState } from './firebase-auth.service';
 import { FirebaseFirestoreService } from './firebase-firestore.service';
 
-export interface Question {
-  title: string;
-  weight: number;
-  submission: number[];
-  solution: number[];
+export class Question {
+  constructor(
+    public title: string,
+    public weight: number,
+    public submission: number[],
+    public solution: number[]
+  ) {}
 }
 
-export interface QuizContent {
-  title: string;
-  date: Date;
-  questions: Question[];
+export class QuizContent {
+  score: number;
+  totalScore: number;
+
+  public constructor(
+    public title: string,
+    public date: Date,
+    public questions: Question[]
+  ) {
+    this.totalScore = this.questions.reduce(
+      (score, question) => score + question.weight,
+      0
+    );
+
+    this.score = this.questions.reduce((score, question) => {
+      if (!question.submission) {
+        return 0;
+      }
+
+      const correct = arraysEqual(question.submission, question.solution)
+        ? 1
+        : 0;
+
+      return score + correct * question.weight;
+    }, 0);
+  }
 }
 
-export interface Quiz extends QuizContent {
-  id: string;
+export class Quiz extends QuizContent {
+  constructor(
+    public id: string,
+    title: string,
+    date: Date,
+    questions: Question[]
+  ) {
+    super(title, date, questions);
+  }
+
+  get content(): QuizContent {
+    return new QuizContent(this.title, this.date, this.questions);
+  }
 }
 
 const quizConverter: FirestoreDataConverter<Quiz> = {
   fromFirestore(snapshot: QueryDocumentSnapshot) {
-    const { date, ...others } = snapshot.data();
+    const { date, title, questions } = snapshot.data();
 
-    return {
-      id: snapshot.id,
-      date: date.toDate(),
-      ...others,
-    } as Quiz;
+    return new Quiz(snapshot.id, title, date.toDate(), questions);
   },
-  toFirestore({ id, ...others }: Quiz): DocumentData {
-    return {
-      ...others,
-    };
+  toFirestore({ id, content }: Quiz): DocumentData {
+    let { questions, ...others } = content;
+    questions = questions.map((question) => ({ ...question }));
+
+    return { questions, ...others };
   },
 };
 
@@ -101,34 +133,6 @@ function quiz(
   );
 }
 
-export function quizTotalScore(): OperatorFunction<Quiz | undefined, number> {
-  return pipe(
-    filter((quiz) => Boolean(quiz)),
-    map((quiz) =>
-      quiz!.questions.reduce((score, question) => score + question.weight, 0)
-    )
-  );
-}
-
-export function quizScore(): OperatorFunction<Quiz | undefined, number> {
-  return pipe(
-    filter((quiz) => Boolean(quiz)),
-    map((quiz) =>
-      quiz!.questions.reduce((score, question) => {
-        if (!question.submission) {
-          return 0;
-        }
-
-        const correct = arraysEqual(question.submission, question.solution)
-          ? 1
-          : 0;
-
-        return score + correct * question.weight;
-      }, 0)
-    )
-  );
-}
-
 @Injectable({ providedIn: 'root' })
 export class QuizService {
   constructor(
@@ -147,7 +151,7 @@ export class QuizService {
   public getQuizzes(): Observable<Quiz[]> {
     return this.auth.user$.pipe(
       quizzes(this.firestore.firestore),
-      map((collection) => query(collection, orderBy('date'))),
+      map((collection) => query(collection, orderBy('date', 'desc'))),
       concatMap((collection) => {
         return new Observable<Quiz[]>((subcriber) => {
           function next(snapshot: QuerySnapshot<DocumentData>) {
@@ -192,7 +196,7 @@ export class QuizService {
     );
   }
 
-  public setQuiz(id: string, data: QuizContent): Observable<void> {
+  public setQuiz(id: string, data: Quiz): Observable<void> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
       concatMap((quiz) => setDoc(quiz, data)),
@@ -209,33 +213,14 @@ export class QuizService {
    * @returns **Finite sequence** that finishes after the quiz has been created
    */
   public createDefaultQuiz(): Observable<void> {
-    const defaultQuiz: QuizContent = {
-      title: 'Default Quiz',
-      date: new Date(),
-      questions: [
-        { title: 'Question 1', weight: 1, submission: [], solution: [4] },
-        { title: 'Question 2', weight: 1, submission: [], solution: [1, 2] },
-        { title: 'Question 3', weight: 1, submission: [], solution: [3, 4, 5] },
-        {
-          title: 'Question 4',
-          weight: 2,
-          submission: [],
-          solution: [3, 4, 3, 4, 5],
-        },
-        {
-          title: 'Question 5',
-          weight: 2,
-          submission: [],
-          solution: [5, 5, 4, 4, 3, 3, 2],
-        },
-        {
-          title: 'Question 6',
-          weight: 3,
-          submission: [],
-          solution: [2, 7, 6, 5, 2],
-        },
-      ],
-    };
+    const defaultQuiz = new Quiz('', 'Default Quiz', new Date(), [
+      new Question('Question 1', 1, [], [4]),
+      new Question('Question 2', 1, [], [1, 2]),
+      new Question('Question 3', 1, [], [3, 4, 5]),
+      new Question('Question 4', 2, [], [3, 4, 3, 4, 5]),
+      new Question('Question 5', 2, [], [5, 5, 4, 4, 3, 3, 2]),
+      new Question('Question 6', 3, [], [2, 7, 6, 5, 2]),
+    ]);
 
     return this.auth.user$.pipe(
       quizzes(this.firestore.firestore),
