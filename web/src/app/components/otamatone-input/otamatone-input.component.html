@@ -8,13 +8,13 @@
 <div class="flex items-baseline mt-4">
   <mat-form-field class="grow" appearance="fill">
     <mat-label>
-      <span>Your Input </span>
+      <span>{{ prompt }} </span>
       <span *ngIf="maxNotes >= 1">({{ notes.length }} / {{ maxNotes }})</span>
     </mat-label>
-    <input matInput value="ABC" readonly [value]="notes" />
+    <input matInput readonly [value]="notes" />
   </mat-form-field>
 
-  <button mat-icon-button (click)="reset()">
+  <button mat-icon-button (click)="reset()" [disabled]="readonly">
     <mat-icon>refresh</mat-icon>
   </button>
 </div>

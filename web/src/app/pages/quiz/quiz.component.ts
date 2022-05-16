@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
   combineLatest,
   map,
-  zip,
+  first,
   shareReplay,
+  distinctUntilChanged,
   filter,
-  mergeMap,
+  concatMap,
   Observable,
   Subscription,
 } from 'rxjs';
@@ -20,6 +21,7 @@ import {
 } from 'api/quiz.service';
 import { OtamatoneClip } from 'components/otamatone-clip';
 import { isFirst, isLast } from 'utils/rxjs';
+import { arraysEqual } from 'src/app/utils';
 
 /**
  * Questions by default do not have index associated with them
@@ -29,12 +31,22 @@ export interface QuestionAndIndex {
   index: number;
 }
 
+export type NavItemState = 'right' | 'wrong' | 'todo';
+
 export interface NavItem {
   title: string;
   link: string;
 
-  done: boolean;
+  state: NavItemState;
   active: boolean;
+}
+
+function state(submission: number[], solution: number[]): NavItemState {
+  if (submission.length === 0) {
+    return 'todo';
+  }
+
+  return arraysEqual(submission, solution) ? 'right' : 'wrong';
 }
 
 @Component({
@@ -45,33 +57,35 @@ export class QuizPage implements OnInit, OnDestroy {
   quizId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')!),
     filter((id) => id !== null),
-    shareReplay()
-  );
-
-  quiz$: Observable<Quiz | undefined> = this.quizId$.pipe(
-    mergeMap((id) => this.quizService.getQuiz(id!)),
-    shareReplay()
-  );
-
-  quizTotalScore$: Observable<number> = this.quiz$.pipe(
-    quizTotalScore(),
-    shareReplay()
-  );
-  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), shareReplay());
-
-  questions$: Observable<QuestionAndIndex[]> = this.quiz$.pipe(
-    filter((quiz) => quiz !== undefined),
-    map((quiz) =>
-      quiz!.questions.map((question, index) => ({ question, index }))
-    ),
-    shareReplay()
+    distinctUntilChanged(),
+    shareReplay(1)
   );
 
   questionIndex$: Observable<number> = this.route.paramMap.pipe(
     map((params) => params.get('question')!),
     filter((question) => Boolean(question)),
     map((question) => Number.parseInt(question)),
-    shareReplay()
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+
+  quiz$: Observable<Quiz | undefined> = this.quizId$.pipe(
+    concatMap((id) => this.quizService.getQuiz(id!)),
+    shareReplay(1)
+  );
+
+  quizTotalScore$: Observable<number> = this.quiz$.pipe(
+    quizTotalScore(),
+    shareReplay(1)
+  );
+  quizScore$: Observable<number> = this.quiz$.pipe(quizScore(), shareReplay(1));
+
+  questions$: Observable<QuestionAndIndex[]> = this.quiz$.pipe(
+    filter((quiz) => quiz !== undefined),
+    map((quiz) =>
+      quiz!.questions.map((question, index) => ({ question, index }))
+    ),
+    shareReplay(1)
   );
 
   navItems$: Observable<NavItem[]> = combineLatest([
@@ -84,13 +98,13 @@ export class QuizPage implements OnInit, OnDestroy {
         ({ question, index }) =>
           ({
             title: question.title,
-            done: question.submission.length !== 0,
+            state: state(question.submission, question.solution),
             link: `/app/quiz/${quiz?.id}/${index}`,
             active: questionIndex === index,
           } as NavItem)
       );
     }),
-    shareReplay()
+    shareReplay(1)
   );
 
   question$: Observable<QuestionAndIndex> = combineLatest([
@@ -98,7 +112,12 @@ export class QuizPage implements OnInit, OnDestroy {
     this.questionIndex$,
   ]).pipe(
     map(([questions, index]) => questions[index]),
-    shareReplay()
+    shareReplay(1)
+  );
+
+  hasSubmission$: Observable<boolean> = this.question$.pipe(
+    map(({ question }) => question.submission.length > 0),
+    shareReplay(1)
   );
 
   previousDisabled$: Observable<boolean>;
@@ -152,8 +171,9 @@ export class QuizPage implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    zip([this.question$, this.quiz$])
+    combineLatest([this.question$, this.quiz$])
       .pipe(
+        first(),
         filter(([_, quiz]) => Boolean(quiz)),
         map(([{ question, index }, quiz]) => {
           const newQuiz = Object.assign({}, quiz) as Quiz;
@@ -165,7 +185,7 @@ export class QuizPage implements OnInit, OnDestroy {
 
           return newQuiz;
         }),
-        mergeMap(({ id, ...content }) => this.quizService.setQuiz(id, content))
+        concatMap(({ id, ...content }) => this.quizService.setQuiz(id, content))
       )
       .subscribe({
         error(e) {

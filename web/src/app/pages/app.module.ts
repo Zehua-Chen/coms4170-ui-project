@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { OtamatoneModule } from 'components/otamatone';
 import { OtamatoneClipModule } from 'components/otamatone-clip';
@@ -44,6 +45,7 @@ const routes = [
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
+    MatInputModule,
     OtamatoneModule,
     OtamatoneClipModule,
     OtamatoneInputModule,

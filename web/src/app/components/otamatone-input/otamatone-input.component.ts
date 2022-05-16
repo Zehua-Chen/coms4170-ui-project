@@ -16,6 +16,12 @@ export class OtamatoneInput {
   @Input()
   notes: Note[] = [];
 
+  @Input()
+  prompt: string = 'Your Input';
+
+  @Input()
+  readonly: boolean | null = false;
+
   @Output()
   notesChange: EventEmitter<Note[]> = new EventEmitter();
 

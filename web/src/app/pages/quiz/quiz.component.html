@@ -6,17 +6,14 @@
       [routerLink]="navItem.link"
     >
       <mat-icon
-        *ngIf="navItem.done"
         [class.app-sidebar-selected]="navItem.active"
         matListIcon
+        [ngSwitch]="navItem.state"
       >
-        done
+        <span *ngSwitchCase="'right'">done</span>
+        <span *ngSwitchCase="'wrong'">close</span>
+        <span *ngSwitchCase="'todo'"></span>
       </mat-icon>
-      <mat-icon
-        *ngIf="!navItem.done"
-        [class.app-sidebar-selected]="navItem.active"
-        matListIcon
-      ></mat-icon>
       <span [class.app-sidebar-selected]="navItem.active" matLine>
         {{ navItem.title }}
       </span>
@@ -58,13 +55,27 @@
       app-otamatone-input
       [(notes)]="notes"
       [maxNotes]="(question$ | async)?.question?.solution?.length ?? 0"
+      [readonly]="hasSubmission$ | async"
     ></div>
+
+    <div class="col-span-12 flex" *ngIf="hasSubmission$ | async">
+      <mat-form-field class="grow" appearance="fill">
+        <mat-label>
+          <span>Solution</span>
+        </mat-label>
+        <input
+          matInput
+          readonly
+          [value]="(question$ | async)?.question?.solution"
+        />
+      </mat-form-field>
+    </div>
 
     <div class="col-span-12 grid grid-cols-1 gap-x-3">
       <button
         mat-raised-button
         color="primary"
-        [disabled]="(question$ | async)?.question?.submission?.length !== 0"
+        [disabled]="hasSubmission$ | async"
         (click)="submit()"
       >
         Submit

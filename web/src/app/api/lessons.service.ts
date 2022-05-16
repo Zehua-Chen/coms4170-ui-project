@@ -1,9 +1,8 @@
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import {
   collection,
-  getDocs,
   orderBy,
   query,
   QuerySnapshot,
@@ -32,7 +31,7 @@ export class LessonService {
    * @returns
    */
   public getLessons(): Observable<Lesson[]> {
-    return new Observable((subscriber) => {
+    return new Observable<Lesson[]>((subscriber) => {
       const lessons = collection(this.firestore.firestore, 'lessons');
       const lessonsById = query(lessons, orderBy('index'));
 
@@ -45,6 +44,6 @@ export class LessonService {
       }
 
       return onSnapshot(lessons, next);
-    });
+    }).pipe(shareReplay(1));
   }
 }

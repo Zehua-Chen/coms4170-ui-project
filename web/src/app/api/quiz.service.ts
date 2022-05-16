@@ -4,7 +4,7 @@ import {
   first,
   map,
   pipe,
-  mergeMap,
+  concatMap,
   shareReplay,
   Observable,
   OperatorFunction,
@@ -148,7 +148,7 @@ export class QuizService {
     return this.auth.user$.pipe(
       quizzes(this.firestore.firestore),
       map((collection) => query(collection, orderBy('date'))),
-      mergeMap((collection) => {
+      concatMap((collection) => {
         return new Observable<Quiz[]>((subcriber) => {
           function next(snapshot: QuerySnapshot<DocumentData>) {
             const quizzes = snapshot.docs.map(
@@ -167,7 +167,7 @@ export class QuizService {
           );
         });
       }),
-      shareReplay()
+      shareReplay(1)
     );
   }
 
@@ -179,7 +179,7 @@ export class QuizService {
   public getQuiz(id: string): Observable<Quiz | undefined> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
-      mergeMap(
+      concatMap(
         (quiz) =>
           new Observable<DocumentSnapshot<Quiz>>((subscriber) => {
             return onSnapshot(quiz, (snapshot) => {
@@ -188,15 +188,15 @@ export class QuizService {
           })
       ),
       map((snapshot) => snapshot.data()),
-      shareReplay()
+      shareReplay(1)
     );
   }
 
   public setQuiz(id: string, data: QuizContent): Observable<void> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
-      mergeMap((quiz) => setDoc(quiz, data)),
-      shareReplay(),
+      concatMap((quiz) => setDoc(quiz, data)),
+      shareReplay(1),
       first()
     );
   }
@@ -239,7 +239,7 @@ export class QuizService {
 
     return this.auth.user$.pipe(
       quizzes(this.firestore.firestore),
-      mergeMap(async (collection) => {
+      concatMap(async (collection) => {
         await addDoc(collection, defaultQuiz);
       }),
       first()
@@ -254,7 +254,7 @@ export class QuizService {
   public deleteQuiz(id: string): Observable<void> {
     return this.auth.user$.pipe(
       quiz(this.firestore.firestore, id),
-      mergeMap((quiz) => deleteDoc(quiz)),
+      concatMap((quiz) => deleteDoc(quiz)),
       first()
     );
   }
