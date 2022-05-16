@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { FirebaseAuthService } from 'api/firebase-auth.service';
+import { FirebaseAuthService, UserState } from 'api/firebase-auth.service';
 
 @Component({
   selector: 'app-page-welcome',
   templateUrl: './welcome.component.html',
 })
 export class WelcomeComponent {
+  user$: Observable<UserState> = this.auth.user$;
   positions: number[] = [1, 2, 3];
 
   constructor(public auth: FirebaseAuthService, private router: Router) {}

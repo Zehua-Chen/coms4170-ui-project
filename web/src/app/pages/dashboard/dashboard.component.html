@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
-  <nav>
+  <nav class="w-full flex flex-row">
     <h1>Dashboard</h1>
+    <span class="grow"></span>
+    <span>{{ (user$ | async)?.displayName }}</span>
   </nav>
 </mat-toolbar>
 

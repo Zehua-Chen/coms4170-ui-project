@@ -4,8 +4,6 @@
     <a mat-button routerLink="/app" [disabled]="!(auth.user$ | async)">
       Dashboard
     </a>
-    <span class="grow"></span>
-    <span>{{ (auth.user$ | async)?.displayName ?? "" }}</span>
   </nav>
 </mat-toolbar>
 
@@ -24,14 +22,14 @@
 
   <div
     class="col-span-12 grid grid-cols-1 gap-x-3"
-    *ngIf="(auth.user$ | async) === null"
+    *ngIf="(user$ | async) === null"
   >
     <button mat-button (click)="login()">Login With Google</button>
   </div>
 
   <div
     class="col-span-12 grid grid-cols-1 gap-x-3"
-    *ngIf="(auth.user$ | async) !== null"
+    *ngIf="(user$ | async) !== null"
   >
     <a mat-button color="primary" routerLink="/app/">Dashboard</a>
   </div>

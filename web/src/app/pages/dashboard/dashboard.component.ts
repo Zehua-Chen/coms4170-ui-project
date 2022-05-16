@@ -1,20 +1,26 @@
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
-import { QuizService, Quiz } from 'api/quiz.service';
+import {
+  FirebaseAuthService,
+  UserState,
+} from 'src/app/api/firebase-auth.service';
+import { QuizService, Quiz } from 'src/app/api/quiz.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 })
 export class DashboardPage implements OnInit {
-  quizzes$!: Observable<Quiz[]>;
+  user$: Observable<UserState> = this.auth.user$;
+  quizzes$: Observable<Quiz[]> = this.quizService.getQuizzes();
 
-  constructor(private quizService: QuizService) {}
+  constructor(
+    private auth: FirebaseAuthService,
+    private quizService: QuizService
+  ) {}
 
-  ngOnInit(): void {
-    this.quizzes$ = this.quizService.getQuizzes();
-  }
+  ngOnInit(): void {}
 
   makeQuiz(): void {
     this.quizService.createDefaultQuiz().subscribe({
