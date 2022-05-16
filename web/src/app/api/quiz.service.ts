@@ -48,6 +48,7 @@ export class Question {
 export class QuizContent {
   score: number;
   totalScore: number;
+  answeredQuestions: number;
 
   public constructor(
     public title: string,
@@ -69,6 +70,11 @@ export class QuizContent {
         : 0;
 
       return score + correct * question.weight;
+    }, 0);
+
+    this.answeredQuestions = this.questions.reduce((count, question) => {
+      const answered = question.submission.length > 0 ? 1 : 0;
+      return count + answered;
     }, 0);
   }
 }

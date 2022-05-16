@@ -1,5 +1,5 @@
 @mixin text($theme) {
-  .to-click {
+  b {
     color: var(--app-accent);
   }
 }
