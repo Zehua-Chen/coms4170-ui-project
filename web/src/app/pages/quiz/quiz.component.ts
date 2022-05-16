@@ -124,6 +124,26 @@ export class QuizPage implements OnInit, OnDestroy {
 
   nextDisabled$: Observable<boolean>;
 
+  previousLink$: Observable<string> = combineLatest([
+    this.quizId$,
+    this.questionIndex$,
+  ]).pipe(
+    map(
+      ([quizId, questionIndex]) => `/app/quiz/${quizId}/${questionIndex - 1}`
+    ),
+    shareReplay(1)
+  );
+
+  nextLink$: Observable<string> = combineLatest([
+    this.quizId$,
+    this.questionIndex$,
+  ]).pipe(
+    map(
+      ([quizId, questionIndex]) => `/app/quiz/${quizId}/${questionIndex + 1}`
+    ),
+    shareReplay(1)
+  );
+
   /**
    * Notes to be played must be set in TypeScript, otherwise notes will be
    * visible in HTML

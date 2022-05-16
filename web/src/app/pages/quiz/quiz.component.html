@@ -83,17 +83,22 @@
     </div>
 
     <div class="col-span-12 grid grid-cols-2 gap-x-3">
-      <button
+      <a
         mat-button
         color="accent"
         [disabled]="previousDisabled$ | async"
-        routerLink="/app/quiz/{{ quizId$ | async }}"
+        [routerLink]="previousLink$ | async"
       >
         Previous
-      </button>
-      <button mat-button color="primary" [disabled]="nextDisabled$ | async">
+      </a>
+      <a
+        mat-button
+        color="primary"
+        [disabled]="nextDisabled$ | async"
+        [routerLink]="nextLink$ | async"
+      >
         Next
-      </button>
+      </a>
     </div>
   </div>
 </app-two-column>
