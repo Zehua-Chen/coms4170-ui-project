@@ -55,13 +55,11 @@ jobs:
         run: |
           pnpm setup
           pnpm install
-          pnpm add -g firebase-tools
-          pnpm add -g @angular/cli
 
       - name: Build
-        run: ng build
+        run: pnpm build
         working-directory: web
 
       - name: Deploy
         run: |
-          firebase deploy
+          pnpm deploy

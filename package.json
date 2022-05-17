@@ -5,5 +5,11 @@
   "private": "true",
   "repository": "git@github.com:Zehua-Chen/learn-otamatone.git",
   "author": "Zehua-Chen <zehua-chen@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "deploy": "firebase deploy"
+  },
+  "devDependencies": {
+    "firebase-tools": "^10.9.2"
+  }
 }
