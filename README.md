@@ -1,6 +1,8 @@
 # Learn Otamatone
 
-### Repo Content
+![Screenshot](Screenshot.png)
+
+## Repo Content
 
 - [web](web/): the angular web app
 - [static](static/): the original practice and question clips. The current
@@ -13,8 +15,7 @@
 
 1. **Install node**
 2. **Enable pnpm**: `corepack enable`
-3. **Install Angular CLI**: `pnpm add -g @angular/cli`
-4. **Install Firebase CLI**: `pnpm add -g firebase-tools`
+3. **Install Dependencies**: `pnpm install`
 
 ## Development
 
@@ -24,6 +25,14 @@ Start these two commands at the same time
 
 - **Angular development server**: `cd web && ng serve`
 - **Firebase emulator**: `firebase emulators:start`
+
+### Deployment
+
+[Release](.github/workflows/release.yml) is configured on run on publish of
+release or on dispatch for debugging.
+
+1. Build `web`
+2. Deploy to firebase
 
 ## Acknowledgement
 
