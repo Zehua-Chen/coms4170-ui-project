@@ -20,10 +20,7 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "components/*": ["src/app/components/*"],
-      "api/*": ["src/app/api/*"],
-      "utils/*": ["src/app/utils/*"],
-      "pipes/*": ["src/app/pipes/*"],
+      "app/*": ["src/app/*"],
       "environments/*": ["src/environments/*"]
     }
   },

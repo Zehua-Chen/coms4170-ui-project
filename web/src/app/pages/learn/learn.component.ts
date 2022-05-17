@@ -1,9 +1,9 @@
-import { Observable, Subject, map, combineLatest, scan, share } from 'rxjs';
+import { Observable, map, combineLatest } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LessonService, Lesson } from 'api/lessons.service';
-import { OtamatoneService } from 'components/otamatone';
-import { isFirst, isLast } from 'utils/rxjs';
+import { LessonService, Lesson } from 'app/api';
+import { OtamatoneService } from 'app/components/otamatone';
+import { isFirst, isLast } from 'app/rxjs';
 
 function lessonEquals(a: Lesson, b: Lesson): boolean {
   return a.id === b.id;

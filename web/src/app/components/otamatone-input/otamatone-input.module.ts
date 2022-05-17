@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { OtamatoneModule } from 'components/otamatone';
+import { OtamatoneModule } from 'app/components/otamatone';
 import { OtamatoneInput } from './otamatone-input.component';
 
 @NgModule({
