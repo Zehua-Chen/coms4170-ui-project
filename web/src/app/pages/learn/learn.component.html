@@ -2,13 +2,11 @@
   <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
     <button
       mat-list-item
-      *ngFor="let navLesson of lessons$ | async"
-      routerLink="/app/learn/{{ navLesson.index }}"
+      *ngFor="let navItem of navItems$ | async"
+      [routerLink]="navItem.url"
     >
-      <span
-        [class.app-sidebar-selected]="navLesson.id === (lesson$ | async)?.id"
-      >
-        {{ navLesson.title }}
+      <span [class.app-sidebar-selected]="navItem.active">
+        {{ navItem.title }}
       </span>
     </button>
   </mat-nav-list>
