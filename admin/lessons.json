@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "title": "Do",
+    "enabledNotes": [1],
+    "solution": [1]
+  },
+  {
+    "index": 1,
+    "title": "Re",
+    "enabledNotes": [2],
+    "solution": [2]
+  },
+  {
+    "index": 2,
+    "title": "Mi",
+    "enabledNotes": [3],
+    "solution": [3]
+  },
+  {
+    "index": 3,
+    "title": "Fa",
+    "enabledNotes": [4],
+    "solution": [4]
+  },
+  {
+    "index": 4,
+    "title": "So",
+    "enabledNotes": [5],
+    "solution": [5]
+  },
+  {
+    "index": 5,
+    "title": "La",
+    "enabledNotes": [6],
+    "solution": [6]
+  },
+  {
+    "index": 6,
+    "title": "Ti",
+    "enabledNotes": [7],
+    "solution": [7]
+  },
+  {
+    "index": 7,
+    "title": "Practice 1",
+    "enabledNotes": "all",
+    "solution": [1, 1, 2, 2, 3, 3]
+  },
+  {
+    "index": 8,
+    "title": "Practice 2",
+    "enabledNotes": "all",
+    "solution": [1, 1, 5, 5, 6, 6, 5]
+  },
+  {
+    "index": 9,
+    "title": "Practice 3",
+    "enabledNotes": "all",
+    "solution": [3, 6, 5, 6, 5, 2]
+  }
+]

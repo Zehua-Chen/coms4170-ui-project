@@ -1,0 +1,11 @@
+@mixin text($theme) {
+  b {
+    color: var(--app-accent);
+  }
+
+  blockquote {
+    border-left: 2px solid lightgray;
+    padding-left: 2px;
+    margin-left: 2px;
+  }
+}

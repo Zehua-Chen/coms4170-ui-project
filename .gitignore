@@ -13,3 +13,8 @@ tsconfig.tsbuildinfo
 
 dist/
 *.zip
+
+*.log
+
+emulator/
+.firebase/

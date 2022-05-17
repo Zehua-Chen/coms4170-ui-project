@@ -1,0 +1,104 @@
+<app-two-column>
+  <mat-nav-list class="w-[200px] overflow-scroll" sidebar>
+    <button
+      mat-list-item
+      *ngFor="let navItem of navItems$ | async; let index = index"
+      [routerLink]="navItem.link"
+    >
+      <mat-icon
+        [class.app-sidebar-selected]="navItem.active"
+        matListIcon
+        [ngSwitch]="navItem.state"
+      >
+        <span *ngSwitchCase="'right'">done</span>
+        <span *ngSwitchCase="'wrong'">close</span>
+        <span *ngSwitchCase="'todo'"></span>
+      </mat-icon>
+      <span [class.app-sidebar-selected]="navItem.active" matLine>
+        {{ navItem.title }}
+      </span>
+    </button>
+
+    <h2 matSubheader>Score</h2>
+    <mat-list-item>
+      {{ (quiz$ | async)?.score }} / {{ (quiz$ | async)?.totalScore }}
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <a mat-icon-button routerLink="/app" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1>{{ (quiz$ | async)?.title }}</h1>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <h2 class="pr-3">{{ (question$ | async)?.question?.title }}</h2>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="container px-4 pt-2 grid grid-cols-12 gap-y-4">
+    <div class="col-span-12">
+      <h3 class="mat-h1">Instruction</h3>
+      <p class="mat-body2">
+        Replicate the following note you hear by click
+        <span class="to-click">buttons on the otamatone</span> to play notes
+      </p>
+    </div>
+
+    <div class="col-span-12">
+      <app-otamatone-clip></app-otamatone-clip>
+    </div>
+
+    <div
+      class="col-span-12"
+      app-otamatone-input
+      [(notes)]="notes"
+      [maxNotes]="(question$ | async)?.question?.solution?.length ?? 0"
+      [readonly]="hasSubmission$ | async"
+    ></div>
+
+    <div class="col-span-12 flex" *ngIf="hasSubmission$ | async">
+      <mat-form-field class="grow" appearance="fill">
+        <mat-label>
+          <span>Solution</span>
+        </mat-label>
+        <input
+          matInput
+          readonly
+          [value]="(question$ | async)?.question?.solution"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-span-12 grid grid-cols-1 gap-x-3">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="hasSubmission$ | async"
+        (click)="submit()"
+      >
+        Submit
+      </button>
+    </div>
+
+    <div class="col-span-12 grid grid-cols-2 gap-x-3">
+      <button
+        mat-button
+        color="accent"
+        [disabled]="previousDisabled$ | async"
+        [routerLink]="previousLink$ | async"
+      >
+        Previous
+      </button>
+      <button
+        mat-button
+        color="primary"
+        [disabled]="nextDisabled$ | async"
+        [routerLink]="nextLink$ | async"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</app-two-column>

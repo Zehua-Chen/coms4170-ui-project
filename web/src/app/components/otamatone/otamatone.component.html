@@ -1,0 +1,78 @@
+<svg
+  [attr.height]="faceSize"
+  [attr.width]="stickWidth + faceSize + tailSeparatorSize + tailSize"
+>
+  <!--face-->
+  <g>
+    <circle
+      class="face"
+      [attr.cx]="faceSize / 2"
+      [attr.cy]="faceSize / 2"
+      [attr.r]="faceSize / 2"
+    ></circle>
+    <circle
+      class="eye"
+      [attr.cx]="faceSize / 1.5"
+      [attr.cy]="faceSize / 3"
+      [attr.r]="eyeSize / 2"
+    ></circle>
+    <circle
+      class="eye"
+      [attr.cx]="faceSize / 1.5"
+      [attr.cy]="faceSize / 1.5"
+      [attr.r]="eyeSize / 2"
+    ></circle>
+    <polyline class="mouth" fill="none" [attr.points]="mousePoints"></polyline>
+  </g>
+  <!--stick-->
+  <g
+    aria-label="otamatone stick"
+    [translateX]="faceSize"
+    [translateY]="faceSize / 2 - stickHeight / 2"
+  >
+    <rect
+      class="stick"
+      x="0"
+      y="0"
+      [attr.width]="stickWidth"
+      [attr.height]="stickHeight"
+    ></rect>
+
+    <g
+      *ngFor="let position of allPositions; index as index"
+      [translateX]="index * (spaceWidth + buttonSize) + buttonSize / 2"
+    >
+      <circle
+        class="button"
+        [class.disabled]="isDisabled(position)"
+        [attr.cy]="stickHeight / 2"
+        [attr.r]="buttonSize / 2"
+        (click)="play(position)"
+      ></circle>
+      <text
+        class="button-label"
+        [class.disabled]="isDisabled(position)"
+        text-anchor="middle"
+        y="-20"
+      >
+        {{ labels(position) }}
+      </text>
+    </g>
+  </g>
+  <g
+    [translateX]="faceSize + stickWidth"
+    [translateY]="faceSize / 2 - stickHeight / 2 - 1"
+  >
+    <rect
+      class="tail-separator"
+      [attr.width]="tailSeparatorSize"
+      [attr.height]="stickHeight + stickStrokeWidth * 2"
+    ></rect>
+    <rect
+      class="tail"
+      [attr.x]="tailSeparatorSize"
+      [attr.width]="tailSize"
+      [attr.height]="stickHeight + stickStrokeWidth * 2"
+    ></rect>
+  </g>
+</svg>

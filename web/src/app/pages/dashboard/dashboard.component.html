@@ -1,0 +1,55 @@
+<mat-toolbar color="primary">
+  <nav class="w-full flex flex-row">
+    <a routerLink="app">Dashboard</a>
+    <span class="grow"></span>
+    <span>{{ (user$ | async)?.displayName }}</span>
+  </nav>
+</mat-toolbar>
+
+<div class="container mx-auto grid grid-cols-12 gap-y-4 mt-5">
+  <mat-accordion class="col-span-12">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Learn</mat-panel-title>
+        <mat-panel-description>Grow your knowledge</mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <a mat-raised-button routerLink="/app/learn" color="primary"> Learn </a>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Quizzes </mat-panel-title>
+        <mat-panel-description> Test your knowledge </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <button mat-raised-button color="primary" (click)="makeQuiz()">
+        New Quiz
+      </button>
+
+      <mat-list>
+        <mat-list-item *ngFor="let quiz of quizzes$ | async">
+          <span matLine>
+            {{ quiz.title }}
+          </span>
+          <span matLine>
+            Score: <b>{{ quiz.score }} / {{ quiz.totalScore }}</b
+            >, Progress:
+            <b>{{ quiz.answeredQuestions }} / {{ quiz.questions.length }}</b>
+          </span>
+          <span matLine>
+            {{ quiz.date | date: "short" }}
+          </span>
+          <span>
+            <a mat-button color="primary" routerLink="/app/quiz/{{ quiz.id }}">
+              Open
+            </a>
+            <button color="warn" mat-button (click)="deleteQuiz(quiz.id)">
+              Delete
+            </button>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
