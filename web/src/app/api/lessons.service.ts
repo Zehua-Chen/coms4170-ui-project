@@ -32,8 +32,10 @@ export class LessonService {
    */
   public getLessons(): Observable<Lesson[]> {
     return new Observable<Lesson[]>((subscriber) => {
-      const lessons = collection(this.firestore.firestore, 'lessons');
-      const lessonsById = query(lessons, orderBy('index'));
+      const lessons = query(
+        collection(this.firestore.firestore, 'lessons'),
+        orderBy('index')
+      );
 
       function next(snapshot: QuerySnapshot<DocumentData>) {
         const lessons = snapshot.docs.map(

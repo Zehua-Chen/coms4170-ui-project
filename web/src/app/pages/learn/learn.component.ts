@@ -1,4 +1,11 @@
-import { Observable, map, combineLatest } from 'rxjs';
+import {
+  Observable,
+  map,
+  combineLatest,
+  filter,
+  distinctUntilChanged,
+  shareReplay,
+} from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'app/api';
@@ -9,6 +16,14 @@ function lessonEquals(a: Lesson, b: Lesson): boolean {
   return a.id === b.id;
 }
 
+export class NavItem {
+  constructor(
+    public title: string,
+    public url: string,
+    public active: boolean
+  ) {}
+}
+
 @Component({
   selector: 'app-page-learn',
   templateUrl: './learn.component.html',
@@ -16,21 +31,41 @@ function lessonEquals(a: Lesson, b: Lesson): boolean {
 export class LearnPage implements OnInit {
   notes: number[] = [];
 
+  lessonIndex$: Observable<number> = this.route.paramMap.pipe(
+    map((map) => map.get('index')),
+    filter((index) => Boolean(index)),
+    map((index) => Number.parseInt(index!)),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+
   lessons$: Observable<Lesson[]> = this.lessonService.getLessons();
 
   lesson$: Observable<Lesson | null> = combineLatest([
-    this.route.paramMap,
+    this.lessonIndex$,
     this.lessons$,
   ]).pipe(
-    map(([params, lessons]) => {
-      const index = Number.parseInt(params.get('index')!);
+    map(([lessonIndex, lessons]) => {
+      return lessons[lessonIndex];
+    }),
+    shareReplay(1)
+  );
 
-      if (index > lessons.length) {
-        return null;
-      }
-
-      return lessons[index];
-    })
+  navItems$: Observable<NavItem[]> = combineLatest([
+    this.lessons$,
+    this.lessonIndex$,
+  ]).pipe(
+    map(([lessons, lessonIndex]) =>
+      lessons.map(
+        (lesson) =>
+          new NavItem(
+            lesson.title,
+            `/app/learn/${lesson.index}`,
+            lessonIndex === lesson.index
+          )
+      )
+    ),
+    shareReplay(1)
   );
 
   previousDisabled: Observable<boolean>;
