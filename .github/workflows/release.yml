@@ -53,6 +53,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pnpm setup
           pnpm install
           pnpm add -g firebase-tools
           pnpm add -g @angular/cli
