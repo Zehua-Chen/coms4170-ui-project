@@ -27,9 +27,8 @@
   <!--stick-->
   <g
     aria-label="otamatone stick"
-    [attr.transform]="
-      'translate(' + faceSize + ', ' + (faceSize / 2 - stickHeight / 2) + ')'
-    "
+    [translateX]="faceSize"
+    [translateY]="faceSize / 2 - stickHeight / 2"
   >
     <rect
       class="stick"
@@ -41,11 +40,7 @@
 
     <g
       *ngFor="let position of allPositions; index as index"
-      [attr.transform]="
-        'translate(' +
-        (index * (spaceWidth + buttonSize) + buttonSize / 2) +
-        ', 0)'
-      "
+      [translateX]="index * (spaceWidth + buttonSize) + buttonSize / 2"
     >
       <circle
         class="button"
@@ -65,13 +60,8 @@
     </g>
   </g>
   <g
-    [attr.transform]="
-      'translate(' +
-      (faceSize + stickWidth) +
-      ', ' +
-      (faceSize / 2 - stickHeight / 2 - 1) +
-      ')'
-    "
+    [translateX]="faceSize + stickWidth"
+    [translateY]="faceSize / 2 - stickHeight / 2 - 1"
   >
     <rect
       class="tail-separator"
