@@ -1,0 +1,26 @@
+.button {
+  fill: var(--app-accent);
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(90%);
+  }
+
+  &:active {
+    filter: opacity(70%);
+  }
+
+  &.disabled {
+    cursor: none;
+    fill: lightgray;
+  }
+}
+
+.button-label {
+  fill: black;
+  font-family: "Roboto";
+
+  &.disabled {
+    fill: lightgray;
+  }
+}

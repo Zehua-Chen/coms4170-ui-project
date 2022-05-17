@@ -17,25 +17,6 @@
   stroke-width: 2px;
 }
 
-.button {
-  fill: var(--app-accent);
-  cursor: pointer;
-
-  &.disabled {
-    fill: lightgray;
-  }
-}
-
-.button-label {
-  fill: black;
-  font-family: "Roboto";
-  font-size: 12px;
-
-  &.disabled {
-    fill: lightgray;
-  }
-}
-
 .tail-separator {
   fill: var(--app-primary);
 }

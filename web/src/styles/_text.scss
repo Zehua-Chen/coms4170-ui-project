@@ -1,11 +1,14 @@
 @mixin text($theme) {
-  b {
-    color: var(--app-accent);
-  }
+  @layer base {
+    b {
+      color: var(--app-accent);
+    }
 
-  blockquote {
-    border-left: 2px solid lightgray;
-    padding-left: 2px;
-    margin-left: 2px;
+    blockquote {
+      border-left: 0.2em solid var(--app-primary);
+
+      @apply pl-2;
+      @apply ml-2;
+    }
   }
 }
