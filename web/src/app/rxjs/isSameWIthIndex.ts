@@ -1,5 +1,5 @@
 import { OperatorFunction, map, pipe } from 'rxjs';
-import { Equals, identityEquals } from '../equals';
+import { Equals, identityEquals } from 'app/utils/equals';
 
 export type IsSameWithIndexOperator<T> = OperatorFunction<
   [T | null, T[]],

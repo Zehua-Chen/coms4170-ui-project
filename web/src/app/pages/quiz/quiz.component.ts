@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Quiz, Question, QuizService } from 'app/api/quiz.service';
 import { OtamatoneClip } from 'app/components/otamatone-clip';
-import { isFirst, isLast } from 'app/utils/rxjs';
+import { isFirst, isLast } from 'app/rxjs';
 import { arraysEqual } from 'src/app/utils';
 
 /**

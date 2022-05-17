@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonService, Lesson } from 'app/api';
 import { OtamatoneService } from 'app/components/otamatone';
-import { isFirst, isLast } from 'app/utils/rxjs';
+import { isFirst, isLast } from 'app/rxjs';
 
 function lessonEquals(a: Lesson, b: Lesson): boolean {
   return a.id === b.id;
