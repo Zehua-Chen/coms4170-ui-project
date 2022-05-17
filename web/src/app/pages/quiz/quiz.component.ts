@@ -12,9 +12,9 @@ import {
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-import { Quiz, Question, QuizService } from 'api/quiz.service';
-import { OtamatoneClip } from 'components/otamatone-clip';
-import { isFirst, isLast } from 'utils/rxjs';
+import { Quiz, Question, QuizService } from 'app/api/quiz.service';
+import { OtamatoneClip } from 'app/components/otamatone-clip';
+import { isFirst, isLast } from 'app/utils/rxjs';
 import { arraysEqual } from 'src/app/utils';
 
 /**

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { EnabledNotes, Note } from 'components/otamatone';
+import { EnabledNotes, Note } from 'app/components/otamatone';
 
 @Component({
   selector: 'app-otamatone-input,[app-otamatone-input]',

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { OtamatoneService } from 'components/otamatone/otamatone.service';
+import { OtamatoneService } from 'app/components/otamatone';
 
 @Component({
   selector: 'app-otamatone-clip',

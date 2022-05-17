@@ -1,11 +1,8 @@
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
-import {
-  FirebaseAuthService,
-  UserState,
-} from 'src/app/api/firebase-auth.service';
-import { QuizService, Quiz } from 'src/app/api/quiz.service';
+import { FirebaseAuthService, UserState } from 'app/api';
+import { QuizService, Quiz } from 'app/api/quiz.service';
 
 @Component({
   selector: 'app-dashboard',

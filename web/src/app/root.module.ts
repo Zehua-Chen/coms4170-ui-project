@@ -7,11 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { FirebaseAuthGuard } from 'api/firebase-auth.service';
+import { FirebaseAuthGuard } from 'app/api';
 
 import { RootComponent } from './root.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
-import { OtamatoneModule } from 'components/otamatone';
+import { OtamatoneModule } from 'app/components/otamatone';
 
 const routes: Routes = [
   {

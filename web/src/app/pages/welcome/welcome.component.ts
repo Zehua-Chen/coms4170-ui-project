@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { FirebaseAuthService, UserState } from 'api/firebase-auth.service';
+import { FirebaseAuthService, UserState } from 'app/api';
 
 @Component({
   selector: 'app-page-welcome',
