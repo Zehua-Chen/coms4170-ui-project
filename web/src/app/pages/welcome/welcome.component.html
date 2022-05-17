@@ -7,24 +7,22 @@
   </nav>
 </mat-toolbar>
 
-<div class="container mx-auto grid grid-cols-12 gap-y-4 mt-5">
+<div class="mx-4 md:mx-20 grid grid-cols-12 gap-y-4 mt-5">
   <div class="col-span-12 text-center">
-    <h1 class="mat-h1">Let's Learn Otamatone!</h1>
+    <h1 class="mat-display-1">Let's Learn Otamatone!</h1>
   </div>
 
   <div class="col-span-12 flex justify-center">
-    <app-otamatone></app-otamatone>
-  </div>
-
-  <div class="col-span-12">
-    <mat-divider></mat-divider>
+    <app-otamatone class="hidden md:block"></app-otamatone>
   </div>
 
   <div
     class="col-span-12 grid grid-cols-1 gap-x-3"
     *ngIf="(user$ | async) === null"
   >
-    <button mat-button (click)="login()">Login With Google</button>
+    <button mat-button color="primary" (click)="login()">
+      Login With Google
+    </button>
   </div>
 
   <div
@@ -35,7 +33,7 @@
   </div>
 
   <div class="col-span-12">
-    <h2 class="mat-h2">What is Otamatone?</h2>
+    <h2 class="mat-h1">What is Otamatone?</h2>
     <blockquote
       class="mat-body2"
       cite="https://en.wikipedia.org/wiki/Otamatone"
@@ -48,7 +46,7 @@
   </div>
 
   <div class="col-span-12">
-    <h2 class="mat-h2">About</h2>
+    <h2 class="mat-h1">About</h2>
     <p class="mat-body2">
       This experience is brought to you by
       <a href="https://github.com/Zehua-Chen">Zehua Chen</a> using
@@ -61,7 +59,7 @@
   </div>
 
   <div class="col-span-12">
-    <h2 class="mat-h2">Acknowledgement</h2>
+    <h2 class="mat-h1">Acknowledgement</h2>
     <p class="mat-body2">
       This project was originally developed as the final project of COMS 4170 of
       Columbia University, Spring 2022. The source and the build can be found at
@@ -78,7 +76,7 @@
   </div>
 
   <div class="col-span-12">
-    <h3 class="mat-h3">Original Contributors</h3>
+    <h3 class="mat-h2">Original Contributors</h3>
     <p class="mat-body2">Here are the original contributors of the project</p>
     <ul class="list-disc pl-4 mat-body">
       <li>
